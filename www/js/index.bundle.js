@@ -10264,9 +10264,9 @@ return jQuery;
 
 /** Import page controllers */
 
-var _main = __webpack_require__(1);
+var _home = __webpack_require__(1);
 
-var _main2 = _interopRequireDefault(_main);
+var _home2 = _interopRequireDefault(_home);
 
 var _helpers = __webpack_require__(0);
 
@@ -10277,9 +10277,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  **/
 switch (_helpers.currentPage) {
   /** Main page */
-  case 'main':
+  case 'home':
     {
-      _main2.default.init();
+      _home2.default.init();
       break;
     }
 }

@@ -7,7 +7,7 @@
  */
 
 /** Import page controllers */
-import Main from 'js/pages/main.page';
+import Home from 'js/pages/home.page';
 
 /** Import utils */
 import { currentPage } from 'js/modules/dev/helpers';
@@ -17,8 +17,8 @@ import { currentPage } from 'js/modules/dev/helpers';
  **/
 switch (currentPage) {
   /** Main page */
-  case 'main': {
-    Main.init();
+  case 'home': {
+    Home.init();
     break;
   }
 }

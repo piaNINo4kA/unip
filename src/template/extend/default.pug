@@ -6,6 +6,7 @@ html(lang='ru')
 
     block variables
         - var title = defaultPageTitle;
+        - var hasPreloader = true;
 
     block head
         head
@@ -30,6 +31,11 @@ html(lang='ru')
                   document.createElement('picture');
                   window.baseUrl = location.origin;
                   window.webpackManifest = !{JSON.stringify(webpackManifest)};
+
+            block preloader
+                if hasPreloader
+                    // Preloader
+                    +preloader()
 
             // Header
             block header

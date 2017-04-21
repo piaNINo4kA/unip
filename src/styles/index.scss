@@ -12,8 +12,14 @@
 
 /* COMPONENTS */
 @import 'components/common';
+@import 'components/preloader';
 
 /* PAGES */
-@import 'pages/main-page';
+@import 'pages/home-page';
 
 //-----------------------Common styles-----------------------//
+
+body {
+  font-family: $Reg;
+  color: $black;
+}
