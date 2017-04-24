@@ -6,6 +6,9 @@
  * @module App
  */
 
+/** Import commonly used libs/modules */
+import { TweenMax } from 'gsap';
+
 /** Import page controllers */
 import Home from 'js/pages/home.page';
 

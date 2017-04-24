@@ -5,24 +5,27 @@
  */
 
 /** Import utils */
-import { Resp } from 'js/modules/dev/helpers';
+import Preloader from 'js/components/preloader';
+import { $document } from 'js/modules/dev/helpers';
 
 export class Main {
   /**
-   * Example.
+   * Cache data.
    */
-  test = () => {
-    console.log('isTouch: ', Resp.isTouch);
-    console.log('isDesk: ', Resp.isDesk);
-    console.log('isTablet: ', Resp.isTablet);
-    console.log('isMobile: ', Resp.isMobile);
-  };
+  constructor() {}
 
   /**
-   * Initialize Main page scripts.
+   * Initialize Main page scripts (on document.ready).
    */
   init() {
-    this.test();
+    const _this = this;
+
+    $document.ready(() => {
+      setTimeout(() => {
+        // Run preloader
+        (new Preloader).init();
+      }, 2000);
+    });
   }
 }
 

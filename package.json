@@ -73,6 +73,8 @@
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "gsap": "^1.19.1",
     "jquery": "^2.2.4"
   }
 }

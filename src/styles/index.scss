@@ -13,13 +13,20 @@
 /* COMPONENTS */
 @import 'components/common';
 @import 'components/preloader';
+@import 'components/header';
 
 /* PAGES */
 @import 'pages/home-page';
 
 //-----------------------Common styles-----------------------//
 
+html, body {
+  width: 100%;
+}
+
 body {
   font-family: $Reg;
   color: $black;
+
+  background: $yellowBG;
 }
