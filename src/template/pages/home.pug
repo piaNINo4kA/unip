@@ -5,5 +5,10 @@ block variables
         var title = 'Unip';
         var hasPreloader = true;
 block main
-    main.content(data-page='home')
+    main(data-page='home')
 
+        // first section
+        +introSection()
+
+        // second section
+        +slider3dSection()

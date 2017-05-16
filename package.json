@@ -12,12 +12,9 @@
   ],
   "main": "index.js",
   "scripts": {
-    "runDev": "cross-env NODE_ENV=development cross-env NODE_DEP=empty gulp default",
-    "runDevLivereload": "cross-env NODE_ENV=development cross-env NODE_DEP=livereload gulp default",
-    "runDevDelpoy": "cross-env NODE_ENV=development cross-env NODE_DEP=deployment gulp default",
-    "runProd": "cross-env NODE_ENV=production cross-env NODE_DEP=empty gulp default",
-    "runProdDelpoy": "cross-env NODE_ENV=production cross-env NODE_DEP=deployment gulp default",
-    "runDocsCompilation": "jsdoc ./src -r -d docs -c jsdoc.json",
+    "development": "cross-env NODE_ENV=development gulp default",
+    "production": "cross-env NODE_ENV=production gulp default",
+    "compileDocs": "jsdoc ./src -r -d docs -c jsdoc.json",
     "openDocs": "start ./docs/index.html"
   },
   "repository": {
@@ -65,7 +62,6 @@
     "run-sequence": "^1.2.2",
     "standard": "^7.0.0",
     "through2": "^2.0.1",
-    "vinyl-ftp": "^0.6.0",
     "webpack": "beta",
     "webpack-assets-manifest": "^0.6.1",
     "webpack-manifest-plugin": "^1.1.0",

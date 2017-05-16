@@ -98,6 +98,17 @@ export class Resp {
   }
 
   /**
+   * Detect desktop device (custom width).
+   *
+   * @get
+   * @static
+   * @return {Boolean}
+   */
+  static get isDeskCustom() {
+    return window.matchMedia(`(min-width: 1260px)`).matches;
+  }
+
+  /**
    * Detect tablet device.
    *
    * @get
@@ -135,7 +146,13 @@ export const currentPage = $body.find('main').data('page');
  * @type {Object}
  */
 export const css = {
-  active: 'active'
+  active: 'js-active',
+  animationFinished: 'js-animation-finished',
+  animationFinished2: 'js-animation-finished-2',
+  hasPreloader: 'js-has-preloader',
+  menuOpened: 'js-menu-opened',
+  background: 'js-background',
+  fixed: 'js-fixed'
 };
 
 /**
@@ -152,7 +169,6 @@ export const checkClosest = (e, item) => $(e.target).closest(item).length > 0;
  *
  * @param {Number} length
  */
-export const randomString = (length = 10) => Math.random().toString(36).substr(2, length > 10 ? length : 10);
 
 /**
  * Toggle class on specified element on click.
@@ -220,7 +236,7 @@ export const debounce = (func, context, wait, immediate) => {
  * @param {Object} [scope]
  * @returns {Function}
  */
-export function throttle(fn, threshold = 250, scope) {
+export const throttle = (fn, threshold = 250, scope) => {
   let last, deferTimer;
 
   return function () {
@@ -239,4 +255,46 @@ export function throttle(fn, threshold = 250, scope) {
       fn.apply(context, args);
     }
   };
-}
+};
+
+/**
+ * Shuffle items in array (Fisher–Yates shuffle).
+ *
+ * @param {Array} array
+ * @return {Array}
+ */
+export const shuffleArray = array => {
+  let m = array.length, t, i;
+
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+};
+
+/**
+ * Transform matrix into array.
+ *
+ * @param {String} matrix
+ * @return {Array}
+ */
+export const matrixToArray = matrix =>
+  matrix.substr(7, matrix.length - 8).split(', ');
+
+/**
+ * Bind specified method's context.
+ *
+ * @param {String} methods
+ */
+export const bindMethods = function (...methods) {
+  methods.forEach((method) => this[method] = this[method].bind(this));
+};

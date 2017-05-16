@@ -1,1 +1,25 @@
-// your common styles for project
+html, body {
+  width: 100%;
+}
+
+body {
+  font-family: $Reg;
+  color: $black;
+
+  background: $yellowBG;
+
+  overflow-x: hidden;
+
+  &.js-has-preloader {
+    overflow: hidden;
+
+    .preloader {
+      display: block;
+    }
+  }
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-touch-callout: none;
+}

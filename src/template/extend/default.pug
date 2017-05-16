@@ -1,5 +1,5 @@
-include ../partials/variables
-include ../partials/mixins
+include ../partials/_variables
+include ../partials/_mixins
 
 doctype html
 html(lang='ru')
@@ -19,11 +19,11 @@ html(lang='ru')
             link(rel='icon', href='favicon.png')
 
     block body
-        body(class = hasPreloader ? 'has-preloader' : '')
+        body(class = hasPreloader ? 'js-has-preloader' : '')
             // SVG
             block svg
                 div.svg-container(style="position: absolute; width: 0; height: 0; overflow: hidden;")
-                    include ../partials/sprite.svg
+                    include ../partials/_sprite.svg
 
             // Global baseUrl and webpackManifest variables (for back-end purpose), picture element HTML5 shiv
             block inlineScripts

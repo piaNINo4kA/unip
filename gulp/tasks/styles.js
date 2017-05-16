@@ -11,10 +11,27 @@ const autoprefixer = require('autoprefixer');
 const mqpacker     = require('css-mqpacker');
 const config       = require('../config');
 
-// default extensions
-const extension = '{scss,sass}';
+/**
+ * Default CSS task.
+ * Compile css-preprocessor files to '.css'.
+ */
+gulp.task('css-compile', () => {
+  compileCss(`src/styles/index.${config.cssPreprocessorExtension}`, './www/css/');
+});
 
-// plugins
+/**
+ * Watcher CSS task.
+ * Watch for changes in css-preprocessor files and compile them.
+ */
+gulp.task('css-watch', () => {
+  gulp.watch(`src/styles/**/*.${config.cssPreprocessorExtension}`, ['css-compile']);
+});
+
+/**
+ * Set plugins for 'gulp-postcss'.
+ *
+ * @type {Array}
+ */
 const processors = [
   autoprefixer({
     browsers: config.browsers,
@@ -25,17 +42,15 @@ const processors = [
   })
 ];
 
-// default task
-gulp.task('css', () => compileCss(`src/styles/index.${extension}`, './www/css/'));
-
-// watch for changes
-gulp.task('watch-css', () => {
-  gulp.watch(`src/styles/**/*.${extension}`, ['css']);
-});
-
-// default compile function
+/**
+ * Default CSS compilation function.
+ *
+ * @param {String} src
+ * @param {String} dest
+ */
 function compileCss(src, dest) {
-  gulp.src(src)
+  gulp
+    .src(src)
     .pipe(plumber(config.plumberOptions))
     .pipe(gulpif(!config.production, sourcemaps.init()))
     .pipe(sass({
@@ -51,17 +66,33 @@ function compileCss(src, dest) {
     .pipe(gulp.dest(dest));
 }
 
-// is 'max-width' media query
+/**
+ * Detect 'max-width' media query.
+ *
+ * @param {String} mq
+ * @return {boolean}
+ */
 function isMax(mq) {
   return /max-width/.test(mq);
 }
 
-// is 'min-width' media query
+/**
+ * Detect 'min-width' media query.
+ *
+ * @param {String} mq
+ * @return {boolean}
+ */
 function isMin(mq) {
   return /min-width/.test(mq);
 }
 
-// sort media queries (max/min width)
+/**
+ * Sort media queries (max/min width).
+ *
+ * @param {String} a
+ * @param {String} b
+ * @return {Number}
+ */
 function sortMediaQueries(a, b) {
   const A = a.replace(/\D/g, '');
   const B = b.replace(/\D/g, '');

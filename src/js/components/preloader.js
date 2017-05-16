@@ -1,11 +1,18 @@
 /**
- * Website's preloader module.
+ * Website's preloader module (promise-based).
  *
  * @module Preloader
  */
 
 /** Import utils */
-import Animation from '../modules/dev/animation';
+import {
+  css,
+  matrixToArray,
+  $window,
+  $body,
+  bindMethods
+} from 'js/modules/dev/helpers';
+import Animation from 'js/modules/dev/animation';
 
 export default class Preloader {
   /**
@@ -14,33 +21,120 @@ export default class Preloader {
    * @param {jQuery} $preloader - DOM element to activate preloader on.
    */
   constructor($preloader = $('#preloader')) {
+    // cache DOM elements
     this.$preloader = $preloader;
+    this.$lines = $preloader.find('.preloader__line');
+    this.$linesText = this.$lines.find('.preloader__text');
+    this.$leftLines = $preloader.find('.preloader__line--left .preloader__line-inner');
+    this.$rightLines = $preloader.find('.preloader__line--right .preloader__line-inner');
 
-    this.noShadowsClass = 'no-shadow';
-
-    this.$leftLines = $preloader.find('.preloader__line--left');
-    this.$rightLines = $preloader.find('.preloader__line--right');
+    // save context
+    bindMethods.bind(this)
+    ('startAnimation', 'stopAnimation', 'highlightText', 'finishAnimation');
   }
 
   /**
-   * Run preloader's animation.
+   * Start preloader's animation.
+   *
+   * @return {Promise}
    */
-  runAnimation() {
+  startAnimation() {
+    return new Promise(resolve => {
+      // preloader must work at least 3 seconds
+      const countTimeAndFinish = function () {
+        const currentTime = new Date().getTime() / 1000;
+        const passedTime = Math.floor(currentTime - this.startTime);
+
+        // 3 seconds passed, finish preloader
+        if (passedTime > 1) return resolve();
+
+        // check again after 500 ms
+        setTimeout(countTimeAndFinish, 500);
+      }.bind(this);
+
+      // initiate preloader's finish
+      $window.load(countTimeAndFinish);
+    });
+  }
+
+  /**
+   * Stop text animation.
+   *
+   * @return {Promise}
+   */
+  stopAnimation() {
+    return new Promise(resolve => {
+      // stop moving animation
+      this.$linesText
+        .each(function () {
+          const $this = $(this);
+          const translateValue = matrixToArray($this.css('transform'))[4];
+
+          $this.css('transform', `translate3d(${translateValue}px, 0, 0)`);
+        })
+        .addClass(css.animationFinished);
+
+      // animation is stopped
+      resolve();
+    });
+  }
+
+  /**
+   * Highlight random (not really) words.
+   *
+   * @return {Promise}
+   */
+  highlightText() {
+    return new Promise(resolve => {
+      const randomNumber = Math.floor(Math.random() * 10);
+
+      // highlight text
+      this.$lines.each((lineIndex, line) => {
+        const words = $(line).find('span');
+        const randomRule = randomNumber > 5
+          ? lineIndex === 0 || lineIndex === 2
+          : lineIndex === 1 || lineIndex === 3;
+
+        words.map((wordIndex, word) => {
+          const $word = $(word);
+          const divider = randomRule ? 3 : 2;
+
+          if (wordIndex % divider) $word.addClass(css.active);
+        });
+      });
+
+      // wait for animation to finish and resolve
+      setTimeout(resolve, 1000);
+    });
+  }
+
+  /**
+   * Finish preloader's animation.
+   *
+   * @return {Promise}
+   */
+  finishAnimation() {
     return new Promise(resolve => {
       // hide shadow
-      this.$preloader.addClass(this.noShadowsClass);
+      this.$preloader.addClass(css.animationFinished);
 
       // animate preloader's lines
       Animation
-        .tweenWithTimeout(this.$leftLines, 1, {
-          time: 1.3,
-          params: { css: { x: '-100%' } }
+        .tweenWithTimeout(this.$leftLines, 0, {
+          time: 1.5,
+          params: { css: { x: '100%' } }
         })
-        .tweenWithTimeout(this.$rightLines, 1, {
-          time: 1.3,
+        .tweenWithTimeout(this.$rightLines, 0, {
+          time: 1.5,
           params: {
-            css: { x: '100%' },
-            onComplete: resolve
+            css: { x: '-100%' },
+            onComplete: () => {
+              // hide preloader
+              $body.removeClass(css.hasPreloader);
+
+              // resolve promise
+              resolve();
+            }
           }
         });
     });
@@ -52,11 +146,16 @@ export default class Preloader {
    * @return {Promise}
    */
   init() {
-    const _this = this;
+    // set timer (in seconds)
+    this.startTime = new Date().getTime() / 1000;
 
+    // preloader's animation
     return new Promise(resolve => {
-      _this
-        .runAnimation()
+      this
+        .startAnimation()
+        .then(this.stopAnimation)
+        .then(this.highlightText)
+        .then(this.finishAnimation)
         .then(resolve);
     });
   }

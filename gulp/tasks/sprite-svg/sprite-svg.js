@@ -11,8 +11,11 @@ const through2    = require('through2');
 const runSequence = require('run-sequence');
 const config      = require('../../config');
 
-// default svg-to-svg-sprite task
-gulp.task('svg', function() {
+/**
+ * Default SVG task.
+ * Generate svg-sprite based on files in the 'src/svg' folder.
+ */
+gulp.task('svg-compile', function() {
   return gulp
     .src('src/svg/*.svg')
     .pipe(plumber(config.plumberOptions))
@@ -47,31 +50,38 @@ gulp.task('svg', function() {
 
       this.push(file);
 
-      gulp.src(__dirname + `/_svg.scss`)
+      gulp
+        .src(__dirname + `/_svg.scss`)
         .pipe(consolidate('lodash', {
           symbols: data
         }))
         .pipe(gulp.dest('src/styles/partials'));
 
-      gulp.src(__dirname + '/svg')
+      gulp
+        .src(__dirname + '/svg')
         .pipe(consolidate('lodash', {
           symbols: data
         }))
         .pipe(gulp.dest('src/template/partials/svg'));
+
       cb();
     }))
     .pipe(cheerio({
-      run: function($, file) {
+      run: function($) {
         $('[fill]:not([fill="currentColor"])').removeAttr('fill');
         $('[stroke]').removeAttr('stroke');
       },
       parserOptions: { xmlMode: true }
     }))
-    .pipe(rename({ basename: 'sprite' }))
+    .pipe(rename({ basename: '_sprite' }))
     .pipe(gulp.dest('src/template/partials'));
 });
 
-// watch for svg files and update on change
-gulp.task('watch-svg', function() {
-  gulp.watch('src/svg/*.svg', () => runSequence('svg', 'pug_compile'));
+/**
+ * Watcher SVG task.
+ * Watch for changes in '.svg' files of the 'src/svg' folder.
+ * Compile SVG and HTML on change.
+ */
+gulp.task('svg-watch', function() {
+  gulp.watch('src/svg/*.svg', () => runSequence('svg-compile', 'pug-compile'));
 });

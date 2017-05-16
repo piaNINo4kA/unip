@@ -1,0 +1,13 @@
+// HEADERS
+.h1 {
+  font-family: $Light;
+  font-size: 110px;
+
+  @media (max-width: $minDesktop) {
+    font-size: 78px;
+  }
+
+  @media (max-width: $minTablet) {
+    font-size: 36px;
+  }
+}

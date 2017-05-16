@@ -9,17 +9,17 @@ In order to start working with project, you must:
 ####  Clone repository to your local machine
 
 ```
-git clone https://bitbucket.org/vintageua/unip.git
+https://bitbucket.org/vintageua/unip.git
 ```
 
 ####  Install dependencies
 
-With NPM
+npm
 ```
 npm i -g jscs && npm i
 ```
 
-With yarn
+yarn
 ```
 yarn add global jscs && yarn install
 ```
@@ -43,41 +43,16 @@ Settings | Languages & Frameworks | Javascript | Code Quality Tools | JSCS | "En
 
 ## NPM scripts
 
-Run production bundle
+Start development
 
 ```
-npm run-script runProd
+npm run development
 ```
 
-Production bundle with deploying to remote server**
+Build production bundle
 
 ```
-npm run-script runProdDeploy
-```
-
-Run development bundle
-
-```
-npm run-script runDev
-```
-
-Development bundle with browsersync livereload server
-
-```
-npm run-script runDevLivereload
-```
-
-Development bundle with deploying to remote server**
-
-```
-npm run-script runDevDeploy
-```
-
-** In order to start work with ftp, you must edit ftp connection settings in gulpfile.js and then set username and password:
-
-```
-set FTP_USER=(username for ftp-connection here)
-set FTP_PWD=(password for ftp-connection here)
+npm run production
 ```
 
 ## JSDoc
@@ -88,10 +63,10 @@ Install JSDoc globally
 npm install jsdoc -g
 ```
 
-Generate docs (once)
+Generate docs
 
 ```
-npm run-script runDocsCompile
+npm run-script compileDocs
 ```
 
 Open docs

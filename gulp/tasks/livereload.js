@@ -4,15 +4,20 @@ const gulp        = require('gulp');
 const browserSync = require('browser-sync').create();
 const config      = require('../config');
 
-// initialize BS and watch changes
+/**
+ * Start browsersync server and watch for changes.
+ */
 gulp.task('livereload', () => {
+  // Start server
   browserSync.init({
-    server: {
-      baseDir: 'www'
-    },
+    server: { baseDir: 'www' },
     reloadDebounce: 0,
     logPrefix: 'Vintage',
     notify: false
   });
-  browserSync.watch('./www/**/*.*').on('change', browserSync.reload);
+
+  // Initialize watcher
+  browserSync
+    .watch('./www/**/*.*')
+    .on('change', browserSync.reload);
 });

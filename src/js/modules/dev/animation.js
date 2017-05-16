@@ -79,6 +79,31 @@ export default class Animation {
   }
 
   /**
+   * Kill all tweens, or kill tweens of specified target.
+   *
+   * @param {Object|jQuery|HTMLElement|String|Array} target
+   * @return {Animation}
+   */
+  static killTweens(target) {
+    target ? TweenMax.killTweensOf(target) : TweenMax.killAll();
+
+    return this;
+  }
+
+  /**
+   * Scroll to specified element / position.
+   *
+   * @param {Number} speed
+   * @param {Object} settings
+   * @return {Animation}
+   */
+  static scrollTo(speed, settings) {
+    TweenMax.to(window, speed, settings);
+
+    return this;
+  }
+
+  /**
    * Perform tween animation with timeout.
    *
    * @param {Object|jQuery|HTMLElement|String|Array} target
@@ -91,11 +116,13 @@ export default class Animation {
     if (!this.checkForErrors(target)) return this;
 
     this.delay(timeout, () => {
-      if (method == 'staggerFrom' || method == 'staggerTo') {
-        TweenMax[method](target, settings.time, settings.params, settings.stagger);
-      } else {
-        TweenMax[method](target, settings.time, settings.params);
-      }
+      if (method == 'staggerFrom' || method == 'staggerTo')
+        return TweenMax[method](target, settings.time, settings.params, settings.stagger);
+
+      if (method == 'fromTo')
+        return TweenMax[method](target, settings.time, settings.from, settings.to);
+
+      TweenMax[method](target, settings.time, settings.params);
     });
 
     return this;
@@ -124,18 +151,18 @@ export default class Animation {
     Promise.resolve()
 
       // first step
-      .then(() => new Promise(params.one ? params.one : emptyStep))
+      .then(() => new Promise(params.one || emptyStep))
 
       // second step
-      .then(() => new Promise(params.two ? params.two : emptyStep))
+      .then(() => new Promise(params.two || emptyStep))
 
       // third step
-      .then(() => new Promise(params.three ? params.three : emptyStep))
+      .then(() => new Promise(params.three || emptyStep))
 
       // fourth step
-      .then(() => new Promise(params.four ? params.four : emptyStep))
+      .then(() => new Promise(params.four || emptyStep))
 
       // fifth step
-      .then(() => new Promise(params.five ? params.five : emptyStep));
+      .then(() => new Promise(params.five || emptyStep));
   }
 }

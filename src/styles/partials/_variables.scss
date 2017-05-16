@@ -13,5 +13,10 @@ $dark-grey:   #858585;
 
 //colors for project
 $yellowBG: #ffe60b;
+$headerBG: #fbde0a;
 
-//other variables
+// media
+$desktop: 1260px;
+$minDesktop: $desktop - 1px;
+$tablet: 768px;
+$minTablet: $tablet - 1px;

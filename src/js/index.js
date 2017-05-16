@@ -7,10 +7,13 @@
  */
 
 /** Import commonly used libs/modules */
-import { TweenMax } from 'gsap';
+import 'babel-polyfill';
+import 'gsap';
+import 'gsap/ScrollToPlugin';
+import './components/common';
 
 /** Import page controllers */
-import Home from 'js/pages/home.page';
+import Home from 'js/pages/home';
 
 /** Import utils */
 import { currentPage } from 'js/modules/dev/helpers';
@@ -19,9 +22,9 @@ import { currentPage } from 'js/modules/dev/helpers';
  * Run appropriate scripts for each page.
  **/
 switch (currentPage) {
-  /** Main page */
-  case 'home': {
-    Home.init();
-    break;
-  }
+  /** Home page */
+  case 'home': new Home; break;
+
+  /** No page found */
+  default: console.log('Null page');
 }

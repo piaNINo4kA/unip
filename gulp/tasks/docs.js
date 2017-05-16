@@ -3,8 +3,12 @@
 const gulp  = require('gulp');
 const jsdoc = require('gulp-jsdoc3');
 
-// generate docs based on js comments (JSDoc)
+/**
+ * Generate docs (JSDoc).
+ * Based on comments in '.js' files.
+ */
 gulp.task('JSDocs', function (cb) {
-  gulp.src(['README.md', './src/js/**/*.js'], { read: false })
+  gulp
+    .src(['README.md', './src/js/**/*.js'], { read: false })
     .pipe(jsdoc(cb));
 });

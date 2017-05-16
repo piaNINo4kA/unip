@@ -3,19 +3,27 @@
 const gulp           = require('gulp');
 const plumber        = require('gulp-plumber');
 const Webpack        = require('webpack');
-const webpackStream = require('webpack-stream');
+const webpackStream  = require('webpack-stream');
 const config         = require('../config');
 const webpackConfig  = config.webpackConfig;
 
-// development - set watcher and it's options, add sourcemaps
+/**
+ * Only during development.
+ */
 if (config.development) {
+  // Set watcher ('.js' files)
   webpackConfig.watch = true;
   webpackConfig.watchOptions = { aggregateTimeout: 100 };
+
+  // Generate sourcemaps
   webpackConfig.devtool = 'source-map';
 }
 
-// production - minify output file
+/**
+ * Only on production.
+ */
 if (config.production) {
+  // Minify output files
   webpackConfig.plugins.push(
     new Webpack.optimize.UglifyJsPlugin({
       sourceMap: false,
@@ -24,7 +32,9 @@ if (config.production) {
   );
 }
 
-// run webpack
+/**
+ * Run webpack.
+ */
 gulp.task('webpack', () => {
   return gulp.src('src/js/index.js')
     .pipe(plumber())

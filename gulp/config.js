@@ -1,61 +1,102 @@
 'use strict';
 
-const notify        = require('gulp-notify');
-const webpackConfig = require('../webpack.config.js');
+const notify = require('gulp-notify');
 
-// Autoprefixer options
+/**
+ * Autoprefixer options (CSS).
+ * Used when compiling CSS.
+ *
+ * @constant
+ * @type {Array}
+ */
 const browsers = ['last 3 versions', 'Android 4.4', 'ie 11', 'ios 8'];
 
-// Configure error handling
+/**
+ * Set css-preprocessor files extension.
+ *
+ * @constant
+ * @type {String}
+ */
+const cssPreprocessorExtension = '{scss,sass}';
+
+/**
+ * Webpack configuration.
+ * Used when compiling javascript.
+ *
+ * @constant
+ * @type {Object}
+ */
+const webpackConfig = require('../webpack.config.js');
+
+/**
+ * Configure error handling with 'gulp-notify'.
+ * Used for error handling during compilation.
+ *
+ * @constant
+ * @type {Object}
+ */
 const plumberOptions = {
   errorHandler: notify.onError('Error: <%= error.message %>')
 };
 
-// Path to the file with chunks data
+/**
+ * Path to the file with chunks data.
+ * Used when compiling HTML. Creates global js variable in project.
+ * Variable is named 'window.webpackManifest'.
+ * Contains path to all chunks generated with Webpack.
+ *
+ * @constant
+ * @type {string}
+ */
 const chunkManifestPath = '../../www/webpack-chunk-manifest.json';
 
-// Set env
+/**
+ * Set environment.
+ * If environment wasn't set, set it to 'development'.
+ *
+ * @constant
+ * @type {String}
+ */
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const NODE_DEP = process.env.NODE_DEP || 'livereload';
 
-// Prod/dev variables for different bundles
-const development = NODE_ENV == 'development';
-const production = NODE_ENV == 'production';
-const livereload = NODE_DEP == 'livereload';
-const deployment = NODE_DEP == 'deployment';
+/**
+ * Variables used for development/production bundles.
+ * Depending on the 'NODE_ENV' variable.
+ *
+ * @constant
+ * @type {Object}
+ */
+const bundle = {
+  development : NODE_ENV == 'development',
+  production  : NODE_ENV == 'production'
+};
 
-// Ftp settings
-const user = process.env.FTP_USER;
-const password = process.env.FTP_PWD;
-const host = '255.255.255.255';
-const port = 21;
-const localFilesGlob = ['www/**/*'];
-const remoteFolder = 'path/to/ftp';
+/**
+ * Configure tasks.
+ * Depending on the 'bundle' variable.
+ *
+ * @constant
+ * @type {Object}
+ */
+const tasks = {
+  js   : 'webpack',
+  html : bundle.production ? 'pug-compile' : 'pug-watch',
+  css  : bundle.production ? 'css-compile' : 'css-watch',
+  svg  : bundle.production ? 'svg-compile' : 'svg-watch'
+};
 
-// Configure tasks
-const jsTask = 'webpack';
-const htmlTask = production ? 'pug_compile' : 'watch-html';
-const cssTask = production ? 'css' : 'watch-css';
-const svgTask = production ? 'svg' : 'watch-svg';
-
+/**
+ * Export configuration.
+ */
 module.exports = {
-  development,
-  production,
-  livereload,
-  deployment,
-
-  tasksArray: [svgTask, jsTask, cssTask, htmlTask],
+  cssPreprocessorExtension,
   webpackConfig,
   browsers,
   chunkManifestPath,
   plumberOptions,
 
-  ftp: {
-    user,
-    password,
-    host,
-    port,
-    localFilesGlob,
-    remoteFolder,
-  }
+  development: bundle.development,
+  production: bundle.production,
+
+  tasksArray: [tasks.svg, tasks.js, tasks.css, tasks.html]
 };
