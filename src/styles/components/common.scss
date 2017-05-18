@@ -8,7 +8,7 @@ body {
 
   background: $yellowBG;
 
-  overflow-x: hidden;
+  overflow: hidden;
 
   &.js-has-preloader {
     overflow: hidden;

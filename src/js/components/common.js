@@ -5,7 +5,9 @@
  */
 
 /** Import utils */
+import { Resp } from '../modules/dev/helpers';
 import Header from './header';
+import ScrollController from './scrollController';
 
 export class Common {
   /**
@@ -15,6 +17,17 @@ export class Common {
    */
   initializeHeader() {
     Header.init();
+
+    return this;
+  }
+
+  /**
+   * Initialize full-page scroll controller.
+   *
+   * @return {Common}
+   */
+  initializeScrollController() {
+    if (Resp.isDeskCustom) ScrollController.init();
 
     return this;
   }
@@ -46,6 +59,7 @@ export class Common {
   init() {
     this
       .initializeHeader()
+      .initializeScrollController()
       .rafShim();
 
     return this;

@@ -4,6 +4,8 @@ block variables
     -
         var title = 'Unip';
         var hasPreloader = true;
+block footer
+    //- clear block
 block main
     main(data-page='home')
 
@@ -12,3 +14,21 @@ block main
 
         // second section
         +slider3dSection()
+
+        // third section
+        +previewSection()
+
+        // scrolling-inside-div
+        #scrollInside
+
+            // fourth section
+            +sliderSection()
+
+            // fifth section
+            +canvasSection()
+
+            // sixth section
+            +joinSection()
+
+            // footer
+            +footer()

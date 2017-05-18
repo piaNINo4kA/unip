@@ -5,8 +5,8 @@
  */
 
 /** Import utils */
-import { css } from 'js/modules/dev/helpers';
-import Animation from 'js/modules/dev/animation';
+import { css } from '../../modules/dev/helpers';
+import ScrollController from '../../components/scrollController';
 
 export default class IntroSection {
   /**
@@ -124,20 +124,12 @@ export default class IntroSection {
   }
 
   /**
-   * Scroll to the slider3d section on 'learn more' click.
+   * Scroll to the next section on 'learn more' click.
    *
    * @return {IntroSection}
    */
   initLearnMore() {
-    const scrollToTarget = '#slider3d-section';
-
-    // scroll to the next screen on click
-    this.$learnMore.on('click tap', () => {
-      Animation.scrollTo(1.2, {
-        scrollTo: scrollToTarget,
-        ease: Power3.easeInOut
-      });
-    });
+    this.$learnMore.on('click tap', ScrollController.moveToNextSection);
 
     return this;
   }

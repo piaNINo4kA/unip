@@ -10,7 +10,7 @@ mixin introSection()
             .intro__animation
                 .intro__pin
                 - for (var i = 1; i <= defaultCirclesCount; i++) {
-                    .intro__circle(class = 'intro__circle--' + i)
+                .intro__circle(class = 'intro__circle--' + i)
                 - }
             .intro__title.h1
                 each word in defaultTitle
@@ -18,8 +18,3 @@ mixin introSection()
             .intro__more
                 .intro__more-line: span
                 .intro__more-text learn more
-
-//- 3d slider section(e.g. Home page -> 2nd section)
-mixin slider3dSection()
-    section.slider3d#slider3d-section
-        .fixed-width-1280

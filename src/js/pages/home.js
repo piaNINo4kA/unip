@@ -10,7 +10,8 @@ import Header from 'js/components/header';
 import { $document } from 'js/modules/dev/helpers';
 
 /** Import sections */
-import IntroSection from 'js/components/sections/intro';
+import IntroSection from '../components/sections/intro';
+import Slider3dSection from '../components/sections/slider3d';
 
 export default class Home {
   /**
@@ -22,6 +23,7 @@ export default class Home {
 
     // sections
     this.firstSection = new IntroSection();
+    this.secondSection = new Slider3dSection();
 
     // initialize after construction
     this.init();
@@ -50,12 +52,27 @@ export default class Home {
   }
 
   /**
-   * Initialize intro section's scripts.
+   * Run slider3d section's reveal animation.
    *
    * @return {Home}
    */
-  initFirstSectionScripts() {
+  initSecondSectionAnimation() {
+    this.secondSection.initAnimation();
+
+    return this;
+  }
+
+  /**
+   * Initialize all sections scripts.
+   *
+   * @return {Home}
+   */
+  initAllSectionsScripts() {
+    // intro section
     this.firstSection.initScripts();
+
+    // slider3d section
+    this.secondSection.initScripts();
 
     return this;
   }
@@ -76,7 +93,6 @@ export default class Home {
       });
 
     // initialize main scripts
-    this
-      .initFirstSectionScripts();
+    this.initAllSectionsScripts();
   }
 }

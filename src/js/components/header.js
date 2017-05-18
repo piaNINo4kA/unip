@@ -10,7 +10,7 @@ import {
   $body,
   $window,
   $document,
-  $scrolledElements,
+  $htmlBody,
   throttle,
   Resp
 } from 'js/modules/dev/helpers';
@@ -89,6 +89,7 @@ export class Header {
     if (!Resp.isDeskCustom) return this;
 
     const $header = this.$header;
+    const fixAnimationTime = 0.4;
 
     const toggleHideWithThrottle = throttle(() => {
       const scrolledFromTop = $window.scrollTop();
@@ -102,18 +103,18 @@ export class Header {
 
     const toggleShowWithThrottle = throttle(() => {
       const scrolledFromTop = $window.scrollTop();
-      const heightToFix = $('#intro-section').height();
+      const heightToFix = $('#intro-section').height() - 100;
       const scrollToShowFixed = scrolledFromTop >= heightToFix;
       const scrolledToHide = scrolledFromTop > 150;
       const paramsForAnimation = y =>
-        ({ time: 0.5, params: { ease: Power2.easeInOut, css: { y } } });
+        ({ time: fixAnimationTime, params: { ease: Power2.easeInOut, css: { y } } });
 
       scrollToShowFixed
         ? Animation.tweenWithTimeout($header, 0, paramsForAnimation('0%'))
         : scrolledToHide
           ? Animation.tweenWithTimeout($header, 0, paramsForAnimation('-100%'))
           : null;
-    }, 500);
+    }, fixAnimationTime * 1000);
 
     $window.on('scroll', toggleHideWithThrottle);
     $window.on('scroll', toggleShowWithThrottle);
@@ -180,7 +181,7 @@ export class Header {
         .removeAttr('style')
         .removeClass(css.menuOpened);
 
-      $scrolledElements
+      $htmlBody
         .scrollTop(menuScrollTop);
     }
 

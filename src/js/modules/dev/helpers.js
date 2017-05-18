@@ -50,7 +50,7 @@ export const $footer = $('footer');
  * @constant
  * @type {jQuery}
  */
-export const $scrolledElements = $('html, body');
+export const $htmlBody = $('html, body');
 
 /**
  * Window width.
