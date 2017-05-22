@@ -72,6 +72,9 @@
     "babel-polyfill": "^6.23.0",
     "gsap": "^1.19.1",
     "jquery": "^2.2.4",
-    "jquery-mousewheel": "^3.1.13"
+    "jquery-mousewheel": "^3.1.13",
+    "materialize-css": "^0.98.2",
+    "perfect-scrollbar": "^0.7.0",
+    "wheel-indicator": "^1.1.4"
   }
 }

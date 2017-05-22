@@ -12,7 +12,7 @@ export default class IntroSection {
   /**
    * Cache elements etc.
    *
-   * @param {jQuery} $introSection
+   * @param {jQuery} [$introSection]
    */
   constructor($introSection = $('#intro-section')) {
     // text
@@ -29,7 +29,7 @@ export default class IntroSection {
     this.circlesAnimationDelay = this.animationTime / this.circlesCount;
 
     // 'learn more'
-    this.$learnMore = $introSection.find('.intro__more');
+    this.$learnMore = $introSection.find('.bottomBtn');
   }
 
   /**

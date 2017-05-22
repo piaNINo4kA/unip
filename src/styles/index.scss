@@ -8,6 +8,8 @@
 
 /* LIBS */
 @import 'libs/vintage-reset-normalize';
+@import 'libs/perfect-scrollbar';
+@import '../../node_modules/materialize-css/sass/components/carousel';
 
 /* COMPONENTS */
 @import 'components/common';
@@ -16,6 +18,7 @@
 @import 'components/header';
 @import 'components/footer';
 @import 'components/sections';
+@import 'components/overlay';
 
 /* PAGES */
 @import 'pages/home';

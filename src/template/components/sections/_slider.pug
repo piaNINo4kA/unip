@@ -1,5 +1,8 @@
 //- slider section(e.g. Home page -> 4th section)
+- var sliderSubtitle = 'What we offer';
 mixin sliderSection()
-    section.slider#slider-section
+    section.slider.js-perfect-scrollbar#slider-section
         .slider__inner
             .fixed-width-1280
+                +pageNumber(3)
+                +textBlock(sliderSubtitle, 3)

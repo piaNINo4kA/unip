@@ -1,6 +1,57 @@
 .canvas {
   width: 100%;
-  height: 893px;
+  max-height: 100vh;
 
   background-color: #ffe800;
+
+  overflow: hidden;
+
+  &__inner {
+    height: 893px;
+  }
+
+  .pageNumber {
+    &__line {
+      background-color: #f0d808;
+    }
+
+    &__square {
+      background-color: $yellowBG;
+
+      border: 1px solid #f0d808;
+    }
+  }
+
+  .textBlock {
+    max-width: 955px;
+
+    &.js-animation-finished {
+      .textBlock__item-big {
+        > span {
+          span {
+            width: calc(100% + 20px);
+
+            top: 100%;
+            left: -10px;
+
+            background-color: white;
+          }
+
+          &:before {
+            left: -10px;
+            top: 40px;
+
+            background-color: white;
+          }
+
+          &:after {
+            right: -10px;
+            bottom: 0;
+
+            background-color: white;
+          }
+        }
+      }
+    }
+  }
 }

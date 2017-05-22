@@ -15,6 +15,4 @@ mixin introSection()
             .intro__title.h1
                 each word in defaultTitle
                     div: span #{word}
-            .intro__more
-                .intro__more-line: span
-                .intro__more-text learn more
+            +bottomButton('learn more')

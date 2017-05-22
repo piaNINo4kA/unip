@@ -1,4 +1,8 @@
 //- canvas section(e.g. Home page -> 6th section)
+- var canvasSubtitle = 'Why it is important?';
 mixin canvasSection()
-    section.canvas#canvas-section
-        .fixed-width-1280
+    section.canvas.js-perfect-scrollbar#canvas-section
+        .canvas__inner
+            .fixed-width-1280
+                +pageNumber(4)
+                +textBlock(canvasSubtitle, 4)

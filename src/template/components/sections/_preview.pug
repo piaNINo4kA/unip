@@ -1,4 +1,10 @@
 //- preview section(e.g. Home page -> 3rd section)
+-
+    var previewSubtitle = 'try to use it';
+    var previewSlides = 5;
 mixin previewSection()
     section.preview#preview-section
         .fixed-width-1280
+            +pageNumber(2)
+            +bottomButton('skip')
+            +textBlock(previewSubtitle, 2, previewSlides)

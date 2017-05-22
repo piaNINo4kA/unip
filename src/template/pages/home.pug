@@ -9,6 +9,9 @@ block footer
 block main
     main(data-page='home')
 
+        // pages progress-bar (fixed)
+        +fixedProgressBar()
+
         // first section
         +introSection()
 
@@ -18,14 +21,14 @@ block main
         // third section
         +previewSection()
 
+        // fourth section
+        +sliderSection()
+
+        // fifth section
+        +canvasSection()
+
         // scrolling-inside-div
-        #scrollInside
-
-            // fourth section
-            +sliderSection()
-
-            // fifth section
-            +canvasSection()
+        #scrollInside.js-perfect-scrollbar
 
             // sixth section
             +joinSection()

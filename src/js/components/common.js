@@ -8,8 +8,42 @@
 import { Resp } from '../modules/dev/helpers';
 import Header from './header';
 import ScrollController from './scrollController';
+import ProgressBar from './progressBar';
+import 'perfect-scrollbar/jquery';
 
 export class Common {
+  /**
+   * Cache data.
+   */
+  constructor() {
+    this.$scrollableElements = $('.js-perfect-scrollbar');
+  }
+
+  /**
+   * Initialize progress bar's click-to-page.
+   *
+   * @return {Common}
+   */
+  initProgressBar() {
+    ProgressBar.initScrollToSectionOnClick();
+
+    return this;
+  }
+
+  /**
+   * Initialize perfect-scrollbar on scrollable elements.
+   *
+   * @return {Common}
+   */
+  initPerfectScrollbar() {
+    this.$scrollableElements.perfectScrollbar({
+      wheelPropagation: true,
+      wheelSpeed: 0.5
+    });
+
+    return this;
+  }
+
   /**
    * Initialize header scripts.
    *
@@ -60,7 +94,9 @@ export class Common {
     this
       .initializeHeader()
       .initializeScrollController()
-      .rafShim();
+      .rafShim()
+      .initPerfectScrollbar()
+      .initProgressBar();
 
     return this;
   }

@@ -25,6 +25,6 @@ switch (currentPage) {
   /** Home page */
   case 'home': new Home; break;
 
-  /** No page found */
+  /** No pages found */
   default: console.log('Null page');
 }

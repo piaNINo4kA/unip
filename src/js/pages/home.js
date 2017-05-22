@@ -10,8 +10,11 @@ import Header from 'js/components/header';
 import { $document } from 'js/modules/dev/helpers';
 
 /** Import sections */
-import IntroSection from '../components/sections/intro';
-import Slider3dSection from '../components/sections/slider3d';
+import IntroSection from './sections/intro';
+import Slider3dSection from './sections/slider3d';
+import PreviewSection from './sections/preview';
+import SliderSection from './sections/slider';
+import CanvasSection from './sections/canvas';
 
 export default class Home {
   /**
@@ -23,7 +26,10 @@ export default class Home {
 
     // sections
     this.firstSection = new IntroSection();
-    this.secondSection = new Slider3dSection();
+    this.secondSection = Slider3dSection;
+    this.thirdSection = PreviewSection;
+    this.fourthSection = SliderSection;
+    this.fifthSection = CanvasSection;
 
     // initialize after construction
     this.init();
@@ -52,17 +58,6 @@ export default class Home {
   }
 
   /**
-   * Run slider3d section's reveal animation.
-   *
-   * @return {Home}
-   */
-  initSecondSectionAnimation() {
-    this.secondSection.initAnimation();
-
-    return this;
-  }
-
-  /**
    * Initialize all sections scripts.
    *
    * @return {Home}
@@ -74,6 +69,15 @@ export default class Home {
     // slider3d section
     this.secondSection.initScripts();
 
+    // preview section
+    this.thirdSection.initScripts();
+
+    // slider section
+    this.fourthSection.initScripts();
+
+    // slider section
+    this.fifthSection.initScripts();
+
     return this;
   }
 
@@ -81,7 +85,7 @@ export default class Home {
    * Initialize Main page scripts.
    */
   init() {
-    // run preloader
+    /*// run preloader
     this.preloader.init()
 
       // run intro section's and header's animations
@@ -90,7 +94,11 @@ export default class Home {
         this
           .initFirstSectionAnimation()
           .initHeaderAnimation();
-      });
+      });*/
+
+    this
+      .initFirstSectionAnimation()
+      .initHeaderAnimation();
 
     // initialize main scripts
     this.initAllSectionsScripts();

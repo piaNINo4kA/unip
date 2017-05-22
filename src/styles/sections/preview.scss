@@ -3,4 +3,35 @@
   width: 100%;
 
   background-color: #f5f5f5;
+
+  overflow: hidden;
+
+  .pageNumber {
+    &__square {
+      background-color: #f5f5f5;
+    }
+  }
+
+  .bottomBtn {
+    right: auto;
+    left: 137px;
+  }
+
+  .textBlock {
+    max-width: 280px;
+
+    &.js-animation-finished {
+      .textBlock__item-big {
+        > span {
+          span {
+            width: calc(100% + 10px);
+          }
+
+          &:after {
+            right: -5px;
+          }
+        }
+      }
+    }
+  }
 }

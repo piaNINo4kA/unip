@@ -61,6 +61,14 @@ export const $htmlBody = $('html, body');
 export const winWidth = $window.width();
 
 /**
+ * Detect MacBook.
+ *
+ * @constant
+ * @type {boolean}
+ */
+export const isMac = /mac/i.test(navigator.platform);
+
+/**
  * Match media device indicator.
  */
 export class Resp {
@@ -169,6 +177,7 @@ export const checkClosest = (e, item) => $(e.target).closest(item).length > 0;
  *
  * @param {Number} length
  */
+export const randomString = (length = 10) => Math.random().toString(36).substr(2, length > 10 ? length : 10);
 
 /**
  * Toggle class on specified element on click.
@@ -296,5 +305,5 @@ export const matrixToArray = matrix =>
  * @param {String} methods
  */
 export const bindMethods = function (...methods) {
-  methods.forEach((method) => this[method] = this[method].bind(this));
+  methods.forEach(method => this[method] = this[method].bind(this));
 };

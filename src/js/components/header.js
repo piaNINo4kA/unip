@@ -101,19 +101,25 @@ export class Header {
         : $header.removeClass(css.fixed);
     }, 50);
 
+    let isHidden = true;
+    const $introSection = $('#intro-section');
     const toggleShowWithThrottle = throttle(() => {
       const scrolledFromTop = $window.scrollTop();
-      const heightToFix = $('#intro-section').height() - 100;
+      const heightToFix = $introSection.height() - 100;
       const scrollToShowFixed = scrolledFromTop >= heightToFix;
-      const scrolledToHide = scrolledFromTop > 150;
+      const scrolledToHide = scrolledFromTop < heightToFix + 50;
       const paramsForAnimation = y =>
         ({ time: fixAnimationTime, params: { ease: Power2.easeInOut, css: { y } } });
 
-      scrollToShowFixed
-        ? Animation.tweenWithTimeout($header, 0, paramsForAnimation('0%'))
-        : scrolledToHide
-          ? Animation.tweenWithTimeout($header, 0, paramsForAnimation('-100%'))
-          : null;
+      if (scrollToShowFixed && isHidden) {
+        Animation.tweenWithTimeout($header, 0, paramsForAnimation('0%'));
+
+        isHidden = false;
+      } else if (scrolledToHide && !isHidden) {
+        Animation.tweenWithTimeout($header, 0, paramsForAnimation('-100%'));
+
+        isHidden = true;
+      }
     }, fixAnimationTime * 1000);
 
     $window.on('scroll', toggleHideWithThrottle);

@@ -5,12 +5,15 @@
  */
 
 /** Import utils */
-import {
-  bindMethods,
-  $window
-} from '../modules/dev/helpers';
-import 'jquery-mousewheel';
+import { bindMethods } from '../modules/dev/helpers';
+import WheelIndicator from 'wheel-indicator';
+import SectionSlideController from './sectionSlideController';
 import Animation from '../modules/dev/animation';
+import ProgressBar from '../components/progressBar';
+import Slider3dSection from '../pages/sections/slider3d';
+import PreviewSection from '../pages/sections/preview';
+import SliderSection from '../pages/sections/slider';
+import CanvasSection from '../pages/sections/canvas';
 
 export class ScrollController {
   /**
@@ -18,32 +21,129 @@ export class ScrollController {
    */
   constructor() {
     this.currentlyScrolling = false;
-    this.eventsNamespace = 'scrollController';
 
     this.currentSection = 0;
     this.fullPageSections = [
       'intro-section',
       'slider3d-section',
       'preview-section',
+      'slider-section',
+      'canvas-section',
       'scrollInside'
     ];
 
-    this.$scrollableDiv = $('#scrollInside');
-
     // save context
     bindMethods.bind(this)
-    ('handleScroll', 'moveToPrevSection', 'moveToNextSection');
+    ('handleScroll', 'moveToPrevSection', 'moveToNextSection', 'beforeChange');
+
+    // animation flags
+    this.secondSectionIsRevealed = false;
+    this.thirdSectionIsRevealed = false;
+    this.fourthSectionIsRevealed = false;
+    this.fifthSectionIsRevealed = false;
+
+    // inner sections slide controller
+    this.$secondSectionSlider =
+      new SectionSlideController(Slider3dSection.$section);
+  }
+
+  /**
+   * Performed before screen change.
+   *
+   * @return {ScrollController}
+   */
+  beforeChange() {
+    switch (this.currentSection) {
+      // entering intro section
+      case 0: {
+        ProgressBar.unfix();
+        this.$secondSectionSlider.deactivate();
+        break;
+      }
+
+      // entering slider3d section
+      case 1: {
+        if (!this.secondSectionIsRevealed) {
+          Animation.delay(1, () => {
+            Slider3dSection.initAnimation();
+            ProgressBar.initAnimation();
+            this.secondSectionIsRevealed = true;
+          });
+          Animation.delay(1.5, () => this.$secondSectionSlider.activate());
+        }
+        Animation.delay(0.4, ProgressBar.paintBlack);
+        Animation.delay(1.2, ProgressBar.fix);
+        ProgressBar.changeProgress(25);
+        break;
+      }
+
+      // entering preview section
+      case 2: {
+        if (!this.thirdSectionIsRevealed) {
+          Animation.delay(1, () => {
+            PreviewSection.initAnimation();
+            this.thirdSectionIsRevealed = true;
+          });
+          this.$secondSectionSlider.deactivate();
+        }
+        Animation.delay(0.4, ProgressBar.paintBlack);
+        ProgressBar.changeProgress(50);
+        break;
+      }
+
+      // entering slider section
+      case 3: {
+        if (!this.fourthSectionIsRevealed) {
+          Animation.delay(1, () => {
+            SliderSection.initAnimation();
+            this.fourthSectionIsRevealed = true;
+          });
+        }
+        Animation.delay(0.4, ProgressBar.paintWhite);
+        ProgressBar.changeProgress(75);
+        break;
+      }
+
+      // entering canvas section
+      case 4: {
+        if (!this.fifthSectionIsRevealed) {
+          Animation.delay(1, () => {
+            CanvasSection.initAnimation();
+            this.fifthSectionIsRevealed = true;
+          });
+        }
+        Animation.delay(0.4, ProgressBar.paintBlack);
+        Animation.delay(1.2, ProgressBar.fix);
+        ProgressBar.changeProgress(100);
+        break;
+      }
+
+      // entering scroll section
+      case 5: {
+        ProgressBar.unfix(true);
+        break;
+      }
+    }
+
+    return this;
   }
 
   /**
    * Move to specified section.
    *
-   * @param {String} sectionName
+   * @param {Number} sectionIndex
    * @return {ScrollController}
    */
-  moveToSection(sectionName = this.fullPageSections[this.currentSection]) {
+  moveToSection(sectionIndex = this.currentSection) {
     this.currentlyScrolling = true;
+    this.currentSection = sectionIndex;
 
+    const sectionName = this.fullPageSections[sectionIndex];
+
+    // before changing sections
+    this.beforeChange();
+
+    // animate scroll
     Animation.scrollTo(1.2, {
       scrollTo: `#${sectionName}`,
       ease: Power3.easeInOut,
@@ -62,10 +162,6 @@ export class ScrollController {
     // no previous sections left
     if (this.currentSection === 0) return this;
 
-    // scrolling in the scrollable div
-    const scrolledInsideDiv = this.$scrollableDiv.scrollTop();
-    if (scrolledInsideDiv > 0) return this;
-
     // change section params
     this.currentSection--;
 
@@ -81,7 +177,7 @@ export class ScrollController {
    * @return {ScrollController}
    */
   moveToNextSection() {
-    // no previous sections left
+    // no sections left
     const fpSectionsCount = this.fullPageSections.length - 1;
     if (this.currentSection === fpSectionsCount) return this;
 
@@ -128,28 +224,25 @@ export class ScrollController {
     // do nothing if scrolling in progress
     if (this.currentlyScrolling) return this;
 
-    // get direction
-    const delta = e.deltaY;
-    const scrollDirection =
-      delta ===  1 ? 'up' :
-      delta === -1 ? 'down' :
-      null;
-
     // dispatch event
-    return this.dispatchScroll(scrollDirection);
+    this.dispatchScroll(e.direction);
   }
 
   /**
    * Attach event listener to the window.
    *
+   * @param {Boolean} moveToSection - animate to specified section
    * @return {ScrollController}
    */
-  init() {
+  init(moveToSection = true) {
     // move to the current section
-    this.moveToSection();
+    if (moveToSection) this.moveToSection();
 
     // bind event listener
-    $window.on(`mousewheel.${this.eventsNamespace}`, this.handleScroll);
+    this.WheelIndicator = new WheelIndicator({
+      elem: window,
+      callback: this.handleScroll
+    });
 
     return this;
   }
@@ -161,11 +254,11 @@ export class ScrollController {
    */
   kill() {
     // unbind event listener
-    $window.unbind(`mousewheel.${this.eventsNamespace}`);
+    this.WheelIndicator.destroy();
 
     return this;
   }
 }
 
 /** Export initialized ScrollController class instance by default */
-export default new ScrollController();
+export default new ScrollController;
