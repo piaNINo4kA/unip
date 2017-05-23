@@ -20,7 +20,7 @@ export class SliderSection extends Slider3dSection {
   /**
    * Initialize section's scripts.
    *
-   * @return {Slider3dSection}
+   * @return {SliderSection}
    */
   initScripts() {
     this

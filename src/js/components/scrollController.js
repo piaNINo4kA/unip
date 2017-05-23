@@ -33,8 +33,12 @@ export class ScrollController {
     ];
 
     // save context
-    bindMethods.bind(this)
-    ('handleScroll', 'moveToPrevSection', 'moveToNextSection', 'beforeChange');
+    bindMethods.bind(this)(
+      'handleScroll',
+      'moveToPrevSection',
+      'moveToNextSection',
+      'beforeChange'
+    );
 
     // animation flags
     this.secondSectionIsRevealed = false;
@@ -45,10 +49,13 @@ export class ScrollController {
     // inner sections slide controller
     this.$secondSectionSlider =
       new SectionSlideController(Slider3dSection.$section);
+    this.$thirdSectionSlider =
+      new SectionSlideController(PreviewSection.$section, false, 5, 850);
   }
 
   /**
    * Performed before screen change.
+   * @TODO: refactor (remove half to 'leaving section')
    *
    * @return {ScrollController}
    */
@@ -69,8 +76,9 @@ export class ScrollController {
             ProgressBar.initAnimation();
             this.secondSectionIsRevealed = true;
           });
-          Animation.delay(1.5, () => this.$secondSectionSlider.activate());
+          Animation.delay(1.19, this.$secondSectionSlider.activate);
         }
+        this.$thirdSectionSlider.deactivate();
         Animation.delay(0.4, ProgressBar.paintBlack);
         Animation.delay(1.2, ProgressBar.fix);
         ProgressBar.changeProgress(25);
@@ -84,8 +92,9 @@ export class ScrollController {
             PreviewSection.initAnimation();
             this.thirdSectionIsRevealed = true;
           });
-          this.$secondSectionSlider.deactivate();
+          Animation.delay(1.19, this.$thirdSectionSlider.activate);
         }
+        this.$secondSectionSlider.deactivate();
         Animation.delay(0.4, ProgressBar.paintBlack);
         ProgressBar.changeProgress(50);
         break;
@@ -99,6 +108,8 @@ export class ScrollController {
             this.fourthSectionIsRevealed = true;
           });
         }
+        this.$secondSectionSlider.deactivate();
+        this.$thirdSectionSlider.deactivate();
         Animation.delay(0.4, ProgressBar.paintWhite);
         ProgressBar.changeProgress(75);
         break;
@@ -112,7 +123,9 @@ export class ScrollController {
             this.fifthSectionIsRevealed = true;
           });
         }
-        Animation.delay(0.4, ProgressBar.paintBlack);
+        this.$secondSectionSlider.deactivate();
+        this.$thirdSectionSlider.deactivate();
+        Animation.delay(0.4, ProgressBar.paintHalfWhite);
         Animation.delay(1.2, ProgressBar.fix);
         ProgressBar.changeProgress(100);
         break;
@@ -141,7 +154,7 @@ export class ScrollController {
     const sectionName = this.fullPageSections[sectionIndex];
 
     // before changing sections
-    this.beforeChange();
+    requestAnimationFrame(this.beforeChange);
 
     // animate scroll
     Animation.scrollTo(1.2, {
@@ -166,7 +179,8 @@ export class ScrollController {
     this.currentSection--;
 
     // animate
-    this.moveToSection();
+    requestAnimationFrame
+    (this.moveToSection.bind(this, this.currentSection));
 
     return this;
   }
@@ -185,13 +199,15 @@ export class ScrollController {
     this.currentSection++;
 
     // animate
-    this.moveToSection();
+    requestAnimationFrame
+    (this.moveToSection.bind(this, this.currentSection));
 
     return this;
   }
 
   /**
    * Go the next/prev section according to scroll direction.
+   * @TODO: refactor dispatcher and moveToPrev/Next methods
    *
    * @return {ScrollController}
    */

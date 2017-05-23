@@ -25,7 +25,7 @@ export default class Home {
     this.preloader = new Preloader();
 
     // sections
-    this.firstSection = new IntroSection();
+    this.firstSection = IntroSection;
     this.secondSection = Slider3dSection;
     this.thirdSection = PreviewSection;
     this.fourthSection = SliderSection;
@@ -75,7 +75,7 @@ export default class Home {
     // slider section
     this.fourthSection.initScripts();
 
-    // slider section
+    // canvas section
     this.fifthSection.initScripts();
 
     return this;

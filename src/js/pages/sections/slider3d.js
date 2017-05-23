@@ -6,8 +6,10 @@
 
 /** Import utils */
 import {
-  css
+  css,
+  bindMethods
 } from '../../modules/dev/helpers';
+import Animation from '../../modules/dev/animation';
 import ScrollController from '../../components/scrollController';
 import 'materialize-css/js/global';
 import 'materialize-css/js/carousel';
@@ -24,6 +26,13 @@ export class Slider3dSection {
     this.$skip = this.$section.find('.bottomBtn');
     this.$pageNumber = this.$section.find('.pageNumber');
     this.$textBlock = this.$section.find('.textBlock');
+
+    // bind context
+    bindMethods.bind(this)
+    ('revealOverlay', 'revealMainContent');
+
+    this.overlayAnimationDelay = 0;
+    this.mainContentAnimationDelay = 0;
   }
 
   /**
@@ -59,8 +68,10 @@ export class Slider3dSection {
    */
   revealOverlay() {
     // show 'skip' button, page number, text block
-    [this.$skip, this.$pageNumber, this.$textBlock]
-      .forEach(el => el.addClass(css.animationFinished));
+    requestAnimationFrame(() => {
+      [this.$skip, this.$pageNumber, this.$textBlock]
+        .forEach(el => el.addClass(css.animationFinished));
+    });
 
     return this;
   }
@@ -77,8 +88,10 @@ export class Slider3dSection {
     const $carousel = $container.find('.slider3d__carousel');
 
     // show circles overlay, text block and carousel
-    [$overlay, $text, $carousel]
-      .forEach(el => el.addClass(css.animationFinished));
+    requestAnimationFrame(() => {
+      [$overlay, $text, $carousel]
+        .forEach(el => el.addClass(css.animationFinished));
+    });
 
     return this;
   }
@@ -89,9 +102,11 @@ export class Slider3dSection {
    * @return {Slider3dSection}
    */
   initAnimation() {
-    this
-      .revealOverlay()
-      .revealMainContent();
+    // reveal overlay with timeout
+    Animation.delay(this.overlayAnimationDelay, this.revealOverlay);
+
+    // reveal main content with timeout
+    Animation.delay(this.mainContentAnimationDelay, this.revealMainContent);
 
     return this;
   }

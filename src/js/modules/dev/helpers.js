@@ -157,9 +157,11 @@ export const css = {
   active: 'js-active',
   animationFinished: 'js-animation-finished',
   animationFinished2: 'js-animation-finished-2',
+  isHiddenForAnimation: 'js-is-hidden-for-animation',
   hasPreloader: 'js-has-preloader',
   menuOpened: 'js-menu-opened',
   background: 'js-background',
+  background2: 'js-background-2',
   fixed: 'js-fixed'
 };
 

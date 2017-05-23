@@ -8,7 +8,7 @@
 import { css } from '../../modules/dev/helpers';
 import ScrollController from '../../components/scrollController';
 
-export default class IntroSection {
+export class IntroSection {
   /**
    * Cache elements etc.
    *
@@ -39,7 +39,9 @@ export default class IntroSection {
    */
   animateTitle() {
     // show title
-    this.$title.addClass(css.animationFinished);
+    requestAnimationFrame(() => {
+      this.$title.addClass(css.animationFinished);
+    });
 
     return this;
   }
@@ -51,7 +53,9 @@ export default class IntroSection {
    */
   animateBackground() {
     // reveal background
-    this.$bg.addClass(css.animationFinished);
+    requestAnimationFrame(() => {
+      this.$bg.addClass(css.animationFinished);
+    });
 
     return this;
   }
@@ -95,11 +99,13 @@ export default class IntroSection {
   animateLines() {
     // reveal animation func
     const animatePinAndLearnMore = () => {
-      // animate pin's line
-      this.$pin.addClass(css.animationFinished2);
+      requestAnimationFrame(() => {
+        // animate pin's line
+        this.$pin.addClass(css.animationFinished2);
 
-      // animate 'learn more' line and text
-      this.$learnMore.addClass(css.animationFinished);
+        // animate 'learn more' line and text
+        this.$learnMore.addClass(css.animationFinished);
+      });
     };
 
     // reveal with delay
@@ -146,3 +152,6 @@ export default class IntroSection {
     return this;
   }
 }
+
+/** Export initialized class instance by default */
+export default new IntroSection;

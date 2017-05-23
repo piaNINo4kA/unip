@@ -5,11 +5,12 @@
  */
 
 /** Import utils */
+import 'perfect-scrollbar/jquery';
+import objectFitImages from 'object-fit-images';
 import { Resp } from '../modules/dev/helpers';
 import Header from './header';
 import ScrollController from './scrollController';
 import ProgressBar from './progressBar';
-import 'perfect-scrollbar/jquery';
 
 export class Common {
   /**
@@ -19,6 +20,16 @@ export class Common {
     this.$scrollableElements = $('.js-perfect-scrollbar');
   }
 
+  /**
+   * Initialize 'object-fit-images' polyfill.
+   *
+   * @returns {Common}
+   */
+  initObjectFitImages() {
+    objectFitImages();
+
+    return this;
+  }
   /**
    * Initialize progress bar's click-to-page.
    *
@@ -92,6 +103,7 @@ export class Common {
    */
   init() {
     this
+      .initObjectFitImages()
       .initializeHeader()
       .initializeScrollController()
       .rafShim()

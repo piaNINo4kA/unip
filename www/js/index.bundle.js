@@ -10613,9 +10613,11 @@ var css = exports.css = {
   active: 'js-active',
   animationFinished: 'js-animation-finished',
   animationFinished2: 'js-animation-finished-2',
+  isHiddenForAnimation: 'js-is-hidden-for-animation',
   hasPreloader: 'js-has-preloader',
   menuOpened: 'js-menu-opened',
   background: 'js-background',
+  background2: 'js-background-2',
   fixed: 'js-fixed'
 };
 
@@ -12116,6 +12118,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _helpers = __webpack_require__(26);
 
+var _animation = __webpack_require__(70);
+
+var _animation2 = _interopRequireDefault(_animation);
+
 var _scrollController = __webpack_require__(57);
 
 var _scrollController2 = _interopRequireDefault(_scrollController);
@@ -12144,6 +12150,12 @@ var Slider3dSection = exports.Slider3dSection = function () {
     this.$skip = this.$section.find('.bottomBtn');
     this.$pageNumber = this.$section.find('.pageNumber');
     this.$textBlock = this.$section.find('.textBlock');
+
+    // bind context
+    _helpers.bindMethods.bind(this)('revealOverlay', 'revealMainContent');
+
+    this.overlayAnimationDelay = 0;
+    this.mainContentAnimationDelay = 0;
   }
 
   /**
@@ -12186,9 +12198,13 @@ var Slider3dSection = exports.Slider3dSection = function () {
   }, {
     key: 'revealOverlay',
     value: function revealOverlay() {
+      var _this = this;
+
       // show 'skip' button, page number, text block
-      [this.$skip, this.$pageNumber, this.$textBlock].forEach(function (el) {
-        return el.addClass(_helpers.css.animationFinished);
+      requestAnimationFrame(function () {
+        [_this.$skip, _this.$pageNumber, _this.$textBlock].forEach(function (el) {
+          return el.addClass(_helpers.css.animationFinished);
+        });
       });
 
       return this;
@@ -12209,8 +12225,10 @@ var Slider3dSection = exports.Slider3dSection = function () {
       var $carousel = $container.find('.slider3d__carousel');
 
       // show circles overlay, text block and carousel
-      [$overlay, $text, $carousel].forEach(function (el) {
-        return el.addClass(_helpers.css.animationFinished);
+      requestAnimationFrame(function () {
+        [$overlay, $text, $carousel].forEach(function (el) {
+          return el.addClass(_helpers.css.animationFinished);
+        });
       });
 
       return this;
@@ -12225,7 +12243,11 @@ var Slider3dSection = exports.Slider3dSection = function () {
   }, {
     key: 'initAnimation',
     value: function initAnimation() {
-      this.revealOverlay().revealMainContent();
+      // reveal overlay with timeout
+      _animation2.default.delay(this.overlayAnimationDelay, this.revealOverlay);
+
+      // reveal main content with timeout
+      _animation2.default.delay(this.mainContentAnimationDelay, this.revealMainContent);
 
       return this;
     }
@@ -12407,10 +12429,12 @@ var ScrollController = exports.ScrollController = function () {
 
     // inner sections slide controller
     this.$secondSectionSlider = new _sectionSlideController2.default(_slider3d2.default.$section);
+    this.$thirdSectionSlider = new _sectionSlideController2.default(_preview2.default.$section, false, 5, 850);
   }
 
   /**
    * Performed before screen change.
+   * @TODO: refactor (remove half to 'leaving section')
    *
    * @return {ScrollController}
    */
@@ -12439,10 +12463,9 @@ var ScrollController = exports.ScrollController = function () {
                 _progressBar2.default.initAnimation();
                 _this.secondSectionIsRevealed = true;
               });
-              _animation2.default.delay(1.5, function () {
-                return _this.$secondSectionSlider.activate();
-              });
+              _animation2.default.delay(1.19, this.$secondSectionSlider.activate);
             }
+            this.$thirdSectionSlider.deactivate();
             _animation2.default.delay(0.4, _progressBar2.default.paintBlack);
             _animation2.default.delay(1.2, _progressBar2.default.fix);
             _progressBar2.default.changeProgress(25);
@@ -12457,8 +12480,9 @@ var ScrollController = exports.ScrollController = function () {
                 _preview2.default.initAnimation();
                 _this.thirdSectionIsRevealed = true;
               });
-              this.$secondSectionSlider.deactivate();
+              _animation2.default.delay(1.19, this.$thirdSectionSlider.activate);
             }
+            this.$secondSectionSlider.deactivate();
             _animation2.default.delay(0.4, _progressBar2.default.paintBlack);
             _progressBar2.default.changeProgress(50);
             break;
@@ -12473,6 +12497,8 @@ var ScrollController = exports.ScrollController = function () {
                 _this.fourthSectionIsRevealed = true;
               });
             }
+            this.$secondSectionSlider.deactivate();
+            this.$thirdSectionSlider.deactivate();
             _animation2.default.delay(0.4, _progressBar2.default.paintWhite);
             _progressBar2.default.changeProgress(75);
             break;
@@ -12487,7 +12513,9 @@ var ScrollController = exports.ScrollController = function () {
                 _this.fifthSectionIsRevealed = true;
               });
             }
-            _animation2.default.delay(0.4, _progressBar2.default.paintBlack);
+            this.$secondSectionSlider.deactivate();
+            this.$thirdSectionSlider.deactivate();
+            _animation2.default.delay(0.4, _progressBar2.default.paintHalfWhite);
             _animation2.default.delay(1.2, _progressBar2.default.fix);
             _progressBar2.default.changeProgress(100);
             break;
@@ -12524,7 +12552,7 @@ var ScrollController = exports.ScrollController = function () {
       var sectionName = this.fullPageSections[sectionIndex];
 
       // before changing sections
-      this.beforeChange();
+      requestAnimationFrame(this.beforeChange);
 
       // animate scroll
       _animation2.default.scrollTo(1.2, {
@@ -12554,7 +12582,7 @@ var ScrollController = exports.ScrollController = function () {
       this.currentSection--;
 
       // animate
-      this.moveToSection();
+      requestAnimationFrame(this.moveToSection.bind(this, this.currentSection));
 
       return this;
     }
@@ -12576,13 +12604,14 @@ var ScrollController = exports.ScrollController = function () {
       this.currentSection++;
 
       // animate
-      this.moveToSection();
+      requestAnimationFrame(this.moveToSection.bind(this, this.currentSection));
 
       return this;
     }
 
     /**
      * Go the next/prev section according to scroll direction.
+     * @TODO: refactor dispatcher and moveToPrev/Next methods
      *
      * @return {ScrollController}
      */
@@ -14380,7 +14409,7 @@ var ProgressBar = exports.ProgressBar = function () {
     this.$pages = this.$progressBar.find('.progressBar__pages-page');
 
     // save context
-    _helpers.bindMethods.bind(this)('unfix', 'fix', 'paintBlack', 'paintWhite');
+    _helpers.bindMethods.bind(this)('unfix', 'fix', 'paintBlack', 'paintWhite', 'paintHalfWhite');
   }
 
   /**
@@ -14423,7 +14452,21 @@ var ProgressBar = exports.ProgressBar = function () {
   }, {
     key: 'paintBlack',
     value: function paintBlack() {
-      this.$progressBar.removeClass(_helpers.css.background);
+      this.$progressBar.removeClass(_helpers.css.background + ' ' + _helpers.css.background2);
+
+      return this;
+    }
+
+    /**
+     * Change progress bar's section buttons bg to white.
+     *
+     * @return {ProgressBar}
+     */
+
+  }, {
+    key: 'paintHalfWhite',
+    value: function paintHalfWhite() {
+      this.$progressBar.removeClass(_helpers.css.background).addClass(_helpers.css.background2);
 
       return this;
     }
@@ -14437,7 +14480,7 @@ var ProgressBar = exports.ProgressBar = function () {
   }, {
     key: 'paintWhite',
     value: function paintWhite() {
-      this.$progressBar.addClass(_helpers.css.background);
+      this.$progressBar.removeClass(_helpers.css.background2).addClass(_helpers.css.background);
 
       return this;
     }
@@ -14547,7 +14590,7 @@ var CanvasSection = exports.CanvasSection = function (_Slider3dSection) {
   /**
    * Initialize section's scripts.
    *
-   * @return {Slider3dSection}
+   * @return {CanvasSection}
    */
 
 
@@ -14583,7 +14626,15 @@ exports.PreviewSection = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _animation = __webpack_require__(70);
+
+var _animation2 = _interopRequireDefault(_animation);
+
+var _helpers = __webpack_require__(26);
+
 var _slider3d = __webpack_require__(52);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14611,17 +14662,47 @@ var PreviewSection = exports.PreviewSection = function (_Slider3dSection) {
 
     _classCallCheck(this, PreviewSection);
 
-    return _possibleConstructorReturn(this, (PreviewSection.__proto__ || Object.getPrototypeOf(PreviewSection)).call(this, $previewSection));
+    var _this = _possibleConstructorReturn(this, (PreviewSection.__proto__ || Object.getPrototypeOf(PreviewSection)).call(this, $previewSection));
+
+    _this.mainContentAnimationDelay = 0.1;
+    return _this;
   }
 
   /**
-   * Initialize section's scripts.
+   * Reveal section's main content.
    *
-   * @return {Slider3dSection}
+   * @return {PreviewSection}
    */
 
 
   _createClass(PreviewSection, [{
+    key: 'revealMainContent',
+    value: function revealMainContent() {
+      var $container = this.$section.find('.preview__container');
+      var $linesContainer = $container.find('.preview__lines');
+
+      // show main picture, text, bg pictures
+      requestAnimationFrame(function () {
+        $container.removeClass(_helpers.css.isHiddenForAnimation);
+      });
+
+      // show lines
+      _animation2.default.delay(1, function () {
+        requestAnimationFrame(function () {
+          $linesContainer.removeClass(_helpers.css.isHiddenForAnimation);
+        });
+      });
+
+      return this;
+    }
+
+    /**
+     * Initialize section's scripts.
+     *
+     * @return {PreviewSection}
+     */
+
+  }, {
     key: 'initScripts',
     value: function initScripts() {
       this.initLearnMore();
@@ -14687,7 +14768,7 @@ var SliderSection = exports.SliderSection = function (_Slider3dSection) {
   /**
    * Initialize section's scripts.
    *
-   * @return {Slider3dSection}
+   * @return {SliderSection}
    */
 
 
@@ -15478,6 +15559,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 /** Import utils */
 
 
+__webpack_require__(323);
+
+var _objectFitImages = __webpack_require__(344);
+
+var _objectFitImages2 = _interopRequireDefault(_objectFitImages);
+
 var _helpers = __webpack_require__(26);
 
 var _header = __webpack_require__(97);
@@ -15491,8 +15578,6 @@ var _scrollController2 = _interopRequireDefault(_scrollController);
 var _progressBar = __webpack_require__(98);
 
 var _progressBar2 = _interopRequireDefault(_progressBar);
-
-__webpack_require__(323);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15509,13 +15594,26 @@ var Common = exports.Common = function () {
   }
 
   /**
-   * Initialize progress bar's click-to-page.
+   * Initialize 'object-fit-images' polyfill.
    *
-   * @return {Common}
+   * @returns {Common}
    */
 
 
   _createClass(Common, [{
+    key: 'initObjectFitImages',
+    value: function initObjectFitImages() {
+      (0, _objectFitImages2.default)();
+
+      return this;
+    }
+    /**
+     * Initialize progress bar's click-to-page.
+     *
+     * @return {Common}
+     */
+
+  }, {
     key: 'initProgressBar',
     value: function initProgressBar() {
       _progressBar2.default.initScrollToSectionOnClick();
@@ -15597,7 +15695,7 @@ var Common = exports.Common = function () {
   }, {
     key: 'init',
     value: function init() {
-      this.initializeHeader().initializeScrollController().rafShim().initPerfectScrollbar().initProgressBar();
+      this.initObjectFitImages().initializeHeader().initializeScrollController().rafShim().initPerfectScrollbar().initProgressBar();
 
       return this;
     }
@@ -15680,7 +15778,7 @@ var Home = function () {
     this.preloader = new _preloader2.default();
 
     // sections
-    this.firstSection = new _intro2.default();
+    this.firstSection = _intro2.default;
     this.secondSection = _slider3d2.default;
     this.thirdSection = _preview2.default;
     this.fourthSection = _slider2.default;
@@ -15740,7 +15838,7 @@ var Home = function () {
       // slider section
       this.fourthSection.initScripts();
 
-      // slider section
+      // canvas section
       this.fifthSection.initScripts();
 
       return this;
@@ -24081,6 +24179,7 @@ exports.default = Preloader;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.IntroSection = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Intro section module.
@@ -24101,7 +24200,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var IntroSection = function () {
+var IntroSection = exports.IntroSection = function () {
   /**
    * Cache elements etc.
    *
@@ -24139,8 +24238,12 @@ var IntroSection = function () {
   _createClass(IntroSection, [{
     key: 'animateTitle',
     value: function animateTitle() {
+      var _this = this;
+
       // show title
-      this.$title.addClass(_helpers.css.animationFinished);
+      requestAnimationFrame(function () {
+        _this.$title.addClass(_helpers.css.animationFinished);
+      });
 
       return this;
     }
@@ -24154,8 +24257,12 @@ var IntroSection = function () {
   }, {
     key: 'animateBackground',
     value: function animateBackground() {
+      var _this2 = this;
+
       // reveal background
-      this.$bg.addClass(_helpers.css.animationFinished);
+      requestAnimationFrame(function () {
+        _this2.$bg.addClass(_helpers.css.animationFinished);
+      });
 
       return this;
     }
@@ -24169,7 +24276,7 @@ var IntroSection = function () {
   }, {
     key: 'animateCircles',
     value: function animateCircles() {
-      var _this = this;
+      var _this3 = this;
 
       // animate circle with delay helper func
       var animateCircle = function animateCircle($element, animationDelay) {
@@ -24182,12 +24289,12 @@ var IntroSection = function () {
       var circlesAnimation = function circlesAnimation() {
         var delay = 0,
             i = 1;
-        while (i <= _this.circlesCount) {
-          var $element = _this.$circles.filter('.intro__circle--' + i++);
+        while (i <= _this3.circlesCount) {
+          var $element = _this3.$circles.filter('.intro__circle--' + i++);
 
           animateCircle($element, delay);
 
-          delay += _this.circlesAnimationDelay;
+          delay += _this3.circlesAnimationDelay;
         }
       };
 
@@ -24209,15 +24316,17 @@ var IntroSection = function () {
   }, {
     key: 'animateLines',
     value: function animateLines() {
-      var _this2 = this;
+      var _this4 = this;
 
       // reveal animation func
       var animatePinAndLearnMore = function animatePinAndLearnMore() {
-        // animate pin's line
-        _this2.$pin.addClass(_helpers.css.animationFinished2);
+        requestAnimationFrame(function () {
+          // animate pin's line
+          _this4.$pin.addClass(_helpers.css.animationFinished2);
 
-        // animate 'learn more' line and text
-        _this2.$learnMore.addClass(_helpers.css.animationFinished);
+          // animate 'learn more' line and text
+          _this4.$learnMore.addClass(_helpers.css.animationFinished);
+        });
       };
 
       // reveal with delay
@@ -24272,7 +24381,10 @@ var IntroSection = function () {
   return IntroSection;
 }();
 
-exports.default = IntroSection;
+/** Export initialized class instance by default */
+
+
+exports.default = new IntroSection();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
@@ -30301,236 +30413,7 @@ module.exports = __webpack_require__(27);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)))
 
 /***/ }),
-/* 320 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery Mousewheel 3.1.13
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license
- * http://jquery.org/license
- */
-
-(function (factory) {
-    if ( true ) {
-        // AMD. Register as an anonymous module.
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else if (typeof exports === 'object') {
-        // Node/CommonJS style for Browserify
-        module.exports = factory;
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-
-    var toFix  = ['wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll'],
-        toBind = ( 'onwheel' in document || document.documentMode >= 9 ) ?
-                    ['wheel'] : ['mousewheel', 'DomMouseScroll', 'MozMousePixelScroll'],
-        slice  = Array.prototype.slice,
-        nullLowestDeltaTimeout, lowestDelta;
-
-    if ( $.event.fixHooks ) {
-        for ( var i = toFix.length; i; ) {
-            $.event.fixHooks[ toFix[--i] ] = $.event.mouseHooks;
-        }
-    }
-
-    var special = $.event.special.mousewheel = {
-        version: '3.1.12',
-
-        setup: function() {
-            if ( this.addEventListener ) {
-                for ( var i = toBind.length; i; ) {
-                    this.addEventListener( toBind[--i], handler, false );
-                }
-            } else {
-                this.onmousewheel = handler;
-            }
-            // Store the line height and page height for this particular element
-            $.data(this, 'mousewheel-line-height', special.getLineHeight(this));
-            $.data(this, 'mousewheel-page-height', special.getPageHeight(this));
-        },
-
-        teardown: function() {
-            if ( this.removeEventListener ) {
-                for ( var i = toBind.length; i; ) {
-                    this.removeEventListener( toBind[--i], handler, false );
-                }
-            } else {
-                this.onmousewheel = null;
-            }
-            // Clean up the data we added to the element
-            $.removeData(this, 'mousewheel-line-height');
-            $.removeData(this, 'mousewheel-page-height');
-        },
-
-        getLineHeight: function(elem) {
-            var $elem = $(elem),
-                $parent = $elem['offsetParent' in $.fn ? 'offsetParent' : 'parent']();
-            if (!$parent.length) {
-                $parent = $('body');
-            }
-            return parseInt($parent.css('fontSize'), 10) || parseInt($elem.css('fontSize'), 10) || 16;
-        },
-
-        getPageHeight: function(elem) {
-            return $(elem).height();
-        },
-
-        settings: {
-            adjustOldDeltas: true, // see shouldAdjustOldDeltas() below
-            normalizeOffset: true  // calls getBoundingClientRect for each event
-        }
-    };
-
-    $.fn.extend({
-        mousewheel: function(fn) {
-            return fn ? this.bind('mousewheel', fn) : this.trigger('mousewheel');
-        },
-
-        unmousewheel: function(fn) {
-            return this.unbind('mousewheel', fn);
-        }
-    });
-
-
-    function handler(event) {
-        var orgEvent   = event || window.event,
-            args       = slice.call(arguments, 1),
-            delta      = 0,
-            deltaX     = 0,
-            deltaY     = 0,
-            absDelta   = 0,
-            offsetX    = 0,
-            offsetY    = 0;
-        event = $.event.fix(orgEvent);
-        event.type = 'mousewheel';
-
-        // Old school scrollwheel delta
-        if ( 'detail'      in orgEvent ) { deltaY = orgEvent.detail * -1;      }
-        if ( 'wheelDelta'  in orgEvent ) { deltaY = orgEvent.wheelDelta;       }
-        if ( 'wheelDeltaY' in orgEvent ) { deltaY = orgEvent.wheelDeltaY;      }
-        if ( 'wheelDeltaX' in orgEvent ) { deltaX = orgEvent.wheelDeltaX * -1; }
-
-        // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
-        if ( 'axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
-            deltaX = deltaY * -1;
-            deltaY = 0;
-        }
-
-        // Set delta to be deltaY or deltaX if deltaY is 0 for backwards compatabilitiy
-        delta = deltaY === 0 ? deltaX : deltaY;
-
-        // New school wheel delta (wheel event)
-        if ( 'deltaY' in orgEvent ) {
-            deltaY = orgEvent.deltaY * -1;
-            delta  = deltaY;
-        }
-        if ( 'deltaX' in orgEvent ) {
-            deltaX = orgEvent.deltaX;
-            if ( deltaY === 0 ) { delta  = deltaX * -1; }
-        }
-
-        // No change actually happened, no reason to go any further
-        if ( deltaY === 0 && deltaX === 0 ) { return; }
-
-        // Need to convert lines and pages to pixels if we aren't already in pixels
-        // There are three delta modes:
-        //   * deltaMode 0 is by pixels, nothing to do
-        //   * deltaMode 1 is by lines
-        //   * deltaMode 2 is by pages
-        if ( orgEvent.deltaMode === 1 ) {
-            var lineHeight = $.data(this, 'mousewheel-line-height');
-            delta  *= lineHeight;
-            deltaY *= lineHeight;
-            deltaX *= lineHeight;
-        } else if ( orgEvent.deltaMode === 2 ) {
-            var pageHeight = $.data(this, 'mousewheel-page-height');
-            delta  *= pageHeight;
-            deltaY *= pageHeight;
-            deltaX *= pageHeight;
-        }
-
-        // Store lowest absolute delta to normalize the delta values
-        absDelta = Math.max( Math.abs(deltaY), Math.abs(deltaX) );
-
-        if ( !lowestDelta || absDelta < lowestDelta ) {
-            lowestDelta = absDelta;
-
-            // Adjust older deltas if necessary
-            if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
-                lowestDelta /= 40;
-            }
-        }
-
-        // Adjust older deltas if necessary
-        if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
-            // Divide all the things by 40!
-            delta  /= 40;
-            deltaX /= 40;
-            deltaY /= 40;
-        }
-
-        // Get a whole, normalized value for the deltas
-        delta  = Math[ delta  >= 1 ? 'floor' : 'ceil' ](delta  / lowestDelta);
-        deltaX = Math[ deltaX >= 1 ? 'floor' : 'ceil' ](deltaX / lowestDelta);
-        deltaY = Math[ deltaY >= 1 ? 'floor' : 'ceil' ](deltaY / lowestDelta);
-
-        // Normalise offsetX and offsetY properties
-        if ( special.settings.normalizeOffset && this.getBoundingClientRect ) {
-            var boundingRect = this.getBoundingClientRect();
-            offsetX = event.clientX - boundingRect.left;
-            offsetY = event.clientY - boundingRect.top;
-        }
-
-        // Add information to the event object
-        event.deltaX = deltaX;
-        event.deltaY = deltaY;
-        event.deltaFactor = lowestDelta;
-        event.offsetX = offsetX;
-        event.offsetY = offsetY;
-        // Go ahead and set deltaMode to 0 since we converted to pixels
-        // Although this is a little odd since we overwrite the deltaX/Y
-        // properties with normalized deltas.
-        event.deltaMode = 0;
-
-        // Add event and delta to the front of the arguments
-        args.unshift(event, delta, deltaX, deltaY);
-
-        // Clearout lowestDelta after sometime to better
-        // handle multiple device types that give different
-        // a different lowestDelta
-        // Ex: trackpad = 3 and mouse wheel = 120
-        if (nullLowestDeltaTimeout) { clearTimeout(nullLowestDeltaTimeout); }
-        nullLowestDeltaTimeout = setTimeout(nullLowestDelta, 200);
-
-        return ($.event.dispatch || $.event.handle).apply(this, args);
-    }
-
-    function nullLowestDelta() {
-        lowestDelta = null;
-    }
-
-    function shouldAdjustOldDeltas(orgEvent, absDelta) {
-        // If this is an older event and the delta is divisable by 120,
-        // then we are assuming that the browser is treating this as an
-        // older mouse wheel event and that we should divide the deltas
-        // by 40 to try and get a more usable deltaFactor.
-        // Side note, this actually impacts the reported scroll distance
-        // in older browsers and can cause scrolling to be slower than native.
-        // Turn this off by setting $.event.special.mousewheel.settings.adjustOldDeltas to false.
-        return special.settings.adjustOldDeltas && orgEvent.type === 'mousewheel' && absDelta % 120 === 0;
-    }
-
-}));
-
-
-/***/ }),
+/* 320 */,
 /* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -33289,8 +33172,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _helpers = __webpack_require__(26);
 
-__webpack_require__(320);
-
 var _scrollController = __webpack_require__(57);
 
 var _scrollController2 = _interopRequireDefault(_scrollController);
@@ -33307,7 +33188,8 @@ var SectionSlideController = function () {
     function SectionSlideController($section) {
         var hasCarousel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var slidesCount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4;
-        var hasControls = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+        var animationTime = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 400;
+        var hasControls = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
 
         _classCallCheck(this, SectionSlideController);
 
@@ -33323,12 +33205,16 @@ var SectionSlideController = function () {
 
         // slider container
         this.$sliderContainer = $section.find('.js-slide-1');
+        this.$controls = $section.find('.textBlock__pagination-item');
+
+        // has carousel slider
+        this.$carousel = hasCarousel ? $section.find('.carousel') : false;
 
         // slides count (section's scroll count)
         this.slidesCount = slidesCount;
 
         // delay before calls (ms)
-        this.animationTime = 400;
+        this.animationTime = animationTime;
 
         // flags
         this.activated = false;
@@ -33338,14 +33224,8 @@ var SectionSlideController = function () {
         // uniq namespace
         this.namespace = (0, _helpers.randomString)();
 
-        // has carousel slider
-        if (hasCarousel) {
-            this.$carousel = $section.find('.carousel');
-            this.$controls = $section.find('.textBlock__pagination-item');
-        }
-
         // save context
-        _helpers.bindMethods.bind(this)('handleScroll');
+        _helpers.bindMethods.bind(this)('activate', 'deactivate', 'handleScroll');
     }
 
     _createClass(SectionSlideController, [{
@@ -33386,10 +33266,7 @@ var SectionSlideController = function () {
     }, {
         key: 'moveToPrevSection',
         value: function moveToPrevSection() {
-            if (this.activeClass === 1) {
-                _scrollController2.default.init(false);
-                return this;
-            }
+            if (this.activeClass === 1) return this.deactivate();
 
             this.setActiveSlide(this.activeClass - 1);
 
@@ -33398,10 +33275,7 @@ var SectionSlideController = function () {
     }, {
         key: 'moveToNextSection',
         value: function moveToNextSection() {
-            if (this.activeClass === this.slidesCount) {
-                _scrollController2.default.init(false);
-                return this;
-            }
+            if (this.activeClass === this.slidesCount) return this.deactivate();
 
             this.setActiveSlide(this.activeClass + 1);
 
@@ -33441,6 +33315,9 @@ var SectionSlideController = function () {
         value: function deactivate() {
             // deactivate only if activated
             if (!this.activated) return this;
+
+            // return main scroll event listener
+            _scrollController2.default.init(false);
 
             // kill event listener
             this.WheelIndicator.destroy();
@@ -33708,6 +33585,244 @@ var WheelIndicator = (function(win, doc) {
 if (true) {
     module.exports = WheelIndicator;
 }
+
+
+/***/ }),
+/* 344 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*! npm.im/object-fit-images 3.2.3 */
+
+
+var OFI = 'bfred-it:object-fit-images';
+var propRegex = /(object-fit|object-position)\s*:\s*([-\w\s%]+)/g;
+var testImg = typeof Image === 'undefined' ? {style: {'object-position': 1}} : new Image();
+var supportsObjectFit = 'object-fit' in testImg.style;
+var supportsObjectPosition = 'object-position' in testImg.style;
+var supportsOFI = 'background-size' in testImg.style;
+var supportsCurrentSrc = typeof testImg.currentSrc === 'string';
+var nativeGetAttribute = testImg.getAttribute;
+var nativeSetAttribute = testImg.setAttribute;
+var autoModeEnabled = false;
+
+function createPlaceholder(w, h) {
+	return ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='" + w + "' height='" + h + "'%3E%3C/svg%3E");
+}
+
+function polyfillCurrentSrc(el) {
+	if (el.srcset && !supportsCurrentSrc && window.picturefill) {
+		var pf = window.picturefill._;
+		// parse srcset with picturefill where currentSrc isn't available
+		if (!el[pf.ns] || !el[pf.ns].evaled) {
+			// force synchronous srcset parsing
+			pf.fillImg(el, {reselect: true});
+		}
+
+		if (!el[pf.ns].curSrc) {
+			// force picturefill to parse srcset
+			el[pf.ns].supported = false;
+			pf.fillImg(el, {reselect: true});
+		}
+
+		// retrieve parsed currentSrc, if any
+		el.currentSrc = el[pf.ns].curSrc || el.src;
+	}
+}
+
+function getStyle(el) {
+	var style = getComputedStyle(el).fontFamily;
+	var parsed;
+	var props = {};
+	while ((parsed = propRegex.exec(style)) !== null) {
+		props[parsed[1]] = parsed[2];
+	}
+	return props;
+}
+
+function setPlaceholder(img, width, height) {
+	// Default: fill width, no height
+	var placeholder = createPlaceholder(width || 1, height || 0);
+
+	// Only set placeholder if it's different
+	if (nativeGetAttribute.call(img, 'src') !== placeholder) {
+		nativeSetAttribute.call(img, 'src', placeholder);
+	}
+}
+
+function onImageReady(img, callback) {
+	// naturalWidth is only available when the image headers are loaded,
+	// this loop will poll it every 100ms.
+	if (img.naturalWidth) {
+		callback(img);
+	} else {
+		setTimeout(onImageReady, 100, img, callback);
+	}
+}
+
+function fixOne(el) {
+	var style = getStyle(el);
+	var ofi = el[OFI];
+	style['object-fit'] = style['object-fit'] || 'fill'; // default value
+
+	// Avoid running where unnecessary, unless OFI had already done its deed
+	if (!ofi.img) {
+		// fill is the default behavior so no action is necessary
+		if (style['object-fit'] === 'fill') {
+			return;
+		}
+
+		// Where object-fit is supported and object-position isn't (Safari < 10)
+		if (
+			!ofi.skipTest && // unless user wants to apply regardless of browser support
+			supportsObjectFit && // if browser already supports object-fit
+			!style['object-position'] // unless object-position is used
+		) {
+			return;
+		}
+	}
+
+	// keep a clone in memory while resetting the original to a blank
+	if (!ofi.img) {
+		ofi.img = new Image(el.width, el.height);
+		ofi.img.srcset = nativeGetAttribute.call(el, "data-ofi-srcset") || el.srcset;
+		ofi.img.src = nativeGetAttribute.call(el, "data-ofi-src") || el.src;
+
+		// preserve for any future cloneNode calls
+		// https://github.com/bfred-it/object-fit-images/issues/53
+		nativeSetAttribute.call(el, "data-ofi-src", el.src);
+		if (el.srcset) {
+			nativeSetAttribute.call(el, "data-ofi-srcset", el.srcset);
+		}
+
+		setPlaceholder(el, el.naturalWidth || el.width, el.naturalHeight || el.height);
+
+		// remove srcset because it overrides src
+		if (el.srcset) {
+			el.srcset = '';
+		}
+		try {
+			keepSrcUsable(el);
+		} catch (err) {
+			if (window.console) {
+				console.warn('https://bit.ly/ofi-old-browser');
+			}
+		}
+	}
+
+	polyfillCurrentSrc(ofi.img);
+
+	el.style.backgroundImage = "url(\"" + ((ofi.img.currentSrc || ofi.img.src).replace(/"/g, '\\"')) + "\")";
+	el.style.backgroundPosition = style['object-position'] || 'center';
+	el.style.backgroundRepeat = 'no-repeat';
+	el.style.backgroundOrigin = 'content-box';
+
+	if (/scale-down/.test(style['object-fit'])) {
+		onImageReady(ofi.img, function () {
+			if (ofi.img.naturalWidth > el.width || ofi.img.naturalHeight > el.height) {
+				el.style.backgroundSize = 'contain';
+			} else {
+				el.style.backgroundSize = 'auto';
+			}
+		});
+	} else {
+		el.style.backgroundSize = style['object-fit'].replace('none', 'auto').replace('fill', '100% 100%');
+	}
+
+	onImageReady(ofi.img, function (img) {
+		setPlaceholder(el, img.naturalWidth, img.naturalHeight);
+	});
+}
+
+function keepSrcUsable(el) {
+	var descriptors = {
+		get: function get(prop) {
+			return el[OFI].img[prop ? prop : 'src'];
+		},
+		set: function set(value, prop) {
+			el[OFI].img[prop ? prop : 'src'] = value;
+			nativeSetAttribute.call(el, ("data-ofi-" + prop), value); // preserve for any future cloneNode
+			fixOne(el);
+			return value;
+		}
+	};
+	Object.defineProperty(el, 'src', descriptors);
+	Object.defineProperty(el, 'currentSrc', {
+		get: function () { return descriptors.get('currentSrc'); }
+	});
+	Object.defineProperty(el, 'srcset', {
+		get: function () { return descriptors.get('srcset'); },
+		set: function (ss) { return descriptors.set(ss, 'srcset'); }
+	});
+}
+
+function hijackAttributes() {
+	function getOfiImageMaybe(el, name) {
+		return el[OFI] && el[OFI].img && (name === 'src' || name === 'srcset') ? el[OFI].img : el;
+	}
+	if (!supportsObjectPosition) {
+		HTMLImageElement.prototype.getAttribute = function (name) {
+			return nativeGetAttribute.call(getOfiImageMaybe(this, name), name);
+		};
+
+		HTMLImageElement.prototype.setAttribute = function (name, value) {
+			return nativeSetAttribute.call(getOfiImageMaybe(this, name), name, String(value));
+		};
+	}
+}
+
+function fix(imgs, opts) {
+	var startAutoMode = !autoModeEnabled && !imgs;
+	opts = opts || {};
+	imgs = imgs || 'img';
+
+	if ((supportsObjectPosition && !opts.skipTest) || !supportsOFI) {
+		return false;
+	}
+
+	// use imgs as a selector or just select all images
+	if (imgs === 'img') {
+		imgs = document.getElementsByTagName('img');
+	} else if (typeof imgs === 'string') {
+		imgs = document.querySelectorAll(imgs);
+	} else if (!('length' in imgs)) {
+		imgs = [imgs];
+	}
+
+	// apply fix to all
+	for (var i = 0; i < imgs.length; i++) {
+		imgs[i][OFI] = imgs[i][OFI] || {
+			skipTest: opts.skipTest
+		};
+		fixOne(imgs[i]);
+	}
+
+	if (startAutoMode) {
+		document.body.addEventListener('load', function (e) {
+			if (e.target.tagName === 'IMG') {
+				fix(e.target, {
+					skipTest: opts.skipTest
+				});
+			}
+		}, true);
+		autoModeEnabled = true;
+		imgs = 'img'; // reset to a generic selector for watchMQ
+	}
+
+	// if requested, watch media queries for object-fit change
+	if (opts.watchMQ) {
+		window.addEventListener('resize', fix.bind(null, imgs, {
+			skipTest: opts.skipTest
+		}));
+	}
+}
+
+fix.supportsObjectFit = supportsObjectFit;
+fix.supportsObjectPosition = supportsObjectPosition;
+
+hijackAttributes();
+
+module.exports = fix;
 
 
 /***/ })

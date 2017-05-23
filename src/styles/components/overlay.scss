@@ -12,6 +12,8 @@
 
   transition: transform 0.3s ease-in-out;
 
+  z-index: 2;
+
   &.js-animation-finished {
     transform: translate3d(0, 0, 0);
 
@@ -197,6 +199,12 @@
     color: white;
 
     .progressBar__bar {
+      background-color: white;
+    }
+  }
+
+  &.js-background-2 {
+    .progressBar__pages-page:hover {
       background-color: white;
     }
   }

@@ -11,12 +11,17 @@ import {
   css,
   bindMethods
 } from '../modules/dev/helpers';
-import 'jquery-mousewheel';
 import ScrollController from './scrollController';
 import WheelIndicator from 'wheel-indicator';
 
 export default class SectionSlideController {
-  constructor($section, hasCarousel = true, slidesCount = 4, hasControls = true) {
+  constructor(
+    $section,
+    hasCarousel = true,
+    slidesCount = 4,
+    animationTime = 400,
+    hasControls = true
+  ) {
     this.$section = $section;
 
     // current active slide
@@ -27,12 +32,16 @@ export default class SectionSlideController {
 
     // slider container
     this.$sliderContainer = $section.find('.js-slide-1');
+    this.$controls = $section.find('.textBlock__pagination-item');
+
+    // has carousel slider
+    this.$carousel = hasCarousel ? $section.find('.carousel') : false;
 
     // slides count (section's scroll count)
     this.slidesCount = slidesCount;
 
     // delay before calls (ms)
-    this.animationTime = 400;
+    this.animationTime = animationTime;
 
     // flags
     this.activated = false;
@@ -42,15 +51,12 @@ export default class SectionSlideController {
     // uniq namespace
     this.namespace = randomString();
 
-    // has carousel slider
-    if (hasCarousel) {
-      this.$carousel = $section.find('.carousel');
-      this.$controls = $section.find('.textBlock__pagination-item');
-    }
-
     // save context
-    bindMethods.bind(this)
-    ('handleScroll');
+    bindMethods.bind(this)(
+      'activate',
+      'deactivate',
+      'handleScroll'
+    );
   }
 
   bindControls() {
@@ -85,10 +91,7 @@ export default class SectionSlideController {
   }
 
   moveToPrevSection() {
-    if (this.activeClass === 1) {
-      ScrollController.init(false);
-      return this;
-    }
+    if (this.activeClass === 1) return this.deactivate();
 
     this.setActiveSlide(this.activeClass - 1);
 
@@ -96,10 +99,7 @@ export default class SectionSlideController {
   }
 
   moveToNextSection() {
-    if (this.activeClass === this.slidesCount) {
-      ScrollController.init(false);
-      return this;
-    }
+    if (this.activeClass === this.slidesCount) return this.deactivate();
 
     this.setActiveSlide(this.activeClass + 1);
 
@@ -136,6 +136,9 @@ export default class SectionSlideController {
   deactivate() {
     // deactivate only if activated
     if (!this.activated) return this;
+
+    // return main scroll event listener
+    ScrollController.init(false);
 
     // kill event listener
     this.WheelIndicator.destroy();

@@ -21,8 +21,13 @@ export class ProgressBar {
     this.$pages = this.$progressBar.find('.progressBar__pages-page');
 
     // save context
-    bindMethods.bind(this)
-    ('unfix', 'fix', 'paintBlack', 'paintWhite');
+    bindMethods.bind(this)(
+      'unfix',
+      'fix',
+      'paintBlack',
+      'paintWhite',
+      'paintHalfWhite'
+    );
   }
 
   /**
@@ -59,7 +64,21 @@ export class ProgressBar {
    * @return {ProgressBar}
    */
   paintBlack() {
-    this.$progressBar.removeClass(css.background);
+    this.$progressBar
+      .removeClass(`${css.background} ${css.background2}`);
+
+    return this;
+  }
+
+  /**
+   * Change progress bar's section buttons bg to white.
+   *
+   * @return {ProgressBar}
+   */
+  paintHalfWhite() {
+    this.$progressBar
+      .removeClass(css.background)
+      .addClass(css.background2);
 
     return this;
   }
@@ -70,7 +89,9 @@ export class ProgressBar {
    * @return {ProgressBar}
    */
   paintWhite() {
-    this.$progressBar.addClass(css.background);
+    this.$progressBar
+      .removeClass(css.background2)
+      .addClass(css.background);
 
     return this;
   }
