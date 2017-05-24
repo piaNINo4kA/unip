@@ -75,6 +75,7 @@
     "materialize-css": "^0.98.2",
     "object-fit-images": "^3.2.3",
     "perfect-scrollbar": "^0.7.0",
+    "slick-carousel": "^1.6.0",
     "wheel-indicator": "^1.1.4"
   }
 }

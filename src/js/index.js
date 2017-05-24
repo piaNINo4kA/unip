@@ -10,6 +10,7 @@
 import 'babel-polyfill';
 import 'gsap';
 import 'gsap/ScrollToPlugin';
+import 'slick-carousel';
 import './components/common';
 
 /** Import page controllers */

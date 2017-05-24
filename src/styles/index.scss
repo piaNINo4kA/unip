@@ -10,6 +10,7 @@
 @import 'libs/vintage-reset-normalize';
 @import 'libs/perfect-scrollbar';
 @import '../../node_modules/materialize-css/sass/components/carousel';
+@import '../../node_modules/slick-carousel/slick/slick.scss';
 
 /* COMPONENTS */
 @import 'components/common';
@@ -22,3 +23,9 @@
 
 /* PAGES */
 @import 'pages/home';
+
+/*#intro-section,
+#slider3d-section,
+#preview-section {
+  display: none;
+}*/
