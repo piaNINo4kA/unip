@@ -5,7 +5,11 @@
   background-color: black;
   
   overflow: hidden;
-  
+
+  @media (max-width: $minDesktop) {
+    height: auto;
+  }
+
   .fixed-width-1280 {
     float: left;
 
@@ -16,6 +20,10 @@
     background-color: #0a0c0a;
 
     overflow: hidden;
+
+    @media (max-width: $minDesktop) {
+      padding-bottom: 116px;
+    }
 
     &:before, &:after {
       content: '';
@@ -32,12 +40,22 @@
       width: 90px;
       left: 0;
       background: linear-gradient(to right, black 0%, black 10%, rgba(0, 0, 0, 0) 100%);
+
+      @media (max-width: $minDesktop) {
+        width: 40px;
+      }
     }
 
     &:after {
       width: 300px;
       right: 0;
       background: linear-gradient(to left, black 0%, black 20%, rgba(0, 0, 0, 0) 100%);
+
+      @media (max-width: $minDesktop) {
+        width: 130px;
+
+        background: linear-gradient(to left, black 0%, black 10%, rgba(0, 0, 0, 0) 100%);
+      }
     }
   }
 
@@ -48,10 +66,35 @@
     > span {
       margin: 0 15px;
     }
+
+    @media (max-width: $minDesktop) {
+      font-size: 41px;
+      line-height: 56px;
+
+      > span {
+        margin: 0 15px 0 0;
+
+        span {
+          top: calc(100% - 1px);
+        }
+      }
+    }
   }
 
   &__inner {
     height: 1200px;
+
+    @media (max-width: $minDesktop) {
+      height: auto;
+
+      .slider__line,
+      .slider__button,
+      .slider__carousel {
+        opacity: 1;
+
+        transition: opacity 1s ease;
+      }
+    }
 
     &.js-animation-finished {
       .slider__line,
@@ -92,6 +135,15 @@
     color: white;
 
     z-index: 3;
+
+    @media (max-width: $minDesktop) {
+      position: relative;
+
+      top: auto;
+      left: auto;
+      margin-left: 0;
+      margin-top: 91px;
+    }
 
     &.js-animation-finished {
       .textBlock__item-big {
@@ -143,6 +195,10 @@
     z-index: 3;
 
     cursor: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMS4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDMxLjQ5IDMxLjQ5IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAzMS40OSAzMS40OTsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIzMnB4IiBoZWlnaHQ9IjMycHgiPgo8cGF0aCBkPSJNMjEuMjA1LDUuMDA3Yy0wLjQyOS0wLjQ0NC0xLjE0My0wLjQ0NC0xLjU4NywwYy0wLjQyOSwwLjQyOS0wLjQyOSwxLjE0MywwLDEuNTcxbDguMDQ3LDguMDQ3SDEuMTExICBDMC40OTIsMTQuNjI2LDAsMTUuMTE4LDAsMTUuNzM3YzAsMC42MTksMC40OTIsMS4xMjcsMS4xMTEsMS4xMjdoMjYuNTU0bC04LjA0Nyw4LjAzMmMtMC40MjksMC40NDQtMC40MjksMS4xNTksMCwxLjU4NyAgYzAuNDQ0LDAuNDQ0LDEuMTU5LDAuNDQ0LDEuNTg3LDBsOS45NTItOS45NTJjMC40NDQtMC40MjksMC40NDQtMS4xNDMsMC0xLjU3MUwyMS4yMDUsNS4wMDd6IiBmaWxsPSIjRkZGRkZGIi8+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=), auto;
+
+    @media (max-width: $minDesktop) {
+      display: none;
+    }
   }
 
   &__carousel {
@@ -156,6 +212,16 @@
 
     opacity: 0;
 
+    @media (max-width: $minDesktop) {
+      position: relative;
+
+      top: auto;
+      left: auto;
+
+      margin-left: -9px;
+      margin-top: 105px;
+    }
+
     .slick-list {
       overflow: visible;
     }
@@ -168,6 +234,19 @@
       height: auto;
 
       margin-right: 35px;
+
+      @media (max-width: $minDesktop) {
+        &-title {
+          margin-top: 90px;
+          letter-spacing: 1px;
+        }
+        &-line {
+          margin-top: 40px;
+        }
+        &-star {
+          top: 10px;
+        }
+      }
 
       &.slick-current {
 
@@ -266,10 +345,21 @@
 
     opacity: 0;
 
-    &:hover {
-      &:before, &:after {
-        transform: translate3d(0, 0, 0);
+    @media (min-width: $desktop) {
+      &:hover {
+        &:before, &:after {
+          transform: translate3d(0, 0, 0);
+        }
       }
+    }
+
+    @media (max-width: $minDesktop) {
+      position: relative;
+
+      left: auto;
+      bottom: auto;
+
+      margin-top: 50px;
     }
 
     &:before, &:after {

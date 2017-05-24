@@ -61,6 +61,7 @@ export class CanvasSection extends Slider3dSection {
    * @return {CanvasSection}
    */
   runTextChange() {
+    window.clearInterval(window.textChangeInterval);
     window.textChangeInterval = setInterval(this.changeText, 3000);
 
     return this;

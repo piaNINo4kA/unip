@@ -6,17 +6,56 @@
 
   overflow: hidden;
 
+  @media (max-width: $minDesktop) {
+    height: auto;
+  }
+
   .textBlock__item-big {
     margin-top: 28px;
     letter-spacing: 0.4px;
 
     > span {
-      margin: 0 13px;
+      margin-left: 13px;
+      margin-right: 16px;
+
+      @media (max-width: $minDesktop) {
+        span {
+          width: calc(100% + 20px);
+
+          top: 100%;
+          left: -10px;
+
+          background-color: white;
+        }
+
+        &:before {
+          left: -10px;
+          top: 40px;
+
+          background-color: white;
+        }
+
+        &:after {
+          right: -10px;
+          bottom: 0;
+
+          background-color: white;
+        }
+      }
     }
   }
 
   &__inner {
     height: 893px;
+
+    @media (max-width: $minDesktop) {
+      height: auto;
+
+      .canvas__text,
+      .canvas__threejs {
+        opacity: 1;
+      }
+    }
 
     &.js-animation-finished {
       .canvas__text,
@@ -46,6 +85,14 @@
     top: 147px;
 
     max-width: 955px;
+
+    @media (max-width: $minDesktop) {
+      position: relative;
+
+      margin-top: 97px;
+      top: auto;
+      left: auto;
+    }
 
     &.js-animation-finished {
       .textBlock__item-big {
@@ -97,6 +144,19 @@
     opacity: 0;
 
     transition: opacity 1s ease;
+
+    @media (max-width: $minDesktop) {
+      position: relative;
+
+      right: auto;
+      top: auto;
+
+      margin-top: 90px;
+      margin-left: calc(100% - 295px);
+      margin-bottom: 135px;
+
+      opacity: 1;
+    }
 
     &-item {
       position: relative;

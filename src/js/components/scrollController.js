@@ -9,6 +9,7 @@ import { bindMethods } from '../modules/dev/helpers';
 import WheelIndicator from 'wheel-indicator';
 import SectionSlideController from './sectionSlideController';
 import Animation from '../modules/dev/animation';
+import IntroSection from '../pages/sections/intro';
 import ProgressBar from '../components/progressBar';
 import Slider3dSection from '../pages/sections/slider3d';
 import PreviewSection from '../pages/sections/preview';
@@ -67,6 +68,7 @@ export class ScrollController {
       case 0: {
         ProgressBar.unfix();
         this.$secondSectionSlider.deactivate();
+
         break;
       }
 

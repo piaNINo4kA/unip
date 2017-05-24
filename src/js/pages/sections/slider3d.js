@@ -7,10 +7,12 @@
 /** Import utils */
 import {
   css,
-  bindMethods
+  bindMethods,
+  Resp
 } from '../../modules/dev/helpers';
 import Animation from '../../modules/dev/animation';
 import ScrollController from '../../components/scrollController';
+import SectionSlideController from '../../components/sectionSlideController';
 import 'materialize-css/js/global';
 import 'materialize-css/js/carousel';
 
@@ -41,7 +43,18 @@ export class Slider3dSection {
    * @return {Slider3dSection}
    */
   initLearnMore() {
-    this.$skip.on('click tap', ScrollController.moveToNextSection);
+    const nextSectionId = this.$section.next().attr('id');
+
+    this.$skip.on('click tap', () => {
+      if (Resp.isDeskCustom) {
+        ScrollController.moveToNextSection();
+      } else {
+        Animation.scrollTo(1.2, {
+          scrollTo: `#${nextSectionId}`,
+          ease: Power3.easeInOut
+        });
+      }
+    });
 
     return this;
   }
@@ -120,6 +133,10 @@ export class Slider3dSection {
     this
       .initLearnMore()
       .initSlider();
+
+    if (!Resp.isDeskCustom) {
+      new SectionSlideController(this.$section).bindControls();
+    }
 
     return this;
   }

@@ -5,7 +5,8 @@
  */
 
 /** Import utils */
-import { css } from '../../modules/dev/helpers';
+import { Resp, css } from '../../modules/dev/helpers';
+import Animation from '../../modules/dev/animation';
 import ScrollController from '../../components/scrollController';
 
 export class IntroSection {
@@ -15,6 +16,8 @@ export class IntroSection {
    * @param {jQuery} [$introSection]
    */
   constructor($introSection = $('#intro-section')) {
+    this.$section = $introSection;
+
     // text
     this.$title = $introSection.find('.intro__title');
 
@@ -92,6 +95,17 @@ export class IntroSection {
   }
 
   /**
+   * Stop circles animation.
+   *
+   * @return {IntroSection}
+   */
+  stopCirclesAnimation() {
+    this.$circles.removeClass(css.animationFinished);
+
+    return this;
+  }
+
+  /**
    * Reveal 'learn more' and pin's line elements.
    *
    * @return {IntroSection}
@@ -135,7 +149,18 @@ export class IntroSection {
    * @return {IntroSection}
    */
   initLearnMore() {
-    this.$learnMore.on('click tap', ScrollController.moveToNextSection);
+    const nextSectionId = this.$section.next().attr('id');
+
+    this.$learnMore.on('click tap', () => {
+      if (Resp.isDeskCustom) {
+        ScrollController.moveToNextSection();
+      } else {
+        Animation.scrollTo(1.2, {
+          scrollTo: `#${nextSectionId}`,
+          ease: Power3.easeInOut
+        });
+      }
+    });
 
     return this;
   }

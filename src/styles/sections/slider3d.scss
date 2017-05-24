@@ -6,9 +6,23 @@
 
   overflow: hidden;
 
+  @media (max-width: $minDesktop) {
+    height: 663px;
+  }
+
   .bottomBtn {
     right: auto;
-    left: 137px;
+    left: 130px;
+
+    @media (max-width: $minDesktop) {
+      left: 52px;
+
+      transform: rotate(-90deg) translate3d(0, 0, 0);
+
+      .bottomBtn__text {
+        opacity: 1;
+      }
+    }
   }
 
   .textBlock {
@@ -24,11 +38,34 @@
     left: 367px;
 
     transform: translate3d(0, calc(-50% + 86px), 0);
+
+    @media (max-width: $minDesktop) {
+      transform: none;
+
+      top: 91px;
+      left: 0;
+
+      padding-left: 38vw;
+    }
   }
 
   &__carousel {
     height: 100%;
     width: 545px;
+
+    @media (max-width: $minDesktop) {
+      pointer-events: none;
+
+      .carousel-item {
+        width: 258px;
+        height: 435px;
+
+        img {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    }
 
     &:before {
       content: '';
@@ -117,6 +154,11 @@
           transition: transform 1s ease-out .4s, opacity .6s ease 1s, box-shadow .5s ease;
 
           @include object-fit(none);
+
+          @media (max-width: $minDesktop) {
+            width: 196px;
+            height: 196px;
+          }
         }
       }
     }
@@ -134,6 +176,14 @@
     transition: transform .5s ease, opacity .5s ease 1.2s;
 
     opacity: 0;
+
+    @media (max-width: $minDesktop) {
+      right: 273px;
+      top: 43.5%;
+      left: auto;
+
+      opacity: 1;
+    }
 
     &.js-animation-finished {
       opacity: 1;
@@ -183,6 +233,11 @@
 
         border: 1px solid #ffffff;
 
+        @media (max-width: $minDesktop) {
+          width: 351px;
+          height: 351px;
+        }
+
         &:before {
           left: 62%;
           top: 2px;
@@ -202,6 +257,10 @@
           right: 62%;
           bottom: 3px;
 
+          @media (max-width: $minDesktop) {
+            right: 64%;
+          }
+
           .js-slide-4 & {
             width: 14px;
             right: 61%;
@@ -220,6 +279,11 @@
 
         border: 2px solid #ffffff;
 
+        @media (max-width: $minDesktop) {
+          width: 244px;
+          height: 244px;
+        }
+
         .js-slide-3 & {
           transform: translate3d(-50%, -50%, 0) rotate(47deg);
         }
@@ -228,6 +292,10 @@
           left: 17%;
           bottom: 27px;
 
+          @media (max-width: $minDesktop) {
+            left: 15%;
+          }
+
           .js-slide-3 & {
             width: 14px;
             height: 14px;
@@ -235,6 +303,10 @@
             left: 14%;
 
             transform: rotate(26deg);
+
+            @media (max-width: $minDesktop) {
+              left: 11%;
+            }
           }
         }
 
@@ -242,12 +314,20 @@
           right: 2%;
           top: 79px;
 
+          @media (max-width: $minDesktop) {
+            right: 0;
+          }
+
           .js-slide-1 & {
             right: 1.5%;
             top: 70px;
 
             width: 14px;
             height: 14px;
+
+            @media (max-width: $minDesktop) {
+              right: -0.5%;
+            }
           }
         }
       }
@@ -269,6 +349,30 @@
     transition: transform .5s ease, opacity 1s ease .5s;
 
     opacity: 0;
+
+    @media (max-width: $minDesktop) {
+      transform: none !important;
+
+      width: 285px;
+
+      top: 305px;
+      left: 41px;
+
+      opacity: 1;
+
+      .slider3d__text-item {
+        position: absolute;
+
+        left: 0;
+        top: 0;
+
+        margin-top: 0;
+
+        transform: none;
+
+        opacity: 0;
+      }
+    }
 
     &.js-animation-finished {
       opacity: 1;

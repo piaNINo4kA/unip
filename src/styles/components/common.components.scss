@@ -38,6 +38,31 @@
 
   z-index: 2;
 
+  @media (max-width: $minDesktop) {
+    top: 121px;
+    left: 39px;
+
+    .textBlock__item-small,
+    .textBlock__item-big,
+    .textBlock__pagination {
+      opacity: 1;
+
+      transform: translate3d(0, 0, 0);
+    }
+
+    .textBlock__item-big {
+      > span {
+        &:before, &:after {
+          height: 15px;
+        }
+
+        span {
+          width: calc(100% + 20px);
+        }
+      }
+    }
+  }
+
   &.js-animation-finished {
     .textBlock__item-small,
     .textBlock__item-big,
@@ -143,9 +168,17 @@
 
       cursor: pointer;
 
-      &.js-active, &:hover {
+      &.js-active {
         &:before {
           height: 15px;
+        }
+      }
+
+      @media (min-width: $desktop) {
+        &:hover {
+          &:before {
+            height: 15px;
+          }
         }
       }
 

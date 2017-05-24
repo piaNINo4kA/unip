@@ -5,9 +5,13 @@
  */
 
 /** Import utils */
-import Animation from '../../modules/dev/animation';
-import { css } from '../../modules/dev/helpers';
+import {
+  css,
+  Resp
+} from '../../modules/dev/helpers';
 import { Slider3dSection } from './slider3d';
+import Animation from '../../modules/dev/animation';
+import SectionSlideController from '../../components/sectionSlideController';
 
 export class PreviewSection extends Slider3dSection {
   /**
@@ -52,6 +56,10 @@ export class PreviewSection extends Slider3dSection {
    */
   initScripts() {
     this.initLearnMore();
+
+    if (!Resp.isDeskCustom) {
+      new SectionSlideController(this.$section).bindControls();
+    }
 
     return this;
   }

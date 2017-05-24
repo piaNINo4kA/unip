@@ -12130,6 +12130,10 @@ var _animation = __webpack_require__(53);
 
 var _animation2 = _interopRequireDefault(_animation);
 
+var _intro = __webpack_require__(140);
+
+var _intro2 = _interopRequireDefault(_intro);
+
 var _progressBar = __webpack_require__(98);
 
 var _progressBar2 = _interopRequireDefault(_progressBar);
@@ -12201,6 +12205,7 @@ var ScrollController = exports.ScrollController = function () {
           {
             _progressBar2.default.unfix();
             this.$secondSectionSlider.deactivate();
+
             break;
           }
 
@@ -12722,6 +12727,10 @@ var _scrollController = __webpack_require__(52);
 
 var _scrollController2 = _interopRequireDefault(_scrollController);
 
+var _sectionSlideController = __webpack_require__(139);
+
+var _sectionSlideController2 = _interopRequireDefault(_sectionSlideController);
+
 __webpack_require__(324);
 
 __webpack_require__(323);
@@ -12764,7 +12773,18 @@ var Slider3dSection = exports.Slider3dSection = function () {
   _createClass(Slider3dSection, [{
     key: 'initLearnMore',
     value: function initLearnMore() {
-      this.$skip.on('click tap', _scrollController2.default.moveToNextSection);
+      var nextSectionId = this.$section.next().attr('id');
+
+      this.$skip.on('click tap', function () {
+        if (_helpers.Resp.isDeskCustom) {
+          _scrollController2.default.moveToNextSection();
+        } else {
+          _animation2.default.scrollTo(1.2, {
+            scrollTo: '#' + nextSectionId,
+            ease: Power3.easeInOut
+          });
+        }
+      });
 
       return this;
     }
@@ -12858,6 +12878,10 @@ var Slider3dSection = exports.Slider3dSection = function () {
     key: 'initScripts',
     value: function initScripts() {
       this.initLearnMore().initSlider();
+
+      if (!_helpers.Resp.isDeskCustom) {
+        new _sectionSlideController2.default(this.$section).bindControls();
+      }
 
       return this;
     }
@@ -14650,6 +14674,7 @@ var CanvasSection = exports.CanvasSection = function (_Slider3dSection) {
   }, {
     key: 'runTextChange',
     value: function runTextChange() {
+      window.clearInterval(window.textChangeInterval);
       window.textChangeInterval = setInterval(this.changeText, 3000);
 
       return this;
@@ -14693,13 +14718,17 @@ exports.PreviewSection = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _helpers = __webpack_require__(20);
+
+var _slider3d = __webpack_require__(54);
+
 var _animation = __webpack_require__(53);
 
 var _animation2 = _interopRequireDefault(_animation);
 
-var _helpers = __webpack_require__(20);
+var _sectionSlideController = __webpack_require__(139);
 
-var _slider3d = __webpack_require__(54);
+var _sectionSlideController2 = _interopRequireDefault(_sectionSlideController);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14773,6 +14802,10 @@ var PreviewSection = exports.PreviewSection = function (_Slider3dSection) {
     key: 'initScripts',
     value: function initScripts() {
       this.initLearnMore();
+
+      if (!_helpers.Resp.isDeskCustom) {
+        new _sectionSlideController2.default(this.$section).bindControls();
+      }
 
       return this;
     }
@@ -27702,6 +27735,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _helpers = __webpack_require__(20);
 
+var _animation = __webpack_require__(53);
+
+var _animation2 = _interopRequireDefault(_animation);
+
 var _scrollController = __webpack_require__(52);
 
 var _scrollController2 = _interopRequireDefault(_scrollController);
@@ -27720,6 +27757,8 @@ var IntroSection = exports.IntroSection = function () {
     var $introSection = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : $('#intro-section');
 
     _classCallCheck(this, IntroSection);
+
+    this.$section = $introSection;
 
     // text
     this.$title = $introSection.find('.intro__title');
@@ -27818,6 +27857,20 @@ var IntroSection = exports.IntroSection = function () {
     }
 
     /**
+     * Stop circles animation.
+     *
+     * @return {IntroSection}
+     */
+
+  }, {
+    key: 'stopCirclesAnimation',
+    value: function stopCirclesAnimation() {
+      this.$circles.removeClass(_helpers.css.animationFinished);
+
+      return this;
+    }
+
+    /**
      * Reveal 'learn more' and pin's line elements.
      *
      * @return {IntroSection}
@@ -27868,7 +27921,18 @@ var IntroSection = exports.IntroSection = function () {
   }, {
     key: 'initLearnMore',
     value: function initLearnMore() {
-      this.$learnMore.on('click tap', _scrollController2.default.moveToNextSection);
+      var nextSectionId = this.$section.next().attr('id');
+
+      this.$learnMore.on('click tap', function () {
+        if (_helpers.Resp.isDeskCustom) {
+          _scrollController2.default.moveToNextSection();
+        } else {
+          _animation2.default.scrollTo(1.2, {
+            scrollTo: '#' + nextSectionId,
+            ease: Power3.easeInOut
+          });
+        }
+      });
 
       return this;
     }

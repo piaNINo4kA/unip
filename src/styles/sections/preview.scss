@@ -6,6 +6,12 @@
 
   overflow: hidden;
 
+  @media (max-width: $minDesktop) {
+    height: 698px;
+
+    background: white;
+  }
+
   .pageNumber {
     &__square {
       background-color: #f5f5f5;
@@ -18,13 +24,45 @@
 
   .bottomBtn {
     right: auto;
-    left: 137px;
+    left: 130px;
+
+    @media (max-width: $minDesktop) {
+      left: 52px;
+
+      transform: rotate(-90deg) translate3d(0, 0, 0);
+
+      .bottomBtn__text {
+        opacity: 1;
+      }
+    }
   }
 
   .textBlock {
     max-width: 280px;
 
     top: 21vh;
+
+    @media (max-width: $minDesktop) {
+      top: 96px;
+
+      .textBlock__item-big {
+        margin-top: 29px;
+
+        > span {
+          span {
+            width: calc(100% + 10px);
+          }
+
+          &:after {
+            right: -5px;
+          }
+        }
+      }
+
+      .textBlock__pagination {
+        margin-top: 37px;
+      }
+    }
 
     &.js-animation-finished {
       .textBlock__item-big {
@@ -65,6 +103,10 @@
     z-index: 0;
 
     transition: transform 1s ease;
+
+    @media (max-width: $minDesktop) {
+      transform: translate3d(0, calc(-50% + 86px), 0) !important;
+    }
 
     .js-slide-1 & {
       .preview__text--1 {
@@ -227,20 +269,24 @@
   &__images {
     transition: opacity .8s ease .5s, transform 1s ease .5s;
 
-    .js-is-hidden-for-animation & {
-      opacity: 0;
+    @media (min-width: $desktop) {
+      .js-is-hidden-for-animation & {
+        opacity: 0;
 
-      transform: translate3d(0, 150px, 0);
+        transform: translate3d(0, 150px, 0);
+      }
     }
   }
 
   &__texts {
     transition: opacity .8s ease .3s, transform 1s ease .3s;
 
-    .js-is-hidden-for-animation & {
-      opacity: 0;
+    @media (min-width: $desktop) {
+      .js-is-hidden-for-animation & {
+        opacity: 0;
 
-      transform: translate3d(0, 150px, 0);
+        transform: translate3d(0, 150px, 0);
+      }
     }
   }
 
@@ -570,6 +616,19 @@
 
     overflow: hidden;
 
+    @media (max-width: $minDesktop) {
+      display: none;
+
+      &.preview__image--1 {
+        display: block;
+
+        left: 61.3vw;
+        top: -188px;
+
+        opacity: 0.8 !important;
+      }
+    }
+
     &--1 {
       left: 767px;
       top: 0;
@@ -645,6 +704,35 @@
     line-height: 28px;
     letter-spacing: 0.1px;
 
+    @media (max-width: $minDesktop) {
+      left: 0;
+      top: -130px;
+
+      opacity: 0;
+      transition: opacity .8s ease !important;
+      transform: none !important;
+
+      .js-slide-1 &--1 {
+        opacity: 1;
+      }
+
+      .js-slide-2 &--2 {
+        opacity: 1;
+      }
+
+      .js-slide-3 &--3 {
+        opacity: 1;
+      }
+
+      .js-slide-4 &--4 {
+        opacity: 1;
+      }
+
+      .js-slide-5 &--5 {
+        opacity: 1;
+      }
+    }
+
     &--1 {
       top: -106px;
       left: 144px;
@@ -697,6 +785,21 @@
 
     .js-is-hidden-for-animation & {
       width: 0;
+    }
+
+    @media (max-width: $minDesktop) {
+      display: none;
+
+      &.preview__line--1 {
+        display: block;
+
+        left: 34.3vw;
+        top: -170px;
+
+        width: 166px !important;
+
+        opacity: 1;
+      }
     }
 
     &--1 {
@@ -758,10 +861,20 @@
 
     transition: opacity .8s ease, transform 1s ease;
 
-    .js-is-hidden-for-animation & {
-      opacity: 0;
+    @media (min-width: $desktop) {
+      .js-is-hidden-for-animation & {
+        opacity: 0;
 
-      transform: translate3d(0, calc(-50% + 200px), 0);
+        transform: translate3d(0, calc(-50% + 200px), 0);
+      }
+    }
+
+    @media (max-width: $minDesktop) {
+      top: 38%;
+      left: 45vw;
+
+      width: 278px;
+      height: 474px;
     }
 
     .carousel-item {
@@ -778,13 +891,13 @@
 
       transition: opacity 1s ease;
 
-      @media (max-width: $minDesktop) {
+      @media (max-width: $minTablet) {
         &.active {
           opacity: 1;
         }
       }
 
-      @media (min-width: $desktop) {
+      @media (min-width: $tablet) {
         .js-slide-1 &:nth-child(1) {
           opacity: 1;
         }
