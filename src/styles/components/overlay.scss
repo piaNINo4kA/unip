@@ -89,6 +89,22 @@
 
   z-index: 2;
 
+  &--white {
+    transform: rotate(-90deg) translate3d(0, 0, 0);
+
+    .bottomBtn {
+      &__line {
+        span {
+          background-color: white;
+        }
+      }
+      &__text {
+        color: white;
+        opacity: 1;
+      }
+    }
+  }
+
   @media (min-width: $desktop) {
     &:hover {
       .bottomBtn__line {

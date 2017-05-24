@@ -11,6 +11,7 @@ import { Resp } from '../modules/dev/helpers';
 import Header from './header';
 import ScrollController from './scrollController';
 import ProgressBar from './progressBar';
+import Animation from '../modules/dev/animation';
 
 export class Common {
   /**
@@ -18,6 +19,7 @@ export class Common {
    */
   constructor() {
     this.$scrollableElements = $('.js-perfect-scrollbar');
+    this.$upBtn = $('.upBtn');
   }
 
   /**
@@ -97,6 +99,28 @@ export class Common {
   }
 
   /**
+   * Initialize 'up' button if exists.
+   *
+   * @return {Common}
+   */
+  initUpBtn() {
+    if (this.$upBtn.length) {
+      this.$upBtn.on('click tap', function () {
+        if (Resp.isDeskCustom) {
+          ScrollController.moveToSection(0);
+        } else {
+          Animation.scrollTo(1.2, {
+            scrollTo: '#intro-section',
+            ease: Power3.easeInOut
+          });
+        }
+      });
+    }
+
+    return this;
+  }
+
+  /**
    * Initialize common scripts.
    *
    * @returns {Common}
@@ -108,7 +132,8 @@ export class Common {
       .initializeScrollController()
       .rafShim()
       .initPerfectScrollbar()
-      .initProgressBar();
+      .initProgressBar()
+      .initUpBtn();
 
     return this;
   }

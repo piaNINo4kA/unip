@@ -7,8 +7,8 @@ mixin pageNumber(number)
             .pageNumber__number 0#{number}
 
 //- Bottom black-bar button (on almost each section's bottom)
-mixin bottomButton(text)
-    .bottomBtn
+mixin bottomButton(text, className)
+    .bottomBtn(class = className || '')
         .bottomBtn__line: span
         .bottomBtn__text #{text}
 

@@ -15968,6 +15968,10 @@ var _progressBar = __webpack_require__(98);
 
 var _progressBar2 = _interopRequireDefault(_progressBar);
 
+var _animation = __webpack_require__(53);
+
+var _animation2 = _interopRequireDefault(_animation);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -15980,6 +15984,7 @@ var Common = exports.Common = function () {
     _classCallCheck(this, Common);
 
     this.$scrollableElements = $('.js-perfect-scrollbar');
+    this.$upBtn = $('.upBtn');
   }
 
   /**
@@ -16076,6 +16081,31 @@ var Common = exports.Common = function () {
     }
 
     /**
+     * Initialize 'up' button if exists.
+     *
+     * @return {Common}
+     */
+
+  }, {
+    key: 'initUpBtn',
+    value: function initUpBtn() {
+      if (this.$upBtn.length) {
+        this.$upBtn.on('click tap', function () {
+          if (_helpers.Resp.isDeskCustom) {
+            _scrollController2.default.moveToSection(0);
+          } else {
+            _animation2.default.scrollTo(1.2, {
+              scrollTo: '#intro-section',
+              ease: Power3.easeInOut
+            });
+          }
+        });
+      }
+
+      return this;
+    }
+
+    /**
      * Initialize common scripts.
      *
      * @returns {Common}
@@ -16084,7 +16114,7 @@ var Common = exports.Common = function () {
   }, {
     key: 'init',
     value: function init() {
-      this.initObjectFitImages().initializeHeader().initializeScrollController().rafShim().initPerfectScrollbar().initProgressBar();
+      this.initObjectFitImages().initializeHeader().initializeScrollController().rafShim().initPerfectScrollbar().initProgressBar().initUpBtn();
 
       return this;
     }
