@@ -55,7 +55,9 @@ export class ScrollController {
 
   /**
    * Performed before screen change.
-   * @TODO: refactor (remove half to 'leaving section')
+   *
+   * CAREFUL! ANTI-PATTERN CODE
+   * @TODO: refactor (remove half to 'leaving section' method)
    *
    * @return {ScrollController}
    */
@@ -82,6 +84,7 @@ export class ScrollController {
         Animation.delay(0.4, ProgressBar.paintBlack);
         Animation.delay(1.2, ProgressBar.fix);
         ProgressBar.changeProgress(25);
+        window.clearInterval(window.textChangeInterval);
         break;
       }
 
@@ -97,6 +100,7 @@ export class ScrollController {
         this.$secondSectionSlider.deactivate();
         Animation.delay(0.4, ProgressBar.paintBlack);
         ProgressBar.changeProgress(50);
+        window.clearInterval(window.textChangeInterval);
         break;
       }
 
@@ -112,6 +116,7 @@ export class ScrollController {
         this.$thirdSectionSlider.deactivate();
         Animation.delay(0.4, ProgressBar.paintWhite);
         ProgressBar.changeProgress(75);
+        window.clearInterval(window.textChangeInterval);
         break;
       }
 
@@ -123,6 +128,7 @@ export class ScrollController {
             this.fifthSectionIsRevealed = true;
           });
         }
+        if (this.fifthSectionIsRevealed) CanvasSection.runTextChange();
         this.$secondSectionSlider.deactivate();
         this.$thirdSectionSlider.deactivate();
         Animation.delay(0.4, ProgressBar.paintHalfWhite);
@@ -134,6 +140,7 @@ export class ScrollController {
       // entering scroll section
       case 5: {
         ProgressBar.unfix(true);
+        window.clearInterval(window.textChangeInterval);
         break;
       }
     }

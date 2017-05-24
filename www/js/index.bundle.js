@@ -12182,7 +12182,9 @@ var ScrollController = exports.ScrollController = function () {
 
   /**
    * Performed before screen change.
-   * @TODO: refactor (remove half to 'leaving section')
+   *
+   * CAREFUL! ANTI-PATTERN CODE
+   * @TODO: refactor (remove half to 'leaving section' method)
    *
    * @return {ScrollController}
    */
@@ -12217,6 +12219,7 @@ var ScrollController = exports.ScrollController = function () {
             _animation2.default.delay(0.4, _progressBar2.default.paintBlack);
             _animation2.default.delay(1.2, _progressBar2.default.fix);
             _progressBar2.default.changeProgress(25);
+            window.clearInterval(window.textChangeInterval);
             break;
           }
 
@@ -12233,6 +12236,7 @@ var ScrollController = exports.ScrollController = function () {
             this.$secondSectionSlider.deactivate();
             _animation2.default.delay(0.4, _progressBar2.default.paintBlack);
             _progressBar2.default.changeProgress(50);
+            window.clearInterval(window.textChangeInterval);
             break;
           }
 
@@ -12249,6 +12253,7 @@ var ScrollController = exports.ScrollController = function () {
             this.$thirdSectionSlider.deactivate();
             _animation2.default.delay(0.4, _progressBar2.default.paintWhite);
             _progressBar2.default.changeProgress(75);
+            window.clearInterval(window.textChangeInterval);
             break;
           }
 
@@ -12261,6 +12266,7 @@ var ScrollController = exports.ScrollController = function () {
                 _this.fifthSectionIsRevealed = true;
               });
             }
+            if (this.fifthSectionIsRevealed) _canvas2.default.runTextChange();
             this.$secondSectionSlider.deactivate();
             this.$thirdSectionSlider.deactivate();
             _animation2.default.delay(0.4, _progressBar2.default.paintHalfWhite);
@@ -12273,6 +12279,7 @@ var ScrollController = exports.ScrollController = function () {
         case 5:
           {
             _progressBar2.default.unfix(true);
+            window.clearInterval(window.textChangeInterval);
             break;
           }
       }
@@ -14556,6 +14563,8 @@ exports.CanvasSection = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _helpers = __webpack_require__(20);
+
 var _slider3d = __webpack_require__(54);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14584,17 +14593,75 @@ var CanvasSection = exports.CanvasSection = function (_Slider3dSection) {
 
     _classCallCheck(this, CanvasSection);
 
-    return _possibleConstructorReturn(this, (CanvasSection.__proto__ || Object.getPrototypeOf(CanvasSection)).call(this, $canvasSection));
+    var _this = _possibleConstructorReturn(this, (CanvasSection.__proto__ || Object.getPrototypeOf(CanvasSection)).call(this, $canvasSection));
+
+    _this.mainContentAnimationDelay = 1;
+    _this.mainRevealed = false;
+
+    // for text animaton interval
+    _this.$text = _this.$section.find('.canvas__text-item');
+    _this.textIndex = 0;
+    _this.textCount = _this.$text.length - 1;
+    _this.changeText = function () {
+      this.$text.removeClass(_helpers.css.active).eq(++this.textIndex).addClass(_helpers.css.active);
+
+      if (this.textIndex === this.textCount) this.textIndex = -1;
+    }.bind(_this);
+    return _this;
   }
 
   /**
-   * Initialize section's scripts.
+   * Reveal section's main content.
    *
    * @return {CanvasSection}
    */
 
 
   _createClass(CanvasSection, [{
+    key: 'revealMainContent',
+    value: function revealMainContent() {
+      var _this2 = this;
+
+      if (!this.mainRevealed) {
+        (function () {
+          var $inner = _this2.$section.find('.canvas__inner');
+
+          // show carousel and button
+          requestAnimationFrame(function () {
+            $inner.addClass(_helpers.css.animationFinished);
+          });
+
+          _this2.mainRevealed = true;
+        })();
+      }
+
+      // init text animation
+      this.runTextChange();
+
+      return this;
+    }
+
+    /**
+     * Run text-change animation.
+     *
+     * @return {CanvasSection}
+     */
+
+  }, {
+    key: 'runTextChange',
+    value: function runTextChange() {
+      window.textChangeInterval = setInterval(this.changeText, 3000);
+
+      return this;
+    }
+
+    /**
+     * Initialize section's scripts.
+     *
+     * @return {CanvasSection}
+     */
+
+  }, {
     key: 'initScripts',
     value: function initScripts() {
       this.initLearnMore();
@@ -14772,35 +14839,13 @@ var SliderSection = exports.SliderSection = function (_Slider3dSection) {
   }
 
   /**
-   * Reveal section's main content.
+   * Go to the next slide when slick in viewport (demo).
    *
    * @return {SliderSection}
    */
 
 
   _createClass(SliderSection, [{
-    key: 'revealMainContent',
-    value: function revealMainContent() {
-      var $inner = this.$section.find('.slider__inner');
-
-      // show carousel and button
-      requestAnimationFrame(function () {
-        $inner.addClass(_helpers.css.animationFinished);
-      });
-
-      // init demo
-      this.slickDemo();
-
-      return this;
-    }
-
-    /**
-     * Go to the next slide when slick in viewport (demo).
-     *
-     * @return {SliderSection}
-     */
-
-  }, {
     key: 'slickDemo',
     value: function slickDemo() {
       var $section = this.$section;
@@ -14812,6 +14857,28 @@ var SliderSection = exports.SliderSection = function (_Slider3dSection) {
           $section.unbind('scroll.slickDemo');
         }
       }, 100));
+
+      return this;
+    }
+
+    /**
+     * Reveal section's main content.
+     *
+     * @return {SliderSection}
+     */
+
+  }, {
+    key: 'revealMainContent',
+    value: function revealMainContent() {
+      var $inner = this.$section.find('.slider__inner');
+
+      // show carousel and button
+      requestAnimationFrame(function () {
+        $inner.addClass(_helpers.css.animationFinished);
+      });
+
+      // init demo
+      this.slickDemo();
 
       return this;
     }
@@ -14832,6 +14899,7 @@ var SliderSection = exports.SliderSection = function (_Slider3dSection) {
       $carousel.slick({
         arrows: false,
         dots: false,
+        speed: 900,
         adaptiveHeight: true,
         infinite: true,
         draggable: false,

@@ -26,25 +26,6 @@ export class SliderSection extends Slider3dSection {
   }
 
   /**
-   * Reveal section's main content.
-   *
-   * @return {SliderSection}
-   */
-  revealMainContent() {
-    const $inner = this.$section.find('.slider__inner');
-
-    // show carousel and button
-    requestAnimationFrame(() => {
-      $inner.addClass(css.animationFinished);
-    });
-
-    // init demo
-    this.slickDemo();
-
-    return this;
-  }
-
-  /**
    * Go to the next slide when slick in viewport (demo).
    *
    * @return {SliderSection}
@@ -64,6 +45,25 @@ export class SliderSection extends Slider3dSection {
   }
 
   /**
+   * Reveal section's main content.
+   *
+   * @return {SliderSection}
+   */
+  revealMainContent() {
+    const $inner = this.$section.find('.slider__inner');
+
+    // show carousel and button
+    requestAnimationFrame(() => {
+      $inner.addClass(css.animationFinished);
+    });
+
+    // init demo
+    this.slickDemo();
+
+    return this;
+  }
+
+  /**
    * Activate full-width slider.
    *
    * @return {SliderSection}
@@ -76,6 +76,7 @@ export class SliderSection extends Slider3dSection {
     $carousel.slick({
       arrows: false,
       dots: false,
+      speed: 900,
       adaptiveHeight: true,
       infinite: true,
       draggable: false,
