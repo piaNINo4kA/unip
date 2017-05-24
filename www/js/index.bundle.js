@@ -16010,7 +16010,9 @@ var Common = exports.Common = function () {
   }, {
     key: 'initProgressBar',
     value: function initProgressBar() {
-      _progressBar2.default.initScrollToSectionOnClick();
+      if (_helpers.Resp.isDeskCustom) {
+        _progressBar2.default.initScrollToSectionOnClick();
+      }
 
       return this;
     }
@@ -16024,10 +16026,12 @@ var Common = exports.Common = function () {
   }, {
     key: 'initPerfectScrollbar',
     value: function initPerfectScrollbar() {
-      this.$scrollableElements.perfectScrollbar({
-        wheelPropagation: true,
-        wheelSpeed: 0.5
-      });
+      if (_helpers.Resp.isDeskCustom) {
+        this.$scrollableElements.perfectScrollbar({
+          wheelPropagation: true,
+          wheelSpeed: 0.5
+        });
+      }
 
       return this;
     }

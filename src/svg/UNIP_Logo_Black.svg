@@ -17,7 +17,7 @@
 	.st11{clip-path:url(#SVGID_23_);}
 	.st12{clip-path:url(#SVGID_24_);}
 	.st13{clip-path:url(#SVGID_27_);}
-	.st14{clip-path:url(#SVGID_28_);fill:#FFE503;}
+	.st99{clip-path:url(#SVGID_28_);fill:#FFE503!important;}
 </style>
 <rect x="-13.6" y="-13.5" class="st0" width="125.6" height="73.5"/>
 <rect x="-13.6" y="-13.5" class="st0" width="125.6" height="73.5"/>
@@ -123,6 +123,6 @@
 	<clipPath id="SVGID_28_" class="st13">
 		<use xlink:href="#SVGID_26_"  style="overflow:visible;"/>
 	</clipPath>
-	<rect x="0.6" y="0.7" class="st14" width="97.2" height="45.1"/>
+	<rect x="0.6" y="0.7" class="st99" width="97.2" height="45.1"/>
 </g>
 </svg>

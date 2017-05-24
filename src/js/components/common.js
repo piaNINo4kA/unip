@@ -38,7 +38,9 @@ export class Common {
    * @return {Common}
    */
   initProgressBar() {
-    ProgressBar.initScrollToSectionOnClick();
+    if (Resp.isDeskCustom) {
+      ProgressBar.initScrollToSectionOnClick();
+    }
 
     return this;
   }
@@ -49,10 +51,12 @@ export class Common {
    * @return {Common}
    */
   initPerfectScrollbar() {
-    this.$scrollableElements.perfectScrollbar({
-      wheelPropagation: true,
-      wheelSpeed: 0.5
-    });
+    if (Resp.isDeskCustom) {
+      this.$scrollableElements.perfectScrollbar({
+        wheelPropagation: true,
+        wheelSpeed: 0.5
+      });
+    }
 
     return this;
   }

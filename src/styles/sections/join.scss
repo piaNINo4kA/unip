@@ -4,6 +4,22 @@
   width: 100%;
   height: 487px;
 
+  @media (max-width: $minTablet) {
+    height: auto;
+  }
+
+  .bottomBtn {
+    @media (max-width: $minDesktop) {
+      &__text {
+        top: -14px;
+      }
+    }
+
+    @media (max-width: $minTablet) {
+      bottom: -61px;
+    }
+  }
+
   &__bg {
     position: absolute;
 
@@ -40,6 +56,13 @@
     position: relative;
 
     z-index: 2;
+
+    @media (max-width: $minTablet) {
+      padding-bottom: 96px;
+      padding-top: 50px;
+
+      overflow: hidden;
+    }
   }
 
   &__inner {
@@ -50,6 +73,19 @@
 
     @media (max-height: 770px) {
       top: 155px;
+    }
+
+    @media (max-width: $minDesktop) {
+      left: 39px;
+      top: auto;
+      bottom: 130px;
+    }
+
+    @media (max-width: $minTablet) {
+      position: relative;
+
+      left: auto;
+      bottom: auto;
     }
   }
 
@@ -67,9 +103,31 @@
     line-height: 56px;
 
     margin-top: 28px;
+
+    @media (max-width: $minTablet) {
+      font-size: 25px;
+
+      margin-top: 5px;
+    }
   }
 
   &__buttons {
     margin-top: 57px;
+
+    @media (max-width: $minTablet) {
+      margin-top: 25px;
+
+      .btn {
+        display: flex;
+
+        width: 100%;
+
+        margin-left: 0;
+
+        &:not(:first-child) {
+          margin-top: 16px;
+        }
+      }
+    }
   }
 }

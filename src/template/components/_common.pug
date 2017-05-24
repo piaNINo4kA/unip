@@ -1,6 +1,6 @@
 //- Button
 mixin btn(className, type)
-    a.btn(href = '', class = className || '')
+    a.btn(href = '#!', class = className || '')
         if type === 'apple'
             +svg('icon_apple')
             span Apple Store
