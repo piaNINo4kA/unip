@@ -5,8 +5,9 @@
  */
 
 /** Import utils */
-import { css } from '../../modules/dev/helpers';
+import { css, Resp } from '../../modules/dev/helpers';
 import { Slider3dSection } from './slider3d';
+import CanvasSphere from '../../modules/dev/canvasSphere';
 
 export class CanvasSection extends Slider3dSection {
   /**
@@ -68,13 +69,40 @@ export class CanvasSection extends Slider3dSection {
   }
 
   /**
+   * Check and init text change animation, if needed.
+   *
+   * @return {CanvasSection}
+   */
+  checkTextChange() {
+    if (!Resp.isDeskCustom) this.runTextChange();
+
+    return this;
+  }
+
+  /**
+   * Initialize sphere canvas.
+   *
+   * @return {CanvasSection}
+   */
+  initCanvasSphere() {
+    const container = this.$section.find('.canvas__threejs').get(0);
+
+    new CanvasSphere(container);
+
+    if (!Resp.isDeskCustom && !Resp.isMobile) window.startCanvasAnimate();
+
+    return this;
+  }
+
+  /**
    * Initialize section's scripts.
    *
    * @return {CanvasSection}
    */
   initScripts() {
     this
-      .initLearnMore();
+      .initCanvasSphere()
+      .checkTextChange();
 
     return this;
   }

@@ -87,6 +87,7 @@ export class ScrollController {
         Animation.delay(1.2, ProgressBar.fix);
         ProgressBar.changeProgress(25);
         window.clearInterval(window.textChangeInterval);
+        window.stopCanvasAnimate();
         break;
       }
 
@@ -103,6 +104,7 @@ export class ScrollController {
         Animation.delay(0.4, ProgressBar.paintBlack);
         ProgressBar.changeProgress(50);
         window.clearInterval(window.textChangeInterval);
+        window.stopCanvasAnimate();
         break;
       }
 
@@ -119,6 +121,7 @@ export class ScrollController {
         Animation.delay(0.4, ProgressBar.paintWhite);
         ProgressBar.changeProgress(75);
         window.clearInterval(window.textChangeInterval);
+        window.stopCanvasAnimate();
         break;
       }
 
@@ -131,6 +134,7 @@ export class ScrollController {
           });
         }
         if (this.fifthSectionIsRevealed) CanvasSection.runTextChange();
+        window.startCanvasAnimate();
         this.$secondSectionSlider.deactivate();
         this.$thirdSectionSlider.deactivate();
         Animation.delay(0.4, ProgressBar.paintHalfWhite);
@@ -143,6 +147,7 @@ export class ScrollController {
       case 5: {
         ProgressBar.unfix(true);
         window.clearInterval(window.textChangeInterval);
+        window.stopCanvasAnimate();
         break;
       }
     }
