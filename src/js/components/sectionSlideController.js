@@ -80,8 +80,9 @@ export default class SectionSlideController {
       .removeClass(this.class(this.activeClass))
       .addClass(this.class(this.activeClass = slideId));
 
-    this.$controls.removeClass(css.active);
-    this.$controls.eq(this.activeClass - 1).addClass(css.active);
+    this
+      .$controls.removeClass(css.active)
+      .eq(this.activeClass - 1).addClass(css.active);
 
     if (this.$carousel) this.$carousel.carousel('set', slideId);
 

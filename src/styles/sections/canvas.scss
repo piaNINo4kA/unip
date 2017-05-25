@@ -248,8 +248,7 @@
 
       &-item {
         &:before {
-          top: 4px;
-          left: -2px;
+          display: none;
         }
 
         &:not(:first-child) {
@@ -257,7 +256,6 @@
         }
 
         &.js-active {
-          padding-left: 56px;
           transform: none;
         }
       }

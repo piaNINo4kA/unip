@@ -264,6 +264,8 @@
     }
 
     @media (max-width: $minTablet) {
+      width: 100%;
+
       margin-left: -3px;
       margin-top: 33px;
     }
@@ -310,7 +312,7 @@
         }
       }
 
-      &.slick-current {
+      &.slick-current, &.js-active {
 
         .slick-carousel__item {
           &-star {

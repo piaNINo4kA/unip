@@ -24,8 +24,8 @@ mixin sliderSection()
                 .slider__line
                 .slider__nextBtn
                 .slider__carousel.slick-carousel
-                    each slide, i in sliderSlides
-                        .slick-carousel__item(class = !i ? 'js-active' : '')
+                    each slide in sliderSlides
+                        .slick-carousel__item
                             .slick-carousel__item-star
                             .slick-carousel__item-title.h1 #{slide.title}
                             .slick-carousel__item-line

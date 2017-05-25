@@ -169,8 +169,14 @@
 
     will-change: border-width, opacity;
 
+    transform: translateZ(0);
+
     @media (min-width: $desktop) {
       top: -5px;
+    }
+
+    @media (max-width: $minTablet) {
+      top: -65px;
     }
 
     &.js-animation-finished {

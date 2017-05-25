@@ -71,25 +71,39 @@ export class SliderSection extends Slider3dSection {
   initSlider() {
     const $carousel = this.$section.find('.slider__carousel');
     const $nextBtn = this.$section.find('.slider__nextBtn');
-    const slidesCount = $carousel.find('.slick-carousel__item').length - 1;
 
-    $carousel.slick({
-      arrows: false,
-      dots: false,
-      speed: 1500,
-      adaptiveHeight: true,
-      infinite: true,
-      draggable: false,
-      slidesToShow: 2,
-      variableWidth: true
-    });
+    $carousel
+      .on('beforeChange', (event, slick, currentSlide, nextSlide) => {
+        const $clonedSlide = $('.slick-cloned').eq(2);
 
-    $nextBtn.on('click tap', () => {
-      const currentSlide = $carousel.slick('slickCurrentSlide');
-      const isLastSlide = currentSlide === slidesCount;
+        if (!nextSlide) {
+          $clonedSlide.addClass(css.active);
+        } else {
+          $clonedSlide.removeClass(css.active);
+        }
+      })
+      .slick({
+        arrows: false,
+        dots: false,
+        speed: 1500,
+        adaptiveHeight: true,
+        infinite: true,
+        draggable: false,
+        slidesToShow: 2,
+        variableWidth: true,
+        responsive: [
+          {
+            breakpoint: 1260,
+            settings: {
+              slidesToShow: 2,
+              speed: 250,
+              cssEase: 'ease'
+            }
+          }
+        ]
+      });
 
-      isLastSlide ? $carousel.slick('slickGoTo', 0) : $carousel.slick('slickNext');
-    });
+    $nextBtn.on('click tap', () => $carousel.slick('slickNext'));
 
     return this;
   }

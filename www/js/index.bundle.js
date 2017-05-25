@@ -13414,8 +13414,7 @@ var SectionSlideController = function () {
 
             this.$sliderContainer.removeClass(this.class(this.activeClass)).addClass(this.class(this.activeClass = slideId));
 
-            this.$controls.removeClass(_helpers.css.active);
-            this.$controls.eq(this.activeClass - 1).addClass(_helpers.css.active);
+            this.$controls.removeClass(_helpers.css.active).eq(this.activeClass - 1).addClass(_helpers.css.active);
 
             if (this.$carousel) this.$carousel.carousel('set', slideId);
 
@@ -15405,9 +15404,16 @@ var SliderSection = exports.SliderSection = function (_Slider3dSection) {
     value: function initSlider() {
       var $carousel = this.$section.find('.slider__carousel');
       var $nextBtn = this.$section.find('.slider__nextBtn');
-      var slidesCount = $carousel.find('.slick-carousel__item').length - 1;
 
-      $carousel.slick({
+      $carousel.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+        var $clonedSlide = $('.slick-cloned').eq(2);
+
+        if (!nextSlide) {
+          $clonedSlide.addClass(_helpers.css.active);
+        } else {
+          $clonedSlide.removeClass(_helpers.css.active);
+        }
+      }).slick({
         arrows: false,
         dots: false,
         speed: 1500,
@@ -15415,14 +15421,19 @@ var SliderSection = exports.SliderSection = function (_Slider3dSection) {
         infinite: true,
         draggable: false,
         slidesToShow: 2,
-        variableWidth: true
+        variableWidth: true,
+        responsive: [{
+          breakpoint: 1260,
+          settings: {
+            slidesToShow: 2,
+            speed: 250,
+            cssEase: 'ease'
+          }
+        }]
       });
 
       $nextBtn.on('click tap', function () {
-        var currentSlide = $carousel.slick('slickCurrentSlide');
-        var isLastSlide = currentSlide === slidesCount;
-
-        isLastSlide ? $carousel.slick('slickGoTo', 0) : $carousel.slick('slickNext');
+        return $carousel.slick('slickNext');
       });
 
       return this;
