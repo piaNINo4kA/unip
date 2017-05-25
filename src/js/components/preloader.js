@@ -10,7 +10,8 @@ import {
   matrixToArray,
   $window,
   $body,
-  bindMethods
+  bindMethods,
+  Resp
 } from 'js/modules/dev/helpers';
 import Animation from 'js/modules/dev/animation';
 
@@ -27,6 +28,9 @@ export default class Preloader {
     this.$linesText = this.$lines.find('.preloader__text');
     this.$leftLines = $preloader.find('.preloader__line--left .preloader__line-inner');
     this.$rightLines = $preloader.find('.preloader__line--right .preloader__line-inner');
+
+    // settings
+    this.finishAnimationTime = Resp.isDeskCustom ? 1.5 : 0.7;
 
     // save context
     bindMethods.bind(this)
@@ -114,7 +118,12 @@ export default class Preloader {
    * @return {Promise}
    */
   finishAnimation() {
+    const time = this.finishAnimationTime;
+
     return new Promise(resolve => {
+      // resolve promise after animation
+      Animation.delay(time, resolve);
+
       // hide shadow
       this.$preloader.addClass(css.animationFinished);
 
@@ -131,9 +140,6 @@ export default class Preloader {
             onComplete: () => {
               // hide preloader
               $body.removeClass(css.hasPreloader);
-
-              // resolve promise
-              resolve();
             }
           }
         });

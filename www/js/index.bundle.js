@@ -27854,6 +27854,9 @@ var Preloader = function () {
     this.$leftLines = $preloader.find('.preloader__line--left .preloader__line-inner');
     this.$rightLines = $preloader.find('.preloader__line--right .preloader__line-inner');
 
+    // settings
+    this.finishAnimationTime = _helpers.Resp.isDeskCustom ? 1.5 : 0.7;
+
     // save context
     _helpers.bindMethods.bind(this)('startAnimation', 'stopAnimation', 'highlightText', 'finishAnimation');
   }
@@ -27956,7 +27959,12 @@ var Preloader = function () {
     value: function finishAnimation() {
       var _this4 = this;
 
+      var time = this.finishAnimationTime;
+
       return new Promise(function (resolve) {
+        // resolve promise after animation
+        _animation2.default.delay(time, resolve);
+
         // hide shadow
         _this4.$preloader.addClass(_helpers.css.animationFinished);
 
@@ -27971,9 +27979,6 @@ var Preloader = function () {
             onComplete: function onComplete() {
               // hide preloader
               _helpers.$body.removeClass(_helpers.css.hasPreloader);
-
-              // resolve promise
-              resolve();
             }
           }
         });

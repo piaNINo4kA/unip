@@ -15,6 +15,11 @@
   user-select: none;
 
   &.js-animation-finished {
+    @media (max-width: $minDesktop) {
+      transition: opacity 0.8s linear;
+      opacity: 0;
+    }
+
     .preloader__line {
       box-shadow: none;
     }
