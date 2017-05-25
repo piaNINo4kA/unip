@@ -74,7 +74,7 @@ export class CanvasSection extends Slider3dSection {
    * @return {CanvasSection}
    */
   checkTextChange() {
-    if (!Resp.isDeskCustom) this.runTextChange();
+    if (!Resp.isDeskCustom && !Resp.isMobile) this.runTextChange();
 
     return this;
   }

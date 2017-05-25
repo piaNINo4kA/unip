@@ -14886,7 +14886,7 @@ var CanvasSection = exports.CanvasSection = function (_Slider3dSection) {
   }, {
     key: 'checkTextChange',
     value: function checkTextChange() {
-      if (!_helpers.Resp.isDeskCustom) this.runTextChange();
+      if (!_helpers.Resp.isDeskCustom && !_helpers.Resp.isMobile) this.runTextChange();
 
       return this;
     }
