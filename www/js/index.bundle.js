@@ -15410,7 +15410,7 @@ var SliderSection = exports.SliderSection = function (_Slider3dSection) {
       $carousel.slick({
         arrows: false,
         dots: false,
-        speed: 900,
+        speed: 1500,
         adaptiveHeight: true,
         infinite: true,
         draggable: false,
@@ -16785,17 +16785,20 @@ var Home = function () {
   }, {
     key: 'init',
     value: function init() {
-      /*// run preloader
-      this.preloader.init()
-          // run intro section's and header's animations
-        // after preloader is finished
-        .then(() => {
-          this
-            .initFirstSectionAnimation()
-            .initHeaderAnimation();
-        });*/
+      var _this = this;
 
-      this.initFirstSectionAnimation().initHeaderAnimation();
+      // run preloader
+      this.preloader.init()
+
+      // run intro section's and header's animations
+      // after preloader is finished
+      .then(function () {
+        _this.initFirstSectionAnimation().initHeaderAnimation();
+      });
+
+      /*this
+        .initFirstSectionAnimation()
+        .initHeaderAnimation();*/
 
       // initialize main scripts
       this.initAllSectionsScripts();

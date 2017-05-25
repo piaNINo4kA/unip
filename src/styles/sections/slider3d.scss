@@ -12,7 +12,10 @@
 
   .bottomBtn {
     right: auto;
-    left: 130px;
+
+    @media (min-width: $desktop) {
+      left: 43px;
+    }
 
     @media (max-width: $minDesktop) {
       left: 52px;
@@ -25,8 +28,24 @@
     }
   }
 
+  .pageNumber__container {
+    @media (min-width: $desktop) {
+      top: calc(50% - 100px);
+    }
+  }
+
   .textBlock {
     max-width: 280px;
+
+    @media (min-width: $desktop) {
+      top: calc(50% - 120px);
+    }
+
+    @media (min-width: $desktop) {
+      .textBlock__item-big {
+        margin-left: -3px;
+      }
+    }
   }
 
   &__container {

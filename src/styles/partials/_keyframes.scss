@@ -4,7 +4,7 @@
   }
 
   to {
-    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(calc(-100% + 100vw), 0, 0);
   }
 }
 
@@ -14,7 +14,7 @@
   }
 
   to {
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(calc(100% - 100vw), 0, 0);
   }
 }
 
@@ -22,11 +22,15 @@
   from {
     opacity: 0.3;
 
+    border-width: 3px;
+
     transform: translate3d(-50%, -44%, 0) scale(0);
   }
 
   to {
     opacity: 0;
+
+    border-width: 1px;
 
     transform: translate3d(-50%, -20%, 0) scale(1);
   }

@@ -1,5 +1,5 @@
 .preloader {
-  display: none !important;
+  display: none;
   position: fixed;
 
   left: 0;
@@ -49,7 +49,7 @@
       .preloader__text {
         float: right;
 
-        animation: preloaderLeft 110s;
+        animation: preloaderLeft 23s infinite linear;
       }
     }
 
@@ -57,7 +57,7 @@
       .preloader__text {
         float: left;
 
-        animation: preloaderRight 110s;
+        animation: preloaderRight 23s infinite linear;
       }
     }
   }

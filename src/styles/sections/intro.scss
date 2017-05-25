@@ -167,6 +167,12 @@
 
     transform-origin: center center;
 
+    will-change: border-width, opacity;
+
+    @media (min-width: $desktop) {
+      top: -5px;
+    }
+
     &.js-animation-finished {
       animation: circleAnimation 15s linear infinite;
     }

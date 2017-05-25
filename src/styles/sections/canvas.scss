@@ -153,11 +153,11 @@
 
     transition: opacity 1s ease;
 
-    width: 643px;
-    height: 643px;
+    width: 603px;
+    height: 603px;
 
-    left: 100px;
-    bottom: -17px;
+    left: 140px;
+    bottom: 20px;
 
     @media (max-width: $minDesktop) {
       left: auto;
@@ -180,7 +180,7 @@
 
       opacity: 1;
 
-      background-image: radial-gradient(circle 280px at 49% 51%, transparent 0%, #ffe800 100%);
+      background-image: radial-gradient(circle 311px at 50% 51%, transparent 0%, #ffe800 100%);
 
       z-index: 3;
     }
@@ -193,7 +193,7 @@
 
       z-index: 2;
 
-      opacity: 0.6;
+      opacity: 0.4;
     }
 
     canvas {

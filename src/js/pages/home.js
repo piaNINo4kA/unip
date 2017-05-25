@@ -85,7 +85,7 @@ export default class Home {
    * Initialize Main page scripts.
    */
   init() {
-    /*// run preloader
+    // run preloader
     this.preloader.init()
 
       // run intro section's and header's animations
@@ -94,11 +94,11 @@ export default class Home {
         this
           .initFirstSectionAnimation()
           .initHeaderAnimation();
-      });*/
+      });
 
-    this
+    /*this
       .initFirstSectionAnimation()
-      .initHeaderAnimation();
+      .initHeaderAnimation();*/
 
     // initialize main scripts
     this.initAllSectionsScripts();

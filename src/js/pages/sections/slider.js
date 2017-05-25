@@ -76,7 +76,7 @@ export class SliderSection extends Slider3dSection {
     $carousel.slick({
       arrows: false,
       dots: false,
-      speed: 900,
+      speed: 1500,
       adaptiveHeight: true,
       infinite: true,
       draggable: false,
