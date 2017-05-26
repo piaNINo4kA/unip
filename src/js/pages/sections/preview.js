@@ -50,12 +50,31 @@ export class PreviewSection extends Slider3dSection {
   }
 
   /**
+   * Activate materialize slider (mobile only).
+   *
+   * @return {Slider3dSection}
+   */
+  initSlider() {
+    if (!Resp.isMobile) return this;
+
+    const $carousel = this.$section.find('.preview__main');
+
+    $carousel
+      .carousel({ dist: -48 })
+      .carousel('set', 1);
+
+    return this;
+  }
+
+  /**
    * Initialize section's scripts.
    *
    * @return {PreviewSection}
    */
   initScripts() {
-    this.initLearnMore();
+    this
+      .initLearnMore()
+      .initSlider();
 
     if (!Resp.isDeskCustom) {
       new SectionSlideController(this.$section).bindControls();

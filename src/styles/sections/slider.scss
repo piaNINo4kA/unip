@@ -386,6 +386,12 @@
         opacity: 0.1;
 
         transition: opacity .4s ease;
+
+        @media (max-width: $minTablet) {
+          transform: translate3d(-5px, 0, 0);
+
+          width: 280px;
+        }
       }
     }
   }

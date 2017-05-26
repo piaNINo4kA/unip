@@ -21,6 +21,7 @@
   @media (max-width: $minTablet) {
     font-size: 25px;
     line-height: 32px;
+    letter-spacing: 0.5px;
   }
 }
 // HEADERS END
@@ -159,6 +160,10 @@
     opacity: 0;
     transform: translate3d(0, 50px, 0);
     transition: all 1s ease .6s;
+
+    @media (max-width: $minTablet) {
+      display: none;
+    }
 
     &-item {
       position: relative;

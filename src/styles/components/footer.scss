@@ -4,6 +4,8 @@
 
   background-color: #f0f0f0;
 
+  overflow: hidden;
+
   @media (max-width: $minDesktop) {
     height: 289px;
   }

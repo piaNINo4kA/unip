@@ -15270,6 +15270,24 @@ var PreviewSection = exports.PreviewSection = function (_Slider3dSection) {
     }
 
     /**
+     * Activate materialize slider (mobile only).
+     *
+     * @return {Slider3dSection}
+     */
+
+  }, {
+    key: 'initSlider',
+    value: function initSlider() {
+      if (!_helpers.Resp.isMobile) return this;
+
+      var $carousel = this.$section.find('.preview__main');
+
+      $carousel.carousel({ dist: -48 }).carousel('set', 1);
+
+      return this;
+    }
+
+    /**
      * Initialize section's scripts.
      *
      * @return {PreviewSection}
@@ -15278,7 +15296,7 @@ var PreviewSection = exports.PreviewSection = function (_Slider3dSection) {
   }, {
     key: 'initScripts',
     value: function initScripts() {
-      this.initLearnMore();
+      this.initLearnMore().initSlider();
 
       if (!_helpers.Resp.isDeskCustom) {
         new _sectionSlideController2.default(this.$section).bindControls();

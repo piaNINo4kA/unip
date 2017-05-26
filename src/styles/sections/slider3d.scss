@@ -10,6 +10,10 @@
     height: 663px;
   }
 
+  @media (max-width: $minTablet) {
+    height: 520px;
+  }
+
   .bottomBtn {
     right: auto;
 
@@ -26,6 +30,10 @@
         opacity: 1;
       }
     }
+
+    @media (max-width: $minTablet) {
+      display: none;
+    }
   }
 
   .pageNumber__container {
@@ -39,11 +47,36 @@
 
     @media (min-width: $desktop) {
       top: calc(50% - 120px);
-    }
 
-    @media (min-width: $desktop) {
       .textBlock__item-big {
         margin-left: -3px;
+      }
+    }
+
+    @media (max-width: $minTablet) {
+      position: relative;
+
+      left: auto;
+      top: auto;
+
+      margin-top: 29px;
+
+      .textBlock__item-big > span {
+        &:before {
+          top: 23px;
+          left: -9px;
+        }
+
+        &:after {
+          bottom: -6px;
+          right: -7px;
+        }
+
+        span {
+          top: calc(100% + 1px);
+
+          width: calc(100% + 10px);
+        }
       }
     }
   }
@@ -66,6 +99,21 @@
 
       padding-left: 38vw;
     }
+
+    @media (max-width: $minTablet) {
+      position: relative;
+
+      top: 0;
+      left: auto;
+
+      height: auto;
+
+      padding: 0;
+
+      transform: none;
+
+      z-index: 0;
+    }
   }
 
   &__carousel {
@@ -73,7 +121,9 @@
     width: 545px;
 
     @media (max-width: $minDesktop) {
-      pointer-events: none;
+      @media (min-width: $tablet) {
+        pointer-events: none;
+      }
 
       .carousel-item {
         width: 258px;
@@ -82,6 +132,36 @@
         img {
           opacity: 1;
           transform: none;
+        }
+      }
+    }
+
+    @media (max-width: $minTablet) {
+      height: 345px;
+      width: 100%;
+
+      &:before {
+        width: 45px;
+      }
+      &:after {
+        width: 45px;
+      }
+
+      .carousel-item {
+        width: 125px;
+        height: 212px;
+
+        top: -42px;
+
+        img {
+          &.backdrop {
+            filter: none;
+
+            box-shadow: 0 0 25px 4px rgba(45, 37, 19, 0.13);
+          }
+          &.view {
+            display: none;
+          }
         }
       }
     }
@@ -202,6 +282,10 @@
       left: auto;
 
       opacity: 1;
+    }
+
+    @media (max-width: $minTablet) {
+      display: none;
     }
 
     &.js-animation-finished {
@@ -391,6 +475,18 @@
 
         opacity: 0;
       }
+    }
+
+    @media (max-width: $minTablet) {
+      width: 240px;
+
+      font-size: 14px;
+      line-height: 21px;
+
+      left: 50%;
+      top: 274px;
+
+      margin-left: -120px;
     }
 
     &.js-animation-finished {
