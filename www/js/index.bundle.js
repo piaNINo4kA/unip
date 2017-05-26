@@ -15003,6 +15003,7 @@ var IntroSection = exports.IntroSection = function () {
     this.$bg = $introSection.find('.intro__background');
 
     // pin & circles
+    this.$animation = $introSection.find('.intro__animation');
     this.$pin = $introSection.find('.intro__pin');
     this.$circles = $introSection.find('.intro__circle');
     this.circlesCount = this.$circles.length;
@@ -15086,8 +15087,13 @@ var IntroSection = exports.IntroSection = function () {
       // animate pin
       this.$pin.addClass(_helpers.css.animationFinished);
 
-      // then run circles animation
-      setTimeout(circlesAnimation, 1000);
+      if (!_helpers.Resp.isDeskCustom) {
+        // don't animate circles on devices, just show them
+        this.$animation.addClass(_helpers.css.animationFinished);
+      } else {
+        // then run circles animation
+        setTimeout(circlesAnimation, 1000);
+      }
 
       return this;
     }

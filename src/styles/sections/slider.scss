@@ -205,24 +205,6 @@
       }
     }
   }
-
-  &__line {
-    position: absolute;
-
-    left: 0;
-    top: 499.5px;
-
-    width: 100%;
-    height: 1px;
-
-    background-color: white;
-
-    opacity: 0;
-
-    @media (max-width: $minTablet) {
-      top: 310px;
-    }
-  }
   
   &__nextBtn {
     position: absolute;
@@ -268,6 +250,29 @@
 
       margin-left: -3px;
       margin-top: 33px;
+    }
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+
+      background-color: white;
+
+      width: 100vw;
+      height: 1px;
+
+      top: 14px;
+      left: -135px;
+
+      @media (max-width: $minDesktop) {
+        left: -40px;
+      }
+
+      @media (max-width: $minTablet) {
+        left: -20px;
+        top: 17px;
+      }
     }
 
     .slick-list {

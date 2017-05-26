@@ -141,11 +141,49 @@
     @media (max-width: $minDesktop) {
       left: calc(50% - 339px);
       top: calc(50% - 43px);
+
+      .intro__circle {
+        top: 13px;
+
+        transition: opacity 1s ease;
+        opacity: 0;
+      }
+
+      .intro__circle--1 {
+        display: none;
+      }
     }
 
     @media (max-width: $minTablet) {
       left: calc(50% - 142px);
       top: calc(50% - 4px);
+
+      .intro__circle {
+        top: -50px;
+      }
+    }
+
+    &.js-animation-finished {
+      .intro__circle--2 {
+        border-width: 3px;
+        opacity: 0.3;
+        transform: translate3d(-50%, -44%, 0) scale(0.15);
+      }
+      .intro__circle--3 {
+        border-width: 2px;
+        opacity: 0.2;
+        transform: translate3d(-50%, -38%, 0) scale(0.35);
+      }
+      .intro__circle--4 {
+        border-width: 2px;
+        opacity: 0.17;
+        transform: translate3d(-50%, -32%, 0) scale(0.55);
+      }
+      .intro__circle--5 {
+        border-width: 1px;
+        opacity: 0.09;
+        transform: translate3d(-50%, -26%, 0) scale(0.75);
+      }
     }
   }
 
@@ -170,14 +208,6 @@
     will-change: border-width, opacity;
 
     transform: translateZ(0);
-
-    @media (min-width: $desktop) {
-      top: -5px;
-    }
-
-    @media (max-width: $minTablet) {
-      top: -65px;
-    }
 
     &.js-animation-finished {
       animation: circleAnimation 15s linear infinite;

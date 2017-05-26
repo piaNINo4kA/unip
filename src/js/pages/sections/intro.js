@@ -25,6 +25,7 @@ export class IntroSection {
     this.$bg = $introSection.find('.intro__background');
 
     // pin & circles
+    this.$animation = $introSection.find('.intro__animation');
     this.$pin = $introSection.find('.intro__pin');
     this.$circles = $introSection.find('.intro__circle');
     this.circlesCount = this.$circles.length;
@@ -88,8 +89,13 @@ export class IntroSection {
     // animate pin
     this.$pin.addClass(css.animationFinished);
 
-    // then run circles animation
-    setTimeout(circlesAnimation, 1000);
+    if (!Resp.isDeskCustom) {
+      // don't animate circles on devices, just show them
+      this.$animation.addClass(css.animationFinished);
+    } else {
+      // then run circles animation
+      setTimeout(circlesAnimation, 1000);
+    }
 
     return this;
   }
