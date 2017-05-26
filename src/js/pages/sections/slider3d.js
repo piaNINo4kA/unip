@@ -73,11 +73,13 @@ export class Slider3dSection {
       .carousel({
         dist: -48,
         onCycleTo: element => {
-          const currentSlide = $(element).index() + 1;
+          if (Resp.isMobile) {
+            const currentSlide = $(element).index() + 1;
 
-          $container
-            .removeClass(classNames)
-            .addClass(`js-slide-${currentSlide}`);
+            $container
+              .removeClass(classNames)
+              .addClass(`js-slide-${currentSlide}`);
+          }
         }
       })
       .carousel('set', 1);

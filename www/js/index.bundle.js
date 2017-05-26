@@ -12817,9 +12817,11 @@ var Slider3dSection = exports.Slider3dSection = function () {
       $carousel.carousel({
         dist: -48,
         onCycleTo: function onCycleTo(element) {
-          var currentSlide = $(element).index() + 1;
+          if (_helpers.Resp.isMobile) {
+            var currentSlide = $(element).index() + 1;
 
-          $container.removeClass(_helpers.classNames).addClass('js-slide-' + currentSlide);
+            $container.removeClass(_helpers.classNames).addClass('js-slide-' + currentSlide);
+          }
         }
       }).carousel('set', 1);
 
