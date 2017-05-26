@@ -8,7 +8,8 @@
 import {
   css,
   bindMethods,
-  Resp
+  Resp,
+  classNames
 } from '../../modules/dev/helpers';
 import Animation from '../../modules/dev/animation';
 import ScrollController from '../../components/scrollController';
@@ -66,9 +67,19 @@ export class Slider3dSection {
    */
   initSlider() {
     const $carousel = this.$section.find('.slider3d__carousel');
+    const $container = this.$section.find('.slider3d__container');
 
     $carousel
-      .carousel({ dist: -48 })
+      .carousel({
+        dist: -48,
+        onCycleTo: element => {
+          const currentSlide = $(element).index() + 1;
+
+          $container
+            .removeClass(classNames)
+            .addClass(`js-slide-${currentSlide}`);
+        }
+      })
       .carousel('set', 1);
 
     return this;

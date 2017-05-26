@@ -7,7 +7,8 @@
 /** Import utils */
 import {
   css,
-  Resp
+  Resp,
+  classNames
 } from '../../modules/dev/helpers';
 import { Slider3dSection } from './slider3d';
 import Animation from '../../modules/dev/animation';
@@ -57,10 +58,20 @@ export class PreviewSection extends Slider3dSection {
   initSlider() {
     if (!Resp.isMobile) return this;
 
+    const $container = this.$section.find('.preview__container');
     const $carousel = this.$section.find('.preview__main');
 
     $carousel
-      .carousel({ dist: -48 })
+      .carousel({
+        dist: -48,
+        onCycleTo: element => {
+          const currentSlide = $(element).index() + 1;
+
+          $container
+            .removeClass(classNames)
+            .addClass(`js-slide-${currentSlide}`);
+        }
+      })
       .carousel('set', 1);
 
     return this;

@@ -69,6 +69,14 @@ export const winWidth = $window.width();
 export const isMac = /mac/i.test(navigator.platform);
 
 /**
+ * Class names strings.
+ *
+ * @constant
+ * @type {String}
+ */
+export const classNames = 'js-slide-1 js-slide-2 js-slide-3 js-slide-4 js-slide-5';
+
+/**
  * Match media device indicator.
  */
 export class Resp {

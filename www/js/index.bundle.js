@@ -10137,6 +10137,14 @@ var winWidth = exports.winWidth = $window.width();
 var isMac = exports.isMac = /mac/i.test(navigator.platform);
 
 /**
+ * Class names strings.
+ *
+ * @constant
+ * @type {String}
+ */
+var classNames = exports.classNames = 'js-slide-1 js-slide-2 js-slide-3 js-slide-4 js-slide-5';
+
+/**
  * Match media device indicator.
  */
 
@@ -12804,8 +12812,16 @@ var Slider3dSection = exports.Slider3dSection = function () {
     key: 'initSlider',
     value: function initSlider() {
       var $carousel = this.$section.find('.slider3d__carousel');
+      var $container = this.$section.find('.slider3d__container');
 
-      $carousel.carousel({ dist: -48 }).carousel('set', 1);
+      $carousel.carousel({
+        dist: -48,
+        onCycleTo: function onCycleTo(element) {
+          var currentSlide = $(element).index() + 1;
+
+          $container.removeClass(_helpers.classNames).addClass('js-slide-' + currentSlide);
+        }
+      }).carousel('set', 1);
 
       return this;
     }
@@ -15280,9 +15296,17 @@ var PreviewSection = exports.PreviewSection = function (_Slider3dSection) {
     value: function initSlider() {
       if (!_helpers.Resp.isMobile) return this;
 
+      var $container = this.$section.find('.preview__container');
       var $carousel = this.$section.find('.preview__main');
 
-      $carousel.carousel({ dist: -48 }).carousel('set', 1);
+      $carousel.carousel({
+        dist: -48,
+        onCycleTo: function onCycleTo(element) {
+          var currentSlide = $(element).index() + 1;
+
+          $container.removeClass(_helpers.classNames).addClass('js-slide-' + currentSlide);
+        }
+      }).carousel('set', 1);
 
       return this;
     }
