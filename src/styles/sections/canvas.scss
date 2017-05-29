@@ -44,11 +44,19 @@
       }
 
       @media (max-width: $minTablet) {
-        margin-left: 11px;
-        margin-right: 0;
+        margin-left: 6px;
+        margin-right: 6px;
+
+        span {
+          width: calc(100% + 16px);
+        }
 
         &:before {
           top: 22px;
+        }
+
+        &:after {
+          right: -6px;
         }
       }
     }

@@ -6,9 +6,11 @@
 
 /** Import utils */
 import {
+  Resp,
   css,
   isScrolledIntoView,
-  throttle
+  throttle,
+  $window
 } from '../../modules/dev/helpers';
 import { Slider3dSection } from './slider3d';
 
@@ -33,11 +35,12 @@ export class SliderSection extends Slider3dSection {
   slickDemo() {
     const $section = this.$section;
     const $carousel = this.$carousel;
+    const $scrollEventListener = Resp.isDeskCustom ? $section : $window;
 
-    $section.on('scroll.slickDemo', throttle(() => {
+    $scrollEventListener.on('scroll.slickDemo', throttle(() => {
       if (isScrolledIntoView($carousel, 250)) {
         $carousel.slick('slickNext');
-        $section.unbind('scroll.slickDemo');
+        $scrollEventListener.unbind('scroll.slickDemo');
       }
     }, 100));
 
@@ -56,9 +59,6 @@ export class SliderSection extends Slider3dSection {
     requestAnimationFrame(() => {
       $inner.addClass(css.animationFinished);
     });
-
-    // init demo
-    this.slickDemo();
 
     return this;
   }
@@ -103,7 +103,11 @@ export class SliderSection extends Slider3dSection {
         ]
       });
 
+    // bind events listener
     $nextBtn.on('click tap', () => $carousel.slick('slickNext'));
+
+    // initialize slider demo
+    this.slickDemo();
 
     return this;
   }

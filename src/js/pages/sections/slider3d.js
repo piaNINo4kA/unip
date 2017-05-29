@@ -15,7 +15,7 @@ import Animation from '../../modules/dev/animation';
 import ScrollController from '../../components/scrollController';
 import SectionSlideController from '../../components/sectionSlideController';
 import 'materialize-css/js/global';
-import 'materialize-css/js/carousel';
+import '../../modules/dep/materialize.carousel';
 
 export class Slider3dSection {
   /**

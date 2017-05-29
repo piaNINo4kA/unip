@@ -37,8 +37,6 @@
 
     overflow: hidden;
 
-    transform-origin: 50% 0;
-
     &-inner {
       height: 100%;
       width: 100%;
@@ -47,6 +45,10 @@
     }
 
     .preloader__text {
+      transform-origin: 50% 0;
+      backface-visibility: hidden;
+      perspective: 1000px;
+
       &.js-animation-finished {
         animation: none;
       }
