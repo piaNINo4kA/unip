@@ -10,8 +10,7 @@
 mixin header()
     header#header.header
         .header__inner
-            a.header__logo(href='#!')
-                +svg('UNIP_Logo_White')
+            a.header__logo(href='#!'): img(src = 'img/logo-white.svg')
             .header__menu
                 .header__links
                     each link in headerLinks

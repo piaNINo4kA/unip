@@ -1,10 +1,10 @@
 'use strict';
 
-const webpack = require('webpack');
-const path = require('path');
+const webpack               = require('webpack');
+const path                  = require('path');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
-const ChunkManifestPlugin = require('chunk-manifest-webpack2-plugin');
-const WebpackMd5Hash = require('webpack-md5-hash');
+const ChunkManifestPlugin   = require('chunk-manifest-webpack2-plugin');
+const WebpackMd5Hash        = require('webpack-md5-hash');
 
 module.exports = {
 

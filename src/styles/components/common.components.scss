@@ -86,6 +86,20 @@
     }
   }
 
+  &.js-ie-fix {
+    .textBlock__item-big {
+      > span {
+        &:before, &:after {
+          height: 15px;
+        }
+
+        span {
+          width: calc(100% + 20px);
+        }
+      }
+    }
+  }
+
   &__item-small {
     font-family: $Reg;
     font-size: 13px;
@@ -221,6 +235,12 @@
   font-family: $Bold;
   line-height: 16px;
   text-decoration: none;
+
+  &.js-ie-fix {
+    span {
+      transition: none;
+    }
+  }
 
   svg {
     fill: #010101;

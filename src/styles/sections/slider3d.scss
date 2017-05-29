@@ -89,7 +89,7 @@
     top: 50%;
     left: 367px;
 
-    transform: translate3d(0, calc(-50% + 86px), 0);
+    transform: translateY(-50%) translateY(86px);
 
     @media (max-width: $minDesktop) {
       transform: none;

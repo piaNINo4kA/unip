@@ -9,7 +9,7 @@ const notify = require('gulp-notify');
  * @constant
  * @type {Array}
  */
-const browsers = ['last 3 versions', 'Android 4.4', 'ie 11', 'ios 8'];
+const browsers = ['last 3 versions', 'Android 4.4', 'ie 11', 'ie 10', 'ios 8'];
 
 /**
  * Set css-preprocessor files extension.

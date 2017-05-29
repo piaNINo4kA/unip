@@ -67,7 +67,7 @@
 
     left: 260px;
     top: 50%;
-    transform: translate3d(0, calc(-50% + 10px), 0);
+    transform: translateY(-50%) translateY(10px);
 
     max-width: 875px;
 

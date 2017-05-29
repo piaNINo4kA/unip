@@ -7,7 +7,7 @@
 /** Import utils */
 import 'perfect-scrollbar/jquery';
 import objectFitImages from 'object-fit-images';
-import { Resp } from '../modules/dev/helpers';
+import { Resp, isIE, css } from '../modules/dev/helpers';
 import Header from './header';
 import ScrollController from './scrollController';
 import ProgressBar from './progressBar';
@@ -19,7 +19,7 @@ export class Common {
    */
   constructor() {
     this.$scrollableElements = $('.js-perfect-scrollbar');
-    this.$upBtn = $('.upBtn');
+    this.$upBtn = $('.upBtn, .footer__logo');
   }
 
   /**
@@ -125,6 +125,25 @@ export class Common {
   }
 
   /**
+   * Check for IE and fix if needed.
+   *
+   * @return {Common}
+   */
+  initIEfix() {
+    if (!isIE) return this;
+
+    // fix svg hover (apps btns)
+    const $btns = $('.btn');
+    $btns.addClass(css.ieFix);
+
+    // fix text block animation (words underline)
+    const $textBlocks = $('.textBlock');
+    $textBlocks.addClass(css.ieFix);
+
+    return this;
+  }
+
+  /**
    * Initialize common scripts.
    *
    * @returns {Common}
@@ -137,7 +156,8 @@ export class Common {
       .rafShim()
       .initPerfectScrollbar()
       .initProgressBar()
-      .initUpBtn();
+      .initUpBtn()
+      .initIEfix();
 
     return this;
   }

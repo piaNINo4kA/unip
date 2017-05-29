@@ -37,6 +37,8 @@
 
     overflow: hidden;
 
+    transform-origin: 50% 0;
+
     &-inner {
       height: 100%;
       width: 100%;
@@ -54,7 +56,11 @@
       .preloader__text {
         float: right;
 
-        animation: preloaderLeft 23s infinite linear;
+        animation-name: preloaderLeft;
+        animation-duration: 23s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
       }
     }
 
@@ -62,7 +68,11 @@
       .preloader__text {
         float: left;
 
-        animation: preloaderRight 23s infinite linear;
+        animation-name: preloaderRight;
+        animation-duration: 23s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
       }
     }
   }

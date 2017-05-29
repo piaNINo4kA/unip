@@ -69,6 +69,14 @@ export const winWidth = $window.width();
 export const isMac = /mac/i.test(navigator.platform);
 
 /**
+ * Detect IE / Edge.
+ *
+ * @constant
+ * @type {Boolean}
+ */
+export const isIE = !!document.documentMode || /Edge/.test(navigator.userAgent);
+
+/**
  * Class names strings.
  *
  * @constant
@@ -163,6 +171,7 @@ export const currentPage = $body.find('main').data('page');
  */
 export const css = {
   active: 'js-active',
+  ieFix: 'js-ie-fix',
   animationFinished: 'js-animation-finished',
   animationFinished2: 'js-animation-finished-2',
   isHiddenForAnimation: 'js-is-hidden-for-animation',

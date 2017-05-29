@@ -148,7 +148,7 @@
     width: 100%;
     height: auto;
 
-    transform: translate3d(0, calc(-50% + 86px), 0);
+    transform: translateY(-50%) translateY(86px);
 
     z-index: 0;
 
@@ -171,7 +171,7 @@
     }
 
     .js-slide-2 & {
-      transform: translate3d(0, calc(-50% - 75px), 0);
+      transform: translateY(-50%) translateY(-75px);
 
       .preview__text--1 {
         transition: opacity .3s ease, transform 1s ease;
@@ -191,7 +191,7 @@
     }
 
     .js-slide-3 & {
-      transform: translate3d(0, calc(-50% - 290px), 0);
+      transform: translateY(-50%) translateY(-290px);
 
       .preview__text--1 {
         transition: opacity .3s ease, transform 1s ease;
@@ -224,7 +224,7 @@
     }
 
     .js-slide-4 & {
-      transform: translate3d(0, calc(-50% - 470px), 0);
+      transform: translateY(-50%) translateY(-470px);
 
       .preview__text--1 {
         transition: opacity .3s ease, transform 1s ease;
@@ -270,7 +270,7 @@
     }
 
     .js-slide-5 & {
-      transform: translate3d(0, calc(-50% - 640px), 0);
+      transform: translateY(-50%) translateY(-640px);
 
       .preview__text--1 {
         transition: opacity .3s ease, transform 1s ease;
@@ -385,7 +385,7 @@
     width: 100%;
     height: auto;
 
-    transform: translate3d(0, calc(-50% + 86px), 0);
+    transform: translateY(-50%) translateY(86px);
 
     z-index: 3;
 
@@ -962,7 +962,7 @@
     width: 295px;
     height: 500px;
 
-    transform: translate3d(0, calc(-50% + 86px), 0);
+    transform: translateY(-50%) translateY(86px);
 
     box-shadow: 0 0 49px 10px rgba(45, 37, 19, 0.13);
 
