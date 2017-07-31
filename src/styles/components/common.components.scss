@@ -2,6 +2,7 @@
 .h1 {
   font-family: $Light;
   font-size: 110px;
+  font-weight: 300;
 
   @media (max-width: $minDesktop) {
     font-size: 78px;
@@ -22,6 +23,21 @@
     font-size: 25px;
     line-height: 32px;
     letter-spacing: 0.5px;
+  }
+}
+
+.regular {
+  color: $black;
+  font-family: $Reg;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  &-small {
+    color: $black;
+    font-family: $Reg;
+    font-size: 13px;
+    line-height: 21px;
+    font-weight: 400;
   }
 }
 // HEADERS END

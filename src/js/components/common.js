@@ -73,17 +73,6 @@ export class Common {
   }
 
   /**
-   * Initialize full-page scroll controller.
-   *
-   * @return {Common}
-   */
-  initializeScrollController() {
-    if (Resp.isDeskCustom) ScrollController.init();
-
-    return this;
-  }
-
-  /**
    * requestAnimationFrame shim.
    *
    * @return {Common}
@@ -152,7 +141,6 @@ export class Common {
     this
       .initObjectFitImages()
       .initializeHeader()
-      .initializeScrollController()
       .rafShim()
       .initPerfectScrollbar()
       .initProgressBar()

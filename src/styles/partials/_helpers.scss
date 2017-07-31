@@ -16,3 +16,36 @@
     padding: 0 20px;
   }
 }
+
+.push-cnt {
+  width: 100%;
+  max-width: 1280px;
+
+  padding-top: 80px;
+  margin: 0 auto;
+
+  @media (max-width: $minDesktop) {
+    padding-top: 89px;
+  }
+
+  @media (max-width: $minTablet) {
+    padding-top: 63px;
+  }
+}
+
+.container {
+  position: relative;
+
+  width: 100%;
+  max-width: 1280px;
+
+  margin: 0 auto;
+
+  @media (max-width: $minDesktop) {
+    padding: 0 40px;
+  }
+
+  @media (max-width: $minTablet) {
+    padding: 0 20px;
+  }
+}

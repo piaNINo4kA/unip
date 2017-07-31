@@ -1,0 +1,22 @@
+extends ../extend/default
+
+block variables
+    -
+        var title = 'Unip';
+        var hasPreloader = false;
+block footer
+    //- clear block
+block main
+    main(data-page='drivers')
+        .push-cnt
+        // Call to action video section
+        +cta()
+
+        // What & Why section
+        +what_why()
+
+        // Get app section
+        +get_app()
+
+        // Footer section
+        +footer()

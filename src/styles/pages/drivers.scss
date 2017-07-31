@@ -1,0 +1,231 @@
+[data-page='drivers'] {
+  // CALL TO ACTION VIDEO SECTION
+  .drivers__cta {
+    position: relative;
+    height: 566px;
+    background-image: url('../img/intro-map.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(244, 213, 39, 0.9);
+    }
+    .container {
+      height: 566px;
+    }
+    &-desc {
+      position: absolute;
+      left: 265px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &-title {
+      margin-bottom: 28px;
+    }
+    &-subtitle {
+      max-width: 300px;
+      margin-left: 9px;
+      margin-bottom: 53px;
+    }
+    &-text {
+      display: block;
+      margin-left: 9px;
+      margin-bottom: 15px;
+    }
+  }
+
+  // GET APP SECTION
+  .get-app {
+    position: relative;
+    width: 100%;
+    height: 581px;
+    &__bg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to right, rgba(10, 12, 10, 0.6) 0%, rgba(10, 12, 10, 0) 100%);
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        @include object-fit(cover);
+      }
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+    }
+    &__inner {
+      position: absolute;
+      top: 124px;
+      left: 146px;
+    }
+    &__subtitle {
+      max-width: 300px;
+      margin-left: 9px;
+      color: $white;
+    }
+    &__title {
+      display: block;
+      color: $white;
+      margin-bottom: 27px;
+    }
+    &__buttons {
+      margin-left: 9px;
+      margin-top: 63px;
+    }
+  }
+
+  // WHAT & WHY SECTION
+  .what {
+    background-color: $white;
+    .container {
+      padding: 156px 75px 160px 158px
+    }
+    &__item {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      height: 500px;
+      margin-bottom: 168px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    &__item-reverse {
+      .what__title {
+        flex: 0 0 295px;
+        &-text {
+          > span {
+            margin-left: 14px;
+          }
+        }
+      }
+    }
+    &__title {
+      position: relative;
+      z-index: 1;
+      flex: 0 0 300px;
+      display: flex;
+      align-self: flex-start;
+      flex-direction: column;
+      &-text {
+        line-height: 56px;
+        font-family: $Light;
+        font-size: 46px;
+        font-weight: 300;
+        color: $black;
+        > span {
+          position: relative;
+          display: inline-block;
+          margin-right: 14px;
+          &:before, &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 5px;
+            height: 15px;
+            background-color: $headerBG;
+          }
+          &:before {
+            top: 43px;
+            left: -7px;
+            transition: height .3s ease 1.2s;
+          }
+          &:after {
+            bottom: -2px;
+            right: -10px;
+            transition: height .3s ease 2.1s;
+          }
+          span {
+            position: absolute;
+            top: calc(100% + 2px);
+            left: -7px;
+            width: calc(100% + 17px);
+            height: 5px;
+            background-color: $headerBG;
+            transition: width 0.6s ease 1.5s;
+          }
+        }
+      }
+    }
+    &__subtitle {
+      margin-bottom: 27px;
+    }
+    &__desc {
+      position: relative;
+      z-index: 1;
+      flex: 0 0 300px;
+      display: flex;
+      align-self: flex-end;
+      flex-direction: column;
+      &-stripe {
+        width: 10px;
+        height: 40px;
+        margin-bottom: 33px;
+        background-color: $yellowBG;
+      }
+      &-text {
+        margin-bottom: 25px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    &__desc-reverse {
+      position: relative;
+      z-index: 2;
+      flex: 0 0 300px;
+      display: flex;
+      align-self: center;
+      flex-direction: column;
+      &-stripe {
+        position: relative;
+        top: 0;
+        right: -297px;
+        width: 166px;
+        height: 10px;
+        margin-bottom: 33px;
+        background-color: $yellowBG;
+      }
+      &-text {
+        margin-bottom: 25px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    &__img {
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 49px 10px rgba(45, 37, 19, 0.13);
+      &-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &-cover {
+        position: absolute;
+        z-index: 0;
+        top: 128px;
+        right: -125px;
+      }
+    }
+  }
+}

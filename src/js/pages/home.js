@@ -5,9 +5,10 @@
  */
 
 /** Import utils */
-import Preloader from 'js/components/preloader';
+import Preloader from '../components/preloader';
+import ScrollController from '../components/scrollController';
 import Header from 'js/components/header';
-import { $document } from 'js/modules/dev/helpers';
+import { $document, Resp, isIE, css } from 'js/modules/dev/helpers';
 
 /** Import sections */
 import IntroSection from './sections/intro';
@@ -82,6 +83,17 @@ export default class Home {
   }
 
   /**
+   * Initialize full-page scroll controller.
+   *
+   * @return {Common}
+   */
+  initializeScrollController() {
+    if (Resp.isDeskCustom) ScrollController.init();
+
+    return this;
+  }
+
+  /**
    * Initialize Main page scripts.
    */
   init() {
@@ -102,5 +114,6 @@ export default class Home {
 
     // initialize main scripts
     this.initAllSectionsScripts();
+    this.initializeScrollController();
   }
 }

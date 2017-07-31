@@ -15,6 +15,7 @@ import './components/common';
 
 /** Import page controllers */
 import Home from 'js/pages/home';
+import Drivers from 'js/pages/drivers';
 
 /** Import utils */
 import { currentPage } from 'js/modules/dev/helpers';
@@ -25,6 +26,8 @@ import { currentPage } from 'js/modules/dev/helpers';
 switch (currentPage) {
   /** Home page */
   case 'home': new Home; break;
+  /** Drivers page */
+  case 'drivers': new Drivers; break;
 
   /** No pages found */
   default: console.log('Null page');

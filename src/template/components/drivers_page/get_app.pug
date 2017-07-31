@@ -1,0 +1,11 @@
+//- get app section
+mixin get_app()
+    section.get-app
+        .get-app__bg: img(src='img/get-app.jpg')
+        .container
+            .get-app__inner
+                .get-app__title.h1 Get App
+                .get-app__subtitle.regular help your city and people around you to manage parking problem
+                .get-app__buttons
+                    +btn('btn--yellow join__button', 'apple')
+                    +btn('btn--yellow join__button', 'android')
