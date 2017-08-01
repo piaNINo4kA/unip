@@ -1,0 +1,29 @@
+//- functionality section
+mixin functionality()
+    section.functionality
+        .container
+            .functionality__desc
+                .functionality__subtitle.regular-small functionality
+                h2.h2.functionality__title Registration
+                .functionality__stripe
+                p.functionality__text.regular Upon simple registration in our intuitive user friendly interface you  immediately have free access to the city parking map and to our verious services. The only information that is requeted is your mobile phone and plate number of your car. In case you would like to use our mobile parking paymant service you will need to provide us with the payment method on your choice.
+                .functionality__btn-wrapper
+                    a.slider__button-yellow(href = '#!'): span register now
+
+        .functionality__slider-wrapper
+            .functionality__rotate-block
+                functionality__rotate-block-inner
+                    span.functionality__slider-controls.functionality__slider-controls-slide1.regular-small(data-control="slide-1") registration
+                    span.functionality__slider-controls.functionality__slider-controls-slide2.regular-small(data-control="slide-2") digital parking map
+                    span.functionality__slider-controls.functionality__slider-controls-slide3.regular-small(data-control="slide-3") payment & billing
+                    span.functionality__slider-controls.functionality__slider-controls-slide4.regular-small(data-control="slide-4") time saving
+                    span.functionality__slider-controls.functionality__slider-controls-slide5.regular-small(data-control="slide-5") occupancy
+            .functionality__slider
+                .functionality__slider-item(data-slide="slide-1"): img(class="functionality__slider-img" src="img/slider-item.png")
+                .functionality__slider-item(data-slide="slide-2"): img(class="functionality__slider-img" src="img/get-app.jpg")
+                .functionality__slider-item(data-slide="slide-3"): img(class="functionality__slider-img" src="img/slider-item.png")
+                .functionality__slider-item(data-slide="slide-4"): img(class="functionality__slider-img" src="img/intro-map.png")
+                .functionality__slider-item(data-slide="slide-5"): img(class="functionality__slider-img" src="img/join.jpg")
+
+
+

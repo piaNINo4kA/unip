@@ -211,6 +211,8 @@
   }
 
   &__buttons {
+    display: flex;
+    justify-content: flex-start;
     margin-top: 39px;
 
     @media (max-width: $minDesktop) {

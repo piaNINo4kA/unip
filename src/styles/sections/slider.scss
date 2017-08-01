@@ -120,6 +120,7 @@
 
       .slider__line,
       .slider__button,
+      .slider__button-reverse,
       .slider__carousel {
         opacity: 1;
 
@@ -130,6 +131,7 @@
     &.js-animation-finished {
       .slider__line,
       .slider__button,
+      .slider__button-reverse,
       .slider__carousel {
         opacity: 1;
 
@@ -482,6 +484,78 @@
       text-transform: uppercase;
 
       z-index: 2;
+    }
+  }
+  &__button-yellow {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 157px;
+    height: 40px;
+
+    text-decoration: none;
+    overflow: hidden;
+    opacity: 1;
+
+    @media (min-width: $desktop) {
+      &:hover {
+        &:before, &:after {
+          transform: translate3d(0, 0, 0);
+        }
+        span {
+          color: $white;
+        }
+      }
+    }
+
+    @media (max-width: $minDesktop) {
+
+    }
+
+    @media (max-width: $minTablet) {
+
+    }
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+
+      height: 100%;
+      width: 100%;
+
+      transition: transform .4s ease-out;
+    }
+
+    &:before {
+      left: 0;
+      z-index: 1;
+
+      background-color: $black;
+      transform: translate3d(-152px, 0, 0);
+    }
+
+    &:after {
+      right: 0;
+      z-index: 0;
+
+      background-color: $yellowBG;
+      transform: translate3d(87px, 0, 0);
+    }
+
+    span {
+      position: relative;
+      z-index: 2;
+
+      color: $light-black;
+      font-family: $Bold;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+
+      transition: 0.4s;
     }
   }
 }
