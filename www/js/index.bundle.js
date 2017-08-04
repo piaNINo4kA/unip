@@ -14430,7 +14430,7 @@ exports.default = new Header();
 /* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
@@ -14458,150 +14458,150 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var SectionSlideController = function () {
-    function SectionSlideController($section) {
-        var hasCarousel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-        var slidesCount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4;
-        var animationTime = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 400;
-        var hasControls = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+  function SectionSlideController($section) {
+    var hasCarousel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var slidesCount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4;
+    var animationTime = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 400;
+    var hasControls = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
 
-        _classCallCheck(this, SectionSlideController);
+    _classCallCheck(this, SectionSlideController);
 
-        this.$section = $section;
+    this.$section = $section;
 
-        // current active slide
-        this.activeClass = 1;
+    // current active slide
+    this.activeClass = 1;
 
-        // class name pattern
-        this.class = function (slideId) {
-            return 'js-slide-' + slideId;
-        };
+    // class name pattern
+    this.class = function (slideId) {
+      return 'js-slide-' + slideId;
+    };
 
-        // slider container
-        this.$sliderContainer = $section.find('.js-slide-1');
-        this.$controls = $section.find('.textBlock__pagination-item');
+    // slider container
+    this.$sliderContainer = $section.find('.js-slide-1');
+    this.$controls = $section.find('.textBlock__pagination-item');
 
-        // has carousel slider
-        this.$carousel = hasCarousel ? $section.find('.carousel') : false;
+    // has carousel slider
+    this.$carousel = hasCarousel ? $section.find('.carousel') : false;
 
-        // slides count (section's scroll count)
-        this.slidesCount = slidesCount;
+    // slides count (section's scroll count)
+    this.slidesCount = slidesCount;
 
-        // delay before calls (ms)
-        this.animationTime = animationTime;
+    // delay before calls (ms)
+    this.animationTime = animationTime;
 
-        // flags
-        this.activated = false;
-        this.isAnimating = false;
-        this.hasControls = hasControls;
+    // flags
+    this.activated = false;
+    this.isAnimating = false;
+    this.hasControls = hasControls;
 
-        // uniq namespace
-        this.namespace = (0, _helpers.randomString)();
+    // uniq namespace
+    this.namespace = (0, _helpers.randomString)();
 
-        // save context
-        _helpers.bindMethods.bind(this)('activate', 'deactivate', 'handleScroll');
+    // save context
+    _helpers.bindMethods.bind(this)('activate', 'deactivate', 'handleScroll');
+  }
+
+  _createClass(SectionSlideController, [{
+    key: 'bindControls',
+    value: function bindControls() {
+      var _this = this;
+
+      _this.$controls.on('click tap', function () {
+        var $this = $(this);
+
+        if ($this.hasClass(_helpers.css.active) || _this.isAnimating) return;
+
+        _this.setActiveSlide($this.index() + 1);
+      });
+
+      return _this;
     }
+  }, {
+    key: 'setActiveSlide',
+    value: function setActiveSlide(slideId) {
+      var _this2 = this;
 
-    _createClass(SectionSlideController, [{
-        key: 'bindControls',
-        value: function bindControls() {
-            var _this = this;
+      this.isAnimating = true;
 
-            _this.$controls.on('click tap', function () {
-                var $this = $(this);
+      this.$sliderContainer.removeClass(this.class(this.activeClass)).addClass(this.class(this.activeClass = slideId));
 
-                if ($this.hasClass(_helpers.css.active) || _this.isAnimating) return;
+      this.$controls.removeClass(_helpers.css.active).eq(this.activeClass - 1).addClass(_helpers.css.active);
 
-                _this.setActiveSlide($this.index() + 1);
-            });
+      if (this.$carousel) this.$carousel.carousel('set', slideId);
 
-            return _this;
-        }
-    }, {
-        key: 'setActiveSlide',
-        value: function setActiveSlide(slideId) {
-            var _this2 = this;
+      setTimeout(function () {
+        return _this2.isAnimating = false;
+      }, this.animationTime);
 
-            this.isAnimating = true;
+      return this;
+    }
+  }, {
+    key: 'moveToPrevSection',
+    value: function moveToPrevSection() {
+      if (this.activeClass === 1) return this.deactivate();
 
-            this.$sliderContainer.removeClass(this.class(this.activeClass)).addClass(this.class(this.activeClass = slideId));
+      this.setActiveSlide(this.activeClass - 1);
 
-            this.$controls.removeClass(_helpers.css.active).eq(this.activeClass - 1).addClass(_helpers.css.active);
+      return this;
+    }
+  }, {
+    key: 'moveToNextSection',
+    value: function moveToNextSection() {
+      if (this.activeClass === this.slidesCount) return this.deactivate();
 
-            if (this.$carousel) this.$carousel.carousel('set', slideId);
+      this.setActiveSlide(this.activeClass + 1);
 
-            setTimeout(function () {
-                return _this2.isAnimating = false;
-            }, this.animationTime);
+      return this;
+    }
+  }, {
+    key: 'handleScroll',
+    value: function handleScroll(e) {
+      // do nothing if currently animating
+      if (this.isAnimating) return;
 
-            return this;
-        }
-    }, {
-        key: 'moveToPrevSection',
-        value: function moveToPrevSection() {
-            if (this.activeClass === 1) return this.deactivate();
+      // change slides
+      _scrollController2.default.dispatchScroll.call(this, e.direction);
+    }
+  }, {
+    key: 'activate',
+    value: function activate() {
+      // kill global scroll controller
+      _scrollController2.default.kill();
 
-            this.setActiveSlide(this.activeClass - 1);
+      // bind event listener
+      this.WheelIndicator = new _wheelIndicator2.default({
+        elem: this.$section.get(0),
+        callback: this.handleScroll
+      });
 
-            return this;
-        }
-    }, {
-        key: 'moveToNextSection',
-        value: function moveToNextSection() {
-            if (this.activeClass === this.slidesCount) return this.deactivate();
+      // bind controls (pagination)
+      if (this.hasControls) this.bindControls();
 
-            this.setActiveSlide(this.activeClass + 1);
+      // set activation flag
+      this.activated = true;
 
-            return this;
-        }
-    }, {
-        key: 'handleScroll',
-        value: function handleScroll(e) {
-            // do nothing if currently animating
-            if (this.isAnimating) return;
+      return this;
+    }
+  }, {
+    key: 'deactivate',
+    value: function deactivate() {
+      // deactivate only if activated
+      if (!this.activated) return this;
 
-            // change slides
-            _scrollController2.default.dispatchScroll.call(this, e.direction);
-        }
-    }, {
-        key: 'activate',
-        value: function activate() {
-            // kill global scroll controller
-            _scrollController2.default.kill();
+      // return main scroll event listener
+      _scrollController2.default.init(false);
 
-            // bind event listener
-            this.WheelIndicator = new _wheelIndicator2.default({
-                elem: this.$section.get(0),
-                callback: this.handleScroll
-            });
+      // kill event listener
+      this.WheelIndicator.destroy();
 
-            // bind controls (pagination)
-            if (this.hasControls) this.bindControls();
+      // set activation flag
+      this.activated = false;
 
-            // set activation flag
-            this.activated = true;
+      return this;
+    }
+  }]);
 
-            return this;
-        }
-    }, {
-        key: 'deactivate',
-        value: function deactivate() {
-            // deactivate only if activated
-            if (!this.activated) return this;
-
-            // return main scroll event listener
-            _scrollController2.default.init(false);
-
-            // kill event listener
-            this.WheelIndicator.destroy();
-
-            // set activation flag
-            this.activated = false;
-
-            return this;
-        }
-    }]);
-
-    return SectionSlideController;
+  return SectionSlideController;
 }();
 
 exports.default = SectionSlideController;
@@ -36658,7 +36658,7 @@ if (jQuery) {
 
 
 Object.defineProperty(exports, "__esModule", {
-      value: true
+  value: true
 });
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36670,93 +36670,93 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var CanvasSphere = function CanvasSphere(canvasContainer) {
-      _classCallCheck(this, CanvasSphere);
+  _classCallCheck(this, CanvasSphere);
 
-      var sphere = void 0,
-          geometry = void 0,
-          group = void 0,
-          canvasWidth = 270,
-          canvasHeight = 270,
-          camera = void 0,
-          scene = void 0,
-          renderer = void 0,
-          clock = void 0;
+  var sphere = void 0,
+      geometry = void 0,
+      group = void 0,
+      canvasWidth = 270,
+      canvasHeight = 270,
+      camera = void 0,
+      scene = void 0,
+      renderer = void 0,
+      clock = void 0;
 
-      init();
-      render();
+  init();
+  render();
 
-      function init() {
-            var particle = void 0;
+  function init() {
+    var particle = void 0;
 
-            clock = new THREE.Clock();
+    clock = new THREE.Clock();
 
-            camera = new THREE.PerspectiveCamera(75, canvasWidth / canvasHeight, 1, 615);
-            camera.position.z = 600;
+    camera = new THREE.PerspectiveCamera(75, canvasWidth / canvasHeight, 1, 615);
+    camera.position.z = 600;
 
-            scene = new THREE.Scene();
-            renderer = new THREE.CanvasRenderer();
-            renderer.setClearColor(0xffe900);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(canvasWidth, canvasHeight);
-            canvasContainer.appendChild(renderer.domElement);
+    scene = new THREE.Scene();
+    renderer = new THREE.CanvasRenderer();
+    renderer.setClearColor(0xffe900);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(canvasWidth, canvasHeight);
+    canvasContainer.appendChild(renderer.domElement);
 
-            // particles
+    // particles
 
-            var PI2 = Math.PI * 2;
+    var PI2 = Math.PI * 2;
 
-            var material = new THREE.SpriteCanvasMaterial({
-                  color: 0x0e060e,
-                  program: function program(context) {
-                        context.beginPath();
-                        context.arc(0, 0, 0.3, 0, PI2, true);
-                        context.fill();
-                  }
-            });
-
-            geometry = new THREE.IcosahedronGeometry(360, 2);
-            group = new THREE.Object3D();
-
-            for (var i = 0; i < geometry.vertices.length; i++) {
-                  particle = new THREE.Sprite(material);
-                  particle.position.x = geometry.vertices[i].x;
-                  particle.position.y = geometry.vertices[i].y;
-                  particle.position.z = geometry.vertices[i].z;
-                  particle.scale.x = particle.scale.y = 4;
-                  group.add(particle);
-            }
-
-            sphere = THREE.SceneUtils.createMultiMaterialObject(geometry, [new THREE.MeshBasicMaterial({ color: 0x444444, opacity: 0.5, wireframe: true }), new THREE.MeshBasicMaterial({ color: 0xffe900 })]);
-
-            group.add(sphere);
-            scene.add(group);
-
-            window.addEventListener('resize', onWindowResize, false);
+    var material = new THREE.SpriteCanvasMaterial({
+      color: 0x0e060e,
+      program: function program(context) {
+        context.beginPath();
+        context.arc(0, 0, 0.3, 0, PI2, true);
+        context.fill();
       }
+    });
 
-      function onWindowResize() {
-            camera.aspect = 1;
-            camera.updateProjectionMatrix();
+    geometry = new THREE.IcosahedronGeometry(360, 2);
+    group = new THREE.Object3D();
 
-            renderer.setSize(canvasWidth, canvasHeight);
-      }
+    for (var i = 0; i < geometry.vertices.length; i++) {
+      particle = new THREE.Sprite(material);
+      particle.position.x = geometry.vertices[i].x;
+      particle.position.y = geometry.vertices[i].y;
+      particle.position.z = geometry.vertices[i].z;
+      particle.scale.x = particle.scale.y = 4;
+      group.add(particle);
+    }
 
-      function render() {
-            group.rotation.y -= 0.001;
-            group.rotation.x += 0.001;
+    sphere = THREE.SceneUtils.createMultiMaterialObject(geometry, [new THREE.MeshBasicMaterial({ color: 0x444444, opacity: 0.5, wireframe: true }), new THREE.MeshBasicMaterial({ color: 0xffe900 })]);
 
-            camera.lookAt(scene.position);
+    group.add(sphere);
+    scene.add(group);
 
-            renderer.render(scene, camera);
-      }
+    window.addEventListener('resize', onWindowResize, false);
+  }
 
-      window.startCanvasAnimate = function () {
-            window.animationFrameId = requestAnimationFrame(window.startCanvasAnimate);
-            render();
-      };
+  function onWindowResize() {
+    camera.aspect = 1;
+    camera.updateProjectionMatrix();
 
-      window.stopCanvasAnimate = function () {
-            cancelAnimationFrame(window.animationFrameId);
-      };
+    renderer.setSize(canvasWidth, canvasHeight);
+  }
+
+  function render() {
+    group.rotation.y -= 0.001;
+    group.rotation.x += 0.001;
+
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+  }
+
+  window.startCanvasAnimate = function () {
+    window.animationFrameId = requestAnimationFrame(window.startCanvasAnimate);
+    render();
+  };
+
+  window.stopCanvasAnimate = function () {
+    cancelAnimationFrame(window.animationFrameId);
+  };
 };
 
 exports.default = CanvasSphere;
@@ -37251,14 +37251,22 @@ var Drivers = function () {
         currentSlide.addClass(_this.activeSlider);
 
         // Hide all descriptions
+
+
         $('.functionality__desc').each(function () {
-          $(this).removeClass(_this.activeDesc);
+          var $this = $(this);
+          if (!$this.hasClass('functionality__desc-active')) {
+            $(this).css('opacity', '0');
+          }
+          if ($this.hasClass('functionality__desc-active')) {
+            $(this).fadeTo(100, 0);
+            setTimeout(function () {
+              $this.removeClass(_this.activeDesc).css('display', 'none');
+            }, 500);
+          }
         });
-        // Show current description
         setTimeout(function () {
-          currentDesc.fadeIn(400, function () {
-            currentDesc.addClass(_this.activeDesc);
-          });
+          currentDesc.addClass(_this.activeDesc).css('display', 'block').fadeTo(100, 1);
         }, 500);
       });
 

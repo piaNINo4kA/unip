@@ -68,15 +68,23 @@ export default class Drivers {
       currentSlide.addClass(_this.activeSlider);
 
       // Hide all descriptions
+
+
       $('.functionality__desc').each(function() {
-        $(this).removeClass(_this.activeDesc);
+          const $this = $(this);
+          if(!$this.hasClass('functionality__desc-active')){
+              $(this).css('opacity', '0');
+          }
+          if($this.hasClass('functionality__desc-active')){
+              $(this).fadeTo(100, 0);
+              setTimeout(function() {
+                  $this.removeClass(_this.activeDesc).css('display', 'none');
+              }, 500);
+          }
       });
-      // Show current description
-      setTimeout(function() {
-        currentDesc.fadeIn(400, function() {
-          currentDesc.addClass(_this.activeDesc);
-        });
-      }, 500);
+        setTimeout(function() {
+                currentDesc.addClass(_this.activeDesc).css('display', 'block').fadeTo(100, 1);
+        }, 500);
     });
 
     return this;
