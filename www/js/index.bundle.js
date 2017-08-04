@@ -37191,6 +37191,16 @@ var Drivers = function () {
   function Drivers() {
     _classCallCheck(this, Drivers);
 
+    // jQuery objects
+    this.$allControls = $('.functionality__slider-controls');
+    this.$sliderItems = $('.functionality__slider-item');
+    this.$sliderDesc = $('.functionality__desc');
+
+    // jQuery classes
+    this.activeControl = 'functionality__slider-controls-active';
+    this.activeDesc = 'functionality__desc-active';
+    this.activeSlider = 'functionality__slider-item-active';
+
     // initialize after construction
     this.init();
   }
@@ -37198,7 +37208,7 @@ var Drivers = function () {
   /**
    * Run header's reveal animation.
    *
-   * @return {Home}
+   * @return {Drivers}
    */
 
 
@@ -37211,9 +37221,54 @@ var Drivers = function () {
     }
 
     /**
+     * Init drivers slider
+     *
+     * @return {Drivers}
+     */
+
+  }, {
+    key: 'initSlider',
+    value: function initSlider() {
+      var _this = this;
+
+      $('.functionality__slider-controls').on('click', function () {
+        var dataControl = $(this).attr('data-control');
+        var currentDesc = $('.functionality').find('[data-desc=\'' + dataControl + '\']');
+        var currentSlide = $('.functionality').find('.functionality__slider').find('[data-slide=\'' + dataControl + '\']');
+
+        // Remove active class for all controls
+        $('.functionality__slider-controls').each(function () {
+          $(this).removeClass(_this.activeControl);
+        });
+        // Add active class to the current control
+        $(this).addClass(_this.activeControl);
+
+        // Hide all sliders
+        $('.functionality__slider-item').each(function () {
+          $(this).removeClass(_this.activeSlider);
+        });
+        // Show current slider
+        currentSlide.addClass(_this.activeSlider);
+
+        // Hide all descriptions
+        $('.functionality__desc').each(function () {
+          $(this).removeClass(_this.activeDesc);
+        });
+        // Show current description
+        setTimeout(function () {
+          currentDesc.fadeIn(400, function () {
+            currentDesc.addClass(_this.activeDesc);
+          });
+        }, 500);
+      });
+
+      return this;
+    }
+
+    /**
      * Enable body scroll
      *
-     * @return {Home}
+     * @return {Drivers}
      */
 
   }, {
@@ -37235,6 +37290,7 @@ var Drivers = function () {
     value: function init() {
       this.initHeaderAnimation();
       this.enableBodyScroll();
+      this.initSlider();
     }
   }]);
 
